@@ -1,0 +1,144 @@
+body
+{
+   margin: 0%;
+   border: 1px solid black;
+   
+}
+
+/*#region Header */
+.blueDiv
+{
+    background-color: #365C95;
+    max-height: 110px;
+    min-height: 110px;
+    width: 100%;
+}
+
+/*tabela podesavanja*/
+
+table
+{
+    /* border:1px solid black;
+    border-collapse:  collapse; */
+    table-layout: fixed;
+    padding: 0%;
+    margin: 0%;
+    width: 100%;
+    max-height: 100px;
+    min-height: 100px;
+}
+
+td
+{
+
+    width: 100%;
+
+}
+
+/*podesavanja za celiju*/
+
+
+.prvaCelija
+{
+    text-align: left;
+}
+
+.drugaCelija
+{
+    text-align: center;
+}
+
+.trecaCelija
+{
+    text-align: right;    
+}
+
+/*logo podesavanja*/
+.logo
+{
+    max-height: 100px;
+    min-height: 100px;
+    margin: 0%;
+
+}
+ 
+/*dugmici podesavanja*/
+.backArrowBtn, .logOutBtn, .profileBtn
+{
+    max-height: 50px;
+    min-height: 50px;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+/*#endregion Header*/
+
+/*#region MainWindow*/
+.slova
+{
+    font-family: Poor Richard;
+}
+.mainWindow
+{
+    display: flex;
+    flex-direction: row;
+    border: 1px solid black;
+}
+.divNajveci, .loginDiv
+{
+    display: flex;
+    border: 1px solid black;
+
+}
+.headingDiv, .chooseGymDiv, .gymPicDiv
+{
+    display: flex;
+    border: 1px solid black;
+}
+
+
+
+.divNajveci
+{
+    flex-direction: column;
+    width: 60%;
+}
+
+.headingDiv
+{
+    display: flex;
+    flex-direction: column;
+}
+
+h2, .gymParagraph
+{
+    margin: 0%;
+    padding-top: 1%;
+    width: 100%;
+    font-weight: normal;
+    font-size: 2rem;
+}
+
+.gymParagraph
+{
+    /*reduce the width of a paragraph*/
+    width: 45%;
+    font-size: x-large;
+    
+}
+.gymListSelect
+{
+    /*resize element, enlarge it*/
+    font: inherit;
+    margin-left: 2%;
+    margin-right: 2%;
+}
+
+/*#endregion MainWindow*/
+
+
+
+
+
+
+
+ 
