@@ -73,68 +73,7 @@ td
 }
 /*#endregion Header*/
 
-/*#region MainWindow*/
-.slova
-{
-    font-family: Poor Richard;
-}
-.mainWindow
-{
-    display: flex;
-    flex-direction: row;
-    border: 1px solid black;
-}
-.divNajveci, .loginDiv
-{
-    display: flex;
-    border: 1px solid black;
 
-}
-.headingDiv, .chooseGymDiv, .gymPicDiv
-{
-    display: flex;
-    border: 1px solid black;
-}
-
-
-
-.divNajveci
-{
-    flex-direction: column;
-    width: 60%;
-}
-
-.headingDiv
-{
-    display: flex;
-    flex-direction: column;
-}
-
-h2, .gymParagraph
-{
-    margin: 0%;
-    padding-top: 1%;
-    width: 100%;
-    font-weight: normal;
-    font-size: 2rem;
-}
-
-.gymParagraph
-{
-    /*reduce the width of a paragraph*/
-    width: 45%;
-    font-size: x-large;
-    
-}
-.gymListSelect
-{
-    /*resize element, enlarge it*/
-    font: inherit;
-    margin-left: 2%;
-    margin-right: 2%;
-}
-
-/*#endregion MainWindow*/
 
 
 

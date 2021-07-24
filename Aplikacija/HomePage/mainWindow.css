@@ -1,0 +1,74 @@
+/*#region MainWindow*/
+.slova
+{
+    font-family: Poor Richard;
+}
+.mainWindow
+{
+    display: flex;
+    flex-direction: row;
+    border: 1px solid black;
+}
+.leftDiv, .loginDiv
+{
+    display: flex;
+    border: 1px solid black;
+
+}
+
+.loginDiv
+{
+    flex-direction: column;
+}
+
+.headingDiv, .chooseGymDiv, .gymPicDiv
+{
+    display: flex;
+    border: 1px solid black;
+}
+
+.leftDiv    
+{
+    flex-direction: column;
+    width: 60%;
+}
+
+.headingDiv
+{
+    display: flex;
+    flex-direction: column;
+}
+
+h2, .gymParagraph
+{
+    margin: 0%;
+    padding-top: 1%;
+    width: 100%;
+    font-weight: normal;
+    font-size: 2rem;
+}
+
+.gymParagraph
+{
+    /*reduce the width of a paragraph*/
+    width: 45%;
+    font-size: x-large;
+    
+}
+
+.gymListSelect
+{
+    /*resize element, enlarge it*/
+    font: inherit;
+    margin-left: 2%;
+    margin-right: 2%;
+    font-size: larger;
+}
+
+option
+{
+    font-size: larger;
+}
+
+
+/*#endregion MainWindow*/
