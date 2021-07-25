@@ -1,3 +1,5 @@
+import { Helpers } from "../HelperFunctions.js";
+
 export class GymForm
 {
     
@@ -65,32 +67,10 @@ export class GymForm
 
     }
 
-    CreateGymPicker(specificDiv)
+    CreateGymPicker()
     {
-        // let chooseGymDiv = document.querySelector(imeKlase);
-
-        //then creating drop-down list 
-        let gymList = document.createElement("select")
-        gymList.classList.add("gymListSelect");
-        gymList.classList.add("slova");
-        
-        /*treba da se doda event kada se izabere teretana
-        da se ucitaju odrejene slike iz baze za tu teretanu*/
-        
-        //after that, inserting gyms as options for selection
-        
-        /*treba da pozovem api koji pokuplja listu teretana iz baze*/
-        
-        let teretane =  ["kangoo", "konzulat", "strongman"];
-        for (let i = 0; i < 3; i++)
-        {
-            let option = document.createElement("option");
-            option.value = teretane[i];
-            option.innerText = teretane[i];
-            option.classList.add("slova");
-            gymList.appendChild(option);
-        }   
-        specificDiv.appendChild(gymList);
+        let gymPickerDiv = document.querySelector(".chooseGymDiv")
+        Helpers.CreateGymPicker(gymPickerDiv);
     }
     
     CreateGymGallery()
@@ -134,8 +114,7 @@ export class GymForm
         //adding text left from the gym picker
         this.CreateGymText();
         //adding gym picker
-        let gymPickerDiv = document.querySelector(".chooseGymDiv")
-        this.CreateGymPicker(gymPickerDiv);
+        this.CreateGymPicker();
         //adding gym gallery
         this.CreateGymGallery();
     }

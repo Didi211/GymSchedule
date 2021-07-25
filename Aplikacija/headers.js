@@ -15,6 +15,7 @@ export class Headers{
    
       //creating table for even placement
       let tabela = document.createElement("table");
+      tabela.classList.add("headerTable");   
       let tableBody = document.createElement("tbody");
       
       tabela.appendChild(tableBody);

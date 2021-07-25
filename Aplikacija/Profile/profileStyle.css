@@ -1,0 +1,19 @@
+.formTable, .formTbody, [class^="row"], [class^="col"]  
+{
+    border: 1px solid black;
+}
+
+.icon, .editPicIcon 
+{
+    max-height: 40px;
+    min-height: 40px;
+    margin: 0%;
+}
+
+.profilePicture
+{
+    max-height: 150px;
+    min-height: 150px;
+    margin: 0%;
+    border-radius: 50%;
+}

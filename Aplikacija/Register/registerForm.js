@@ -1,3 +1,4 @@
+import { Helpers } from "../HelperFunctions.js";
 import { GymForm } from "../HomePage/gymPicForm.js";
 
 export class RegisterForm
@@ -35,21 +36,9 @@ export class RegisterForm
         let div = document.createElement("div");
         div.classList.add("regDiv");
         
-        //label
-        let label = document.createElement("label");
-        label.classList.add("slova");
-        label.innerHTML = specificInput + ":";
-        
-        //input
-        let input = document.createElement("input");
-        input.type = type;
-        input.classList.add("slova");
-        input.classList.add("regInputs");
-
-        //appending 
-        div.appendChild(label);
-        div.appendChild(input);
         this.kontejner.appendChild(div);
+        Helpers.CreateInput(specificInput,type,div);
+        
     }
 
     CreateGymPicker()
@@ -65,8 +54,7 @@ export class RegisterForm
         div.appendChild(label);
         
         //gymPicker from GymForm
-        let gymPicker = new GymForm();
-        gymPicker.CreateGymPicker(div)
+        Helpers.CreateGymPicker(div);
         
         //appending
         this.kontejner.appendChild(div);
@@ -78,25 +66,7 @@ export class RegisterForm
         let div = document.createElement("div");
         div.classList.add("regDiv");
 
-        //label, M F POL
-        let labelNames = ["Pol:", "M", "F"];
-        for(let i = 0; i < 3; i++)
-        {
-            let label = document.createElement("label");
-            label.classList.add("slova");
-            label.innerHTML = labelNames[i];
-
-            div.appendChild(label);
-            //radio buttons 
-            if(i !== 0) // 0 for sex label, 1 and 2 for M and F
-            {
-                let rbtn = document.createElement("input");
-                rbtn.type = "radio";
-                rbtn.name = "polRadio"
-                rbtn.classList.add("polRadioBtn");
-                div.appendChild(rbtn);
-            }
-        }
+        Helpers.CreateRadioButton(div);
 
         this.kontejner.appendChild(div);
         
@@ -109,14 +79,12 @@ export class RegisterForm
         let div = document.createElement("div");
         div.classList.add("regDiv");
         
-        //button 
-        let regBtn = document.createElement("button");
-        regBtn.classList.add("regBtn");
-        regBtn.classList.add("slova");
-        regBtn.innerHTML = "Registruj se";
+        Helpers.CreateButton("Registruj se",div);
+
+        
 
         //appending
-        div.appendChild(regBtn);
+        // div.appendChild(regBtn);
         this.kontejner.appendChild(div);
         
     }
