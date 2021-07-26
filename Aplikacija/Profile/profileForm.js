@@ -34,7 +34,7 @@ export class ProfileForm
         
         // //restricting changes
         // this.ReadOnlyData(false); --problem with disabling all controls 
-        
+          
     }
 
     DrawTable()
