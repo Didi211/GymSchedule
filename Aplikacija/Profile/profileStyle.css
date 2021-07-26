@@ -5,6 +5,7 @@
 
 .icon, .editPicIcon 
 {
+    position: absolute;
     max-height: 40px;
     min-height: 40px;
     margin: 0%;
@@ -17,3 +18,4 @@
     margin: 0%;
     border-radius: 50%;
 }
+

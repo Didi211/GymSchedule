@@ -55,21 +55,23 @@ export class LoginForm
         let usernameInput = document.createElement("input");
         usernameInput.type = "text";
         usernameInput.name = "username";
-        let usernameLabel = document.createElement("label");
-        usernameLabel.innerHTML = "Username:";
+        usernameInput.placeholder = "Username";
+        // let usernameLabel = document.createElement("label");
+        // usernameLabel.innerHTML = "Username:";
 
         let passwordInput = document.createElement("input");
         passwordInput.type = "password";
         passwordInput.name = "password";
-        let passwordLabel = document.createElement("label");
-        passwordLabel.innerHTML = "Password:"
+        passwordInput.placeholder = "Password";
+        // let passwordLabel = document.createElement("label");
+        // passwordLabel.innerHTML = "Password:"
         
         //appending
         
-        usernameDiv.appendChild(usernameLabel);
+        // usernameDiv.appendChild(usernameLabel);
         usernameDiv.appendChild(usernameInput);
         
-        passwordDiv.appendChild(passwordLabel);
+        // passwordDiv.appendChild(passwordLabel);
         passwordDiv.appendChild(passwordInput);
 
         forma.appendChild(usernameDiv);

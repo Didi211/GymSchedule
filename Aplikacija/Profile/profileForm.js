@@ -1,3 +1,5 @@
+import { Helpers } from "../HelperFunctions.js";
+
 export class ProfileForm
 {
     constructor()
@@ -25,7 +27,9 @@ export class ProfileForm
 
         //adding profile picture and edit icon for picture
         this.AddProfilePicture();
-
+        
+        //adding form from registration
+        this.AddRestInformation();
 
     }
 
@@ -96,4 +100,38 @@ export class ProfileForm
         div.appendChild(profilePicture);
         div.appendChild(editIcon);
     }
+
+    AddRestInformation()
+    {
+        let pozicija = document.querySelector(".row2 .col2");
+
+        Helpers.CreateInput("Ime", "text", pozicija);
+        Helpers.CreateInput("Prezime", "text", pozicija);
+        Helpers.CreateRadioButton(pozicija);
+
+        //for gym picker i need label 
+        let label = document.createElement("label");
+        label.classList.add("slova");
+        label.innerHTML = "Teretana:";
+
+        let gymPickerDiv = document.createElement("div");
+        gymPickerDiv.classList.add("regDiv");
+        gymPickerDiv.appendChild(label);
+        pozicija.appendChild(gymPickerDiv);
+
+        Helpers.CreateGymPicker(gymPickerDiv);
+        Helpers.CreateInput("Username", "text",pozicija);
+        Helpers.CreateInput("Password", "password",pozicija);
+        Helpers.CreateInput("Broj kartice", "number",pozicija);
+        
+        //button goes in 3rd row
+        pozicija = document.querySelector(".row3 .col2");
+        
+        Helpers.CreateButton("Sacuvaj izmene",pozicija);
+        
+
+
+
+    }
+
 }

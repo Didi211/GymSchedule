@@ -55,14 +55,20 @@ export class Helpers
         input.classList.add("regInputs");
 
         //appending 
-        kontejner.appendChild(label);
-        kontejner.appendChild(input);
+        
+        div.appendChild(label);
+        div.appendChild(input);
+
+        kontejner.appendChild(div);
         // this.kontejner.appendChild(kontejner);   
     }
 
     static CreateRadioButton(kontejner)
     {
         
+        let div = document.createElement("div");
+        div.className = "regDiv";
+        kontejner.appendChild(div);
 
         // //label, M F POL
         let labelNames = ["Pol:", "M", "F"];
@@ -72,7 +78,7 @@ export class Helpers
             label.classList.add("slova");
             label.innerHTML = labelNames[i];
 
-            kontejner.appendChild(label);
+            div.appendChild(label);
             //radio buttons 
             if(i !== 0) // 0 for sex label, 1 and 2 for M and F
             {
@@ -80,7 +86,7 @@ export class Helpers
                 rbtn.type = "radio";
                 rbtn.name = "polRadio"
                 rbtn.classList.add("polRadioBtn");
-                kontejner.appendChild(rbtn);
+                div.appendChild(rbtn);
             }
         }
 
@@ -88,12 +94,18 @@ export class Helpers
 
     static CreateButton(innerWord, kontejner)
     {
+        //div
+        let div = document.createElement("div");
+        div.classList.add("regDiv");
+
         // //button 
         let btn = document.createElement("button");
         btn.classList.add("regLogBtn");
         btn.classList.add("slova");
         btn.innerHTML = innerWord;
-        kontejner.appendChild(btn);
+        div.appendChild(btn);
+        kontejner.appendChild(div);
         
+
     }
 }
