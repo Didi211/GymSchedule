@@ -28,9 +28,13 @@ export class ProfileForm
         //adding profile picture and edit icon for picture
         this.AddProfilePicture();
         
+        
         //adding form from registration
         this.AddRestInformation();
-
+        
+        // //restricting changes
+        // this.ReadOnlyData(false); --problem with disabling all controls 
+        
     }
 
     DrawTable()
@@ -126,12 +130,36 @@ export class ProfileForm
         
         //button goes in 3rd row
         pozicija = document.querySelector(".row3 .col2");
-        
+
         Helpers.CreateButton("Sacuvaj izmene",pozicija);
         
 
 
 
     }
+
+    // ReadOnlyData(isReadOnly)
+    // {
+    //     let inputs = document.querySelectorAll(".regInputs");
+    //     let radioBtns = document.querySelectorAll(".polRadioBtn");
+    //     let gymPicker = document.querySelector(".gymListSelect");
+        
+    //     inputs.forEach(input => 
+    //         {
+    //             input.setAttribute('readonly',isReadOnly);   
+    //         })
+        
+    //     radioBtns.forEach(btn => 
+    //         {
+    //             btn.setAttribute('readonly',isReadOnly);
+    //         })
+    //     gymPicker.setAttribute('readonly',isReadOnly);
+
+    //     let button = document.querySelector(".regLogBtn");
+    //     if(isReadOnly)
+    //         button.setAttribute('disabled',"disabled");
+    //     else
+    //         button.removeAttribute('disabled');
+    // }
 
 }
