@@ -1,0 +1,29 @@
+.tableDiv, thead, tr, td, tbody
+{
+    border: 1px solid black;
+}
+.tableDiv, .trainingPar, .trainingDiv
+{
+    width: 50%;
+}
+.gornjiDiv
+{
+    display: flex;
+    flex-direction: row;
+}
+.divRow
+{
+    display: flex;
+    flex-direction: row;
+}
+.divCircle
+{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+.deleteSlika
+{
+    width: 50px;
+    height: 50px;
+}

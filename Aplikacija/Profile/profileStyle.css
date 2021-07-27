@@ -1,6 +1,7 @@
 .formTable, .formTbody, [class^="row"], [class^="col"]  
 {
     border: 1px solid black;
+    border-collapse: collapse;
 }
 
 .icon, .editPicIcon 

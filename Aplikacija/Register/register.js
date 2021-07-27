@@ -16,6 +16,3 @@ Helpers.CreateMainWindow();
 let regForm = new RegisterForm();
 regForm.DrawForm(); 
 
-// let gymPicker = new GymForm();
-
-// gymPicker.CreateGymPicker(".mainWindow");

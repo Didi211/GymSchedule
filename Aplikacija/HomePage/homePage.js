@@ -8,7 +8,7 @@ let headers = new Headers();
 headers.createHeader(); 
 
 //chaning title
-document.title = "Home Page";
+document.title = "HomePage";
 
 //creating main window of a page
 Helpers.CreateMainWindow();
