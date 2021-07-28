@@ -3,15 +3,16 @@ import { Helpers } from "../HelperFunctions.js";
 export class User
 {
     constructor()
-    {
-        this.Ime = "Undefined";
-        this.Prezime = "Undefined";
-        this.Pol = "Undefined";
-        this.Teretana = "Undefined";
-        this.Username = "Undefined";
-        this.Password = "Undefined";
-        this.BrojKartice = "Undefined";
-        this.ProfilnaSlika = "Undefined";
+    { 
+        this.Ime = null;
+        this.Prezime = null;
+        this.Pol = null;
+        this.Teretana = null;
+        this.Username = null;
+        this.Password = null;
+        this.BrojKartice = null;
+        this.ProfilnaSlika = null;
+        this.TipKorisnika = null;
         
     }
     

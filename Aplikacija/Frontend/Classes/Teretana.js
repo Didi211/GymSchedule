@@ -4,11 +4,11 @@ export class Teretana
 {
     constructor()
     {
-        this.Naziv = "undefined";
-        this.RadnoVreme = "undefined"; //6-22;
-        this.KapacitetPoSatu = "undefined"; //int
+        this.Naziv = null;
+        this.RadnoVreme = null; //6-22;
+        this.KapacitetPoSatu = null; //int
         this.Slike = []; //ne znam kako cu ovo 
-        this.Vlasnik = "undefined"; 
+        this.Vlasnik = null; 
         this.Radnici = []
     }
     Validate()
