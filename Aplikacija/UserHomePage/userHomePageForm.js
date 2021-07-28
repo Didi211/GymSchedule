@@ -33,6 +33,8 @@ export class UserHomePageForm
 
         //adding grid of training terms
         this.CreateZakaziTermine(div);
+
+        //
         
 
 
@@ -226,13 +228,16 @@ export class UserHomePageForm
             mesec = "0" + mesec;
         }
         datumPicker.defaultValue = 
-            `${mesec}/${dan}/${today.getFullYear()}`; 
+            `${today.getFullYear()}-${mesec}-${dan}`; 
+        datumPicker.value = datumPicker.defaultValue;
         console.log(datumPicker.defaultValue);
         
         divDatum.appendChild(dugmePrevious);
         divDatum.appendChild(datumPicker);
         divDatum.appendChild(dugmeNext);
 
+        //adding terms
+        this.AddTermine(kontejner);
 
     }
 
@@ -248,5 +253,27 @@ export class UserHomePageForm
         //i crtace se dinamicki i sa responsive dizajnom 
 
         //za sada samo staticki 
+
+        //div 
+        let terminiDiv = document.createElement("div");
+        terminiDiv.className = "sviTerminiDiv";
+        kontejner.appendChild(terminiDiv);
+
+        //termini
+        let startTermin = 6;
+        for(let i =0 ;i < 24; i++)
+        {
+            let oneTerminDiv = document.createElement("div");
+            oneTerminDiv.classList.add("terminDiv");
+            let tmp = startTermin;
+            let terminString;
+            terminString = `0${startTermin} - 0${++tmp}`;
+            startTermin++;
+            oneTerminDiv.innerText = terminString;
+            oneTerminDiv.style.backgroundColor = this.COLORS.Teget;
+            console.log(oneTerminDiv.style.backgroundColor);
+            terminiDiv.appendChild(oneTerminDiv);
+        }
+
     }
 }
