@@ -93,6 +93,18 @@ export class LoginForm
         let loginBtn = document.createElement("button");
         loginBtn.classList.add("loginBtn");
         loginBtn.innerHTML = "Login";
+
+        //hyperlink --ovo prvo treba da se proveri jel su tacni podaci pa tek onda da se zove
+        let hyperlink = document.createElement("a");
+        loginBtn.appendChild(hyperlink);
+        hyperlink.href = "../UserHomePage/userHomePage.html";
+        loginBtn.onclick = function()
+        {
+            console.log("entered onClick fun");
+            location = hyperlink.href;
+            
+        };
+
         
         //appending
         loginBtnDiv.appendChild(loginBtn);

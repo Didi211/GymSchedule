@@ -15,3 +15,10 @@ Helpers.CreateMainWindow();
 
 let profile = new ProfileForm();
 profile.DrawForm();
+
+//adding links for going back and loggin out 
+let urlHome = "../UserHomePage/userHomePage.html";
+headers.addGoBackUrl(urlHome);
+headers.addLogoUrl(urlHome);
+urlHome = "../HomePage/homePage.html";
+headers.addLogOutUrl(urlHome);

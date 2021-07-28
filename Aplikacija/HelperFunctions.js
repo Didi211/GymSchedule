@@ -108,4 +108,13 @@ export class Helpers
         
 
     }
+    
+    static ValidateString(word)
+    {
+        if(word === "") return false;
+        if(word == undefined) return false;
+        if(word == null) return false;
+
+        return true;
+    }
 }

@@ -90,6 +90,7 @@ export class ProfileForm
 
         pozicija.appendChild(div);
 
+        
         let profilePicture = document.createElement("img");
         profilePicture.className = "profilePicture";
         //ovde treba da se zove api koji povlaci sliku iz baze

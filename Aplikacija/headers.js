@@ -33,6 +33,10 @@ export class Headers{
       
       blueDiv.appendChild(tabela);
    
+      //link for logo 
+      let hyperlink = document.createElement("a");
+      hyperlink.classList.add("logoLink");
+
       //logo
       let logo = document.createElement("img");
       logo.classList.add("logo");
@@ -42,7 +46,8 @@ export class Headers{
       
       
       // red.headers[1].appendChild(logo);
-      red.cells[1].appendChild(logo);
+      hyperlink.appendChild(logo);
+      red.cells[1].appendChild(hyperlink);
       header.appendChild(blueDiv);
       body.appendChild(header);
       
@@ -74,12 +79,17 @@ export class Headers{
       
       let prvaCelija = document.querySelector(".prvaCelija");
       
+      //hyperlink
+      let hyperlink = document.createElement("a");
+      hyperlink.classList.add("backArrowLink");
+
       //kreira se dugme za nazad
       let backArrowBtn = document.createElement("img");
       backArrowBtn.src = this.putanja + "backarrowbutton.png";
       backArrowBtn.classList.add("backArrowBtn");
    
-      prvaCelija.appendChild(backArrowBtn);
+      prvaCelija.appendChild(hyperlink);
+      hyperlink.appendChild(backArrowBtn);
    
    }
    
@@ -89,12 +99,17 @@ export class Headers{
       
       let trecaCelija = document.querySelector(".trecaCelija");
    
+      //hyperlink 
+      let hyperlink = document.createElement("a");
+      hyperlink.classList.add("logOutLink");
+
       //kreira se logout dugme
       let logOutBtn = document.createElement("img");
       logOutBtn.src = this.putanja + "logout.png";
       logOutBtn.classList.add("logOutBtn");
    
-      trecaCelija.appendChild(logOutBtn);
+      hyperlink.appendChild(logOutBtn);
+      trecaCelija.appendChild(hyperlink);
    }
    
    createProfileButton()
@@ -103,14 +118,41 @@ export class Headers{
    
       let prvaCelija = document.querySelector(".prvaCelija");
    
-      // let children = prvaCelija.childNodes;
-      // prvaCelija.removeChildren(children);
-      //creating profile button
+      //hyperlink
+      let hyperlink = document.createElement("a");
+      hyperlink.classList.add("profileIconLink");
+
       let profileBtn = document.createElement("img");
       profileBtn.src = this.putanja + "profile.jpg";
       profileBtn.classList.add("profileBtn");
-   
-      prvaCelija.appendChild(profileBtn);
+      
+      hyperlink.appendChild(profileBtn);
+      prvaCelija.appendChild(hyperlink);
    }
+
+   addGoBackUrl(url)
+   {
+      let backArrow = document.querySelector(".backArrowLink");
+      backArrow.href = url;
+   }
+
+   addLogOutUrl(url)
+   {
+      let logOut = document.querySelector(".logOutLink");
+      logOut.href = url;
+   }
+
+   addLogoUrl(url)
+   {
+      let logo = document.querySelector(".logoLink");
+      logo.href = url;
+   }
+
+   addProfileIconUrl(url)
+   {
+      let profileIcon = document.querySelector(".profileIconLink") ;
+      profileIcon.href = url;
+   }
+
 
 }

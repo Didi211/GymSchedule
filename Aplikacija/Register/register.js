@@ -16,3 +16,8 @@ Helpers.CreateMainWindow();
 let regForm = new RegisterForm();
 regForm.DrawForm(); 
 
+//adding link for going back and logo
+let url = "../HomePage/homePage.html";
+headers.addGoBackUrl(url);
+headers.addLogoUrl(url);
+

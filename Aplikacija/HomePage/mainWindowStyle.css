@@ -26,7 +26,15 @@
     display: flex;
     border: 1px solid black;
 }
-
+.chooseGymDiv
+{
+    flex-direction: column;
+}
+.chooseGymDiv2
+{
+    display: flex;
+    flex-direction: row;
+}
 .leftDiv    
 {
     flex-direction: column;

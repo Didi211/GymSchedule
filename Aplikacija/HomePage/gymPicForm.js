@@ -53,7 +53,7 @@ export class GymForm
         headingDiv.appendChild(partOfHeading);
     }
     
-    CreateGymText()
+    CreateGymText(kontejner)
     {
         //first creating text
         let paragraph = document.createElement("p");
@@ -62,15 +62,14 @@ export class GymForm
         paragraph.textContent = "Teretane u kojima mozete da trenirate: ";
         
         let chooseGymDiv = document.querySelector(".chooseGymDiv");
-        chooseGymDiv.appendChild(paragraph);
+        kontejner.appendChild(paragraph);
         
 
     }
 
-    CreateGymPicker()
+    CreateGymPicker(kontejner)
     {
-        let gymPickerDiv = document.querySelector(".chooseGymDiv")
-        Helpers.CreateGymPicker(gymPickerDiv);
+        Helpers.CreateGymPicker(kontejner);
     }
     
     CreateGymGallery()
@@ -105,18 +104,44 @@ export class GymForm
         gymPicDiv.appendChild(divNext);
     }
 
+    CreateWorkingHours()
+    {
+        //adding working hours in chooseGymDiv
+        let div = document.querySelector(".chooseGymDiv");
+        let div2 = document.createElement("div");
+        div2.className = "radnoVremeDiv";
+        div.appendChild(div2);
+
+        //adding label with working hours
+        let workingHoursPar = document.createElement("p");
+        workingHoursPar.classList.add("workingHourPar");
+        workingHoursPar.classList.add("slova");
+        workingHoursPar.innerHTML = `Radno vreme teretane: 6-22h`; //ovde ide chosenGym.RadnoVreme
+        
+        div2.appendChild(workingHoursPar);
+    }
+
     DrawForm()
     {
         //creating three divs for three parts
         this.CreateThreeDivs();
         //puting text inside heading div
         this.CreateHeading();
+
+        let div = document.createElement("div");
+        div.classList.add("chooseGymDiv2");
+        let chooseGym = document.querySelector(".chooseGymDiv");
+        chooseGym.appendChild(div);
         //adding text left from the gym picker
-        this.CreateGymText();
+        this.CreateGymText(div);
         //adding gym picker
-        this.CreateGymPicker();
+        this.CreateGymPicker(div);
         //adding gym gallery
         this.CreateGymGallery();
+        //adding working hours 
+        this.CreateWorkingHours();
+
+        
     }
 }
 
