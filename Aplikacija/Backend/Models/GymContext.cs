@@ -21,6 +21,10 @@ namespace Backend.Models
             {
                 u.BrojKartice, u.GymID
             }).IsUnique(true);
+            modelBuilder.Entity<User>().HasIndex(u => new 
+            {
+                u.GymID, u.UserType
+            }).IsUnique(true);
 
             modelBuilder.Entity<Termin>().HasKey(ck => new 
             {

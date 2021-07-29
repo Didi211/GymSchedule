@@ -126,7 +126,6 @@ export class ProfileForm
 
         Helpers.CreateGymPicker(gymPickerDiv);
         Helpers.CreateInput("Username", "text",pozicija);
-        Helpers.CreateInput("Password", "password",pozicija);
         Helpers.CreateInput("Broj kartice", "number",pozicija);
         
         //button goes in 3rd row
