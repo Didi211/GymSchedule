@@ -8,7 +8,7 @@ namespace Backend.Models
         public DbSet<Gym> Teretane { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Termin> Termini { get; set; }
-
+        public DbSet<Quote> Quotes { get; set; }
         public GymContext(DbContextOptions options) : base(options)
         {
 

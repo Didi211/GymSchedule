@@ -3,3 +3,6 @@ insert into gym values ('Kangoo Fit and Dream','6-22');
 
 --adding owners
 insert into [USER] (ime,prezime,username,password,pol, brojKartice,gymID,usertype) values ('Nina','Randjelovic','ninaKango','ninaAdmin','F',1,2,'A');
+
+--adding quotes
+insert into quote values ('It always seems impossible until it's done.','Nelson Mandela');

@@ -24,6 +24,10 @@ export class Helpers
         //after that, inserting gyms as options for selection
         
         /*treba da pozovem api koji pokuplja listu teretana iz baze*/
+        // fetch("http://localhost:5000/HomePage/GetAllGyms",
+        // {
+        //     method = "GET"
+        // }...
         
         let teretane =  ["kangoo", "konzulat", "strongman"];
         for (let i = 0; i < 3; i++)
