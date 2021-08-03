@@ -9,6 +9,8 @@ namespace Backend.Models
         public DbSet<User> Users { get; set; }
         public DbSet<Termin> Termini { get; set; }
         public DbSet<Quote> Quotes { get; set; }
+        public DbSet<Picture> Pictures { get; set; }
+        
         public GymContext(DbContextOptions options) : base(options)
         {
 
@@ -19,16 +21,16 @@ namespace Backend.Models
             modelBuilder.Entity<User>().HasIndex(u => u.Username).IsUnique();
             modelBuilder.Entity<User>().HasIndex(u => new 
             {
-                u.BrojKartice, u.GymID
+                u.BrojKartice, u.GymID //jedisntven broj kartice na nivou teretane 
             }).IsUnique(true);
             modelBuilder.Entity<User>().HasIndex(u => new 
             {
-                u.GymID, u.UserType
+                u.GymID, u.UserType //da imam jednog admina za svaku teretanu 
             }).IsUnique(true);
 
             modelBuilder.Entity<Termin>().HasKey(ck => new 
             {
-                ck.UserID, ck.GymID
+                ck.UserID, ck.GymID, ck.Datum
             });
             modelBuilder.Entity<User>().HasOne(u => u.Gym).WithMany(g => g.Klijenti)
                     .OnDelete(DeleteBehavior.ClientSetNull);

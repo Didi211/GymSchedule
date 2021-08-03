@@ -26,9 +26,16 @@
     display: flex;
     border: 1px solid black;
 }
-.chooseGymDiv
+.gymPicDiv
 {
+    
     flex-direction: column;
+}
+.picturesDiv, .webSajtDiv
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
 .chooseGymDiv2
 {

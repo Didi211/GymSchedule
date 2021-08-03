@@ -1,47 +1,57 @@
+import { HomePageApi } from "./Api/HomePageApi.js";
+import { ClientPageApi } from "./Api/ClientPageApi.js";
+
 export class Helpers
 {
+    constructor()
+    {
+        this.HomePageApi = new HomePageApi();
+        // this.ClientPageApi = new ClientPageApi();
+    }
     //main window 
-    static CreateMainWindow()
+    CreateMainWindow()
     {
         let glavniProzor = document.createElement("div");
         glavniProzor.className = "mainWindow";
         document.body.appendChild(glavniProzor);
         return glavniProzor;
     }
-
+    
     //gymPicker
-    static CreateGymPicker(kontejner)
+    async CreateGymPicker(kontejner,evFunc)
     {
-
+        
         //creating drop-down list 
         let gymList = document.createElement("select")
         gymList.classList.add("gymListSelect");
         gymList.classList.add("slova");
         
-        /*treba da se doda event kada se izabere teretana
-        da se ucitaju odredjene slike iz baze za tu teretanu*/
-        
-        //after that, inserting gyms as options for selection
-        
-        /*treba da pozovem api koji pokuplja listu teretana iz baze*/
-        // fetch("http://localhost:5000/HomePage/GetAllGyms",
-        // {
-        //     method = "GET"
-        // }...
-        
-        let teretane =  ["kangoo", "konzulat", "strongman"];
-        for (let i = 0; i < 3; i++)
+        //calling api for all gyms 
+        let gyms = await this.HomePageApi.GetAllGyms();
+
+        //creating default option
+        let option = document.createElement("option");
+        option.value = "";
+        option.innerText = "Izaberi teretanu..";
+        option.classList.add("slova");
+        gymList.appendChild(option);
+
+        //actual gym options 
+        for (let i = 0; i < gyms.length; i++)
         {
             let option = document.createElement("option");
-            option.value = teretane[i];
-            option.innerText = teretane[i];
+            option.value = gyms[i].gymID;
+            option.innerText = gyms[i].naziv;
             option.classList.add("slova");
             gymList.appendChild(option);
+
+            
         }   
+        gymList.addEventListener('change',async () => {await evFunc();})
         kontejner.appendChild(gymList);
     }
     //input
-    static CreateInput(specificInput,type,kontejner)    
+    CreateInput(specificInput,type,kontejner)    
     {
         //div
         let div = document.createElement("div");
@@ -54,7 +64,8 @@ export class Helpers
         
         //input
         let input = document.createElement("input");
-        input.type = type;
+        input.type = type;   
+        
         input.classList.add("slova");
         input.classList.add("regInputs");
 
@@ -67,7 +78,7 @@ export class Helpers
         // this.kontejner.appendChild(kontejner);   
     }
 
-    static CreateRadioButton(kontejner)
+    CreateRadioButton(kontejner)
     {
         
         let div = document.createElement("div");
@@ -96,7 +107,7 @@ export class Helpers
 
     }
 
-    static CreateButton(innerWord, kontejner)
+    CreateButton(innerWord, kontejner)
     {
         //div
         let div = document.createElement("div");
@@ -113,7 +124,7 @@ export class Helpers
 
     }
     
-    static ValidateString(word)
+    ValidateString(word)
     {
         if(word === "") return false;
         if(word == undefined) return false;

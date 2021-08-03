@@ -3,15 +3,18 @@ import {Headers} from  "../headers.js";
 import { LoginForm } from "./loginForm.js";
 import {Helpers} from "../HelperFunctions.js";
 
+
+
+
 //creating header
 let headers = new Headers();
 headers.createHeader(); 
-
 //chaning title
 document.title = "HomePage";
 
 //creating main window of a page
-Helpers.CreateMainWindow();
+let helper = new Helpers();
+helper.CreateMainWindow();
 
 //creating gym part 
 let gymForm = new GymForm();

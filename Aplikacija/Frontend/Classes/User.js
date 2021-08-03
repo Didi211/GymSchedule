@@ -4,6 +4,8 @@ export class User
 {
     constructor()
     { 
+        this.Helper = new Helpers();
+        this.ID = 0;
         this.Ime = null;
         this.Prezime = null;
         this.Pol = null;
@@ -11,8 +13,9 @@ export class User
         this.Username = null;
         this.Password = null;
         this.BrojKartice = null;
-        this.ProfilnaSlika = null;
-        this.TipKorisnika = null;
+        this.ImageName = null;
+        this.ImageSrc = null;
+        this.ImageFile = null;
         
     }
     
@@ -21,7 +24,7 @@ export class User
         if(!this.ValidateString(this.Ime)) return false;
         if(!this.ValidateString(this.Prezime)) return false;
         if(!this.ValidatePol()) return false;
-        if(!this.ValidateString(this.teretana)) return false;
+        if(!this.ValidateString(this.Teretana)) return false;
         if(!this.ValidateString(this.Username)) return false;
         if(!this.ValidateString(this.Password)) return false;
         if(!this.ValidateBrKartice()) return false;
@@ -43,6 +46,6 @@ export class User
     }
     ValidateString(word)
     {
-        return Helpers.ValidateString(word);
+        return this.Helper.ValidateString(word);
     }
 }

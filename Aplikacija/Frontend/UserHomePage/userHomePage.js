@@ -1,6 +1,6 @@
 import { Headers } from  "../headers.js";
-import { Helpers } from "../HelperFunctions.js";
 import { UserHomePageForm } from "./userHomePageForm.js";
+import { Helpers } from "../HelperFunctions.js";
 
 //creating header
 let headers = new Headers();
@@ -10,9 +10,10 @@ headers.createClientHeader();
 document.title = "Client HomePage";
 
 //creating main window
-Helpers.CreateMainWindow();
+let helper = new Helpers(); 
+helper.CreateMainWindow();
 
-//creating forms inside main window
+// //creating forms inside main window
 let userForm = new UserHomePageForm();
 userForm.DrawForm();
 

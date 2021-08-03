@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Backend.Models;
@@ -15,7 +16,16 @@ namespace Backend.DB
 
         //for clinet homepage controller
         Task<Quote> RandomQuote();
-        
+        Task<User> GetUser(int userID);
+        Task<IList<Termin>> GetAllTermine(int userID);
+        Task<string> DeleteTermin(int userID, string datumVreme);
+        Task<IList<DateTime>> GetDanasnjeTermine(int gymID, DateTime today);
+        Task<bool> ZakaziTermin(Termin termin);
+        Task<string> PromeniSifru(int userID,string staraSifra, string novSifra);
+        Task<bool> EditProfil(User user);
+        Task<bool> DeleteUser(int userID);
+
+
 
     }
 }

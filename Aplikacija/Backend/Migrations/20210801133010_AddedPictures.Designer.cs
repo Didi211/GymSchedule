@@ -4,14 +4,16 @@ using Backend.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Backend.Migrations
 {
     [DbContext(typeof(GymContext))]
-    partial class GymContextModelSnapshot : ModelSnapshot
+    [Migration("20210801133010_AddedPictures")]
+    partial class AddedPictures
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,10 +42,6 @@ namespace Backend.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("RadnoVreme");
 
-                    b.Property<string>("WebSajt")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("WebSajt");
-
                     b.HasKey("ID");
 
                     b.ToTable("GYM");
@@ -61,10 +59,10 @@ namespace Backend.Migrations
                         .HasColumnType("int")
                         .HasColumnName("GymID");
 
-                    b.Property<string>("ImageName")
+                    b.Property<string>("Path")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
-                        .HasColumnName("ImageName");
+                        .HasColumnName("Path");
 
                     b.Property<int?>("UserID")
                         .HasColumnType("int")
@@ -74,9 +72,7 @@ namespace Backend.Migrations
 
                     b.HasIndex("GymID");
 
-                    b.HasIndex("UserID")
-                        .IsUnique()
-                        .HasFilter("[UserID] IS NOT NULL");
+                    b.HasIndex("UserID");
 
                     b.ToTable("PICTURE");
                 });
@@ -195,12 +191,12 @@ namespace Backend.Migrations
             modelBuilder.Entity("Backend.Models.Picture", b =>
                 {
                     b.HasOne("Backend.Models.Gym", "Gym")
-                        .WithMany("Pictures")
+                        .WithMany()
                         .HasForeignKey("GymID");
 
                     b.HasOne("Backend.Models.User", "user")
-                        .WithOne("ProfilnaSlika")
-                        .HasForeignKey("Backend.Models.Picture", "UserID");
+                        .WithMany()
+                        .HasForeignKey("UserID");
 
                     b.Navigation("Gym");
 
@@ -239,15 +235,11 @@ namespace Backend.Migrations
                 {
                     b.Navigation("Klijenti");
 
-                    b.Navigation("Pictures");
-
                     b.Navigation("ZakazaniTermini");
                 });
 
             modelBuilder.Entity("Backend.Models.User", b =>
                 {
-                    b.Navigation("ProfilnaSlika");
-
                     b.Navigation("ZakazaniTermini");
                 });
 #pragma warning restore 612, 618

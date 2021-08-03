@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
@@ -23,7 +24,11 @@ namespace Backend.Models
 
         [Column("Datum")]
         [Required()]
-        public DateTime Datum { get; set; }
+        public string Datum { get; set; }
+
+        [Column("Zavrsen")]
+        [DefaultValue(false)]
+        public bool Zavrsen { get; set; }
 
     }
 }

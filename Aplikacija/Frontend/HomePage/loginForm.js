@@ -1,3 +1,6 @@
+import { ClientPageApi } from "../Api/ClientPageApi.js";
+import { HomePageApi } from "../Api/HomePageApi.js";
+
 export class LoginForm
 {
     constructor()
@@ -55,6 +58,7 @@ export class LoginForm
         let usernameInput = document.createElement("input");
         usernameInput.type = "text";
         usernameInput.name = "username";
+        usernameInput.autocomplete = "username";
         usernameInput.placeholder = "Username";
         // let usernameLabel = document.createElement("label");
         // usernameLabel.innerHTML = "Username:";
@@ -62,6 +66,7 @@ export class LoginForm
         let passwordInput = document.createElement("input");
         passwordInput.type = "password";
         passwordInput.name = "password";
+        passwordInput.autocomplete = "current-password";
         passwordInput.placeholder = "Password";
         // let passwordLabel = document.createElement("label");
         // passwordLabel.innerHTML = "Password:"
@@ -98,18 +103,57 @@ export class LoginForm
         let hyperlink = document.createElement("a");
         loginBtn.appendChild(hyperlink);
         hyperlink.href = "../UserHomePage/userHomePage.html";
-        loginBtn.onclick = function()
-        {
-            console.log("entered onClick fun");
-            location = hyperlink.href;
-            
-        };
 
-        
         //appending
         loginBtnDiv.appendChild(loginBtn);
-        forma.appendChild(loginBtnDiv);
+        this.kontejner.appendChild(forma);
         this.kontejner.appendChild(loginBtnDiv);
+
+        //adding event listener 
+        loginBtn.onclick = async function()
+        {
+            //login api
+            let user = 
+            {
+                username : document.querySelector('input[name="username"]').value,
+                password : document.querySelector('input[name="password"]').value
+
+            }
+
+            console.log(user);
+
+            let api = new HomePageApi();
+            var returnedUser = await api.Login(user);
+            console.log("returned: ", returnedUser);
+            if(returnedUser.username === user.username
+                && returnedUser.password === user.password)
+                {
+                    //ubaci id u cookies 
+                    const d = new Date();
+                    d.setTime(d.getTime() + (5*24*60*60*1000));
+                    let expires = "expires="+ d.toUTCString();
+                    document.cookie = "id" + "=" + returnedUser.id + ";" + expires + ";path=/";
+    
+                    location = hyperlink.href;
+
+                }
+            else
+                alert("Wrong username or password");
+            
+        };
+        
+        let passInput = document.querySelector('input[type="password"]');
+        
+        passInput.onkeyup = async function(event)
+        {
+            if(event.keyCode === 13)
+            {
+                event.preventDefault();
+                let btn = document.querySelector(".loginBtn");
+                btn.click();
+            }
+        }
+        
 
     }
 

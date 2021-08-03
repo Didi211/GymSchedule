@@ -10,7 +10,6 @@ namespace Backend.Models
     public class User 
     {
         [Key()]
-        [JsonIgnore]
         [Column("UserID")]
         public int ID { get; set; }
 
@@ -41,7 +40,7 @@ namespace Backend.Models
         [MaxLength(10)]
         public int BrojKartice { get; set; }
 
-        //public nesto ProfilnaSlika { get; set; }
+        public virtual Picture ProfilnaSlika { get; set; }
         
         [Column("GymID")]
         public int? GymID { get; set; }

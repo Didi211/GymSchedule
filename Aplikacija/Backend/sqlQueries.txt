@@ -1,8 +1,20 @@
 --adding gyms 
-insert into gym values ('Kangoo Fit and Dream','6-22');
+insert into gym values ('Kangoo Fit and Dream','6-22',20,'https://www.kangoofitdreamgym.rs/');
+insert into gym values ('Konzulat','7-22',15,'https://www.konzulat.rs/');
+insert into gym values ('Strongman',  '8-23',5,'https://www.facebook.com/StrongmanFitnessCenter/');
 
 --adding owners
 insert into [USER] (ime,prezime,username,password,pol, brojKartice,gymID,usertype) values ('Nina','Randjelovic','ninaKango','ninaAdmin','F',1,2,'A');
 
 --adding quotes
 insert into quote values ('It always seems impossible until it's done.','Nelson Mandela');
+
+--adding images for gyms
+insert into PICTURE values ('gym-Kangoo-dole-slika2.jpg',null,1);
+insert into PICTURE values ('gym-Kangoo-gore-slika1.jpg',null,1);
+insert into PICTURE values ('gym-Kangoo-sank-slika1.jpg',null,1);
+insert into PICTURE values ('gym-Kangoo-ulaz-slika1.jpg',null,1);
+insert into PICTURE values ('gym-Konzulat-slika1.jpg',null,2);
+insert into PICTURE values ('gym-Konzulat-slika2.jpg',null,2);
+insert into PICTURE values ('gym-Strongman-slika1.jpg',null,3);
+insert into PICTURE values ('gym-Strongman-slika2.jpg',null,3);

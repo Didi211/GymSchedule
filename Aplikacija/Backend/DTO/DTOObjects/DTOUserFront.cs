@@ -1,10 +1,10 @@
+using Microsoft.AspNetCore.Http;
+
 namespace Backend.DTO
 {
     public class DTOUserFront
     {
-        
-
-   
+        public int ID { get; set; }
         public string Ime {get; set; }
         public string Prezime {get; set; }
         public string Username {get; set; }
@@ -12,5 +12,6 @@ namespace Backend.DTO
         public string Pol { get; set; }
         public int? BrojKartice { get; set; } //nullable jer se isti objekat koristi kod login-a 
         public int? GymID { get; set; }  //ali zato ide provera kod registracije 
+        public IFormFile Slika { get; set; }
     }
 }

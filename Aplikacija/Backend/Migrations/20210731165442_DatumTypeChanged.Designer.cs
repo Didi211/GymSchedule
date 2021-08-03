@@ -4,14 +4,16 @@ using Backend.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Backend.Migrations
 {
     [DbContext(typeof(GymContext))]
-    partial class GymContextModelSnapshot : ModelSnapshot
+    [Migration("20210731165442_DatumTypeChanged")]
+    partial class DatumTypeChanged
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,45 +42,9 @@ namespace Backend.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("RadnoVreme");
 
-                    b.Property<string>("WebSajt")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("WebSajt");
-
                     b.HasKey("ID");
 
                     b.ToTable("GYM");
-                });
-
-            modelBuilder.Entity("Backend.Models.Picture", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("PictureID")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("GymID")
-                        .HasColumnType("int")
-                        .HasColumnName("GymID");
-
-                    b.Property<string>("ImageName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("ImageName");
-
-                    b.Property<int?>("UserID")
-                        .HasColumnType("int")
-                        .HasColumnName("UserID");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("GymID");
-
-                    b.HasIndex("UserID")
-                        .IsUnique()
-                        .HasFilter("[UserID] IS NOT NULL");
-
-                    b.ToTable("PICTURE");
                 });
 
             modelBuilder.Entity("Backend.Models.Quote", b =>
@@ -114,14 +80,15 @@ namespace Backend.Migrations
                         .HasColumnName("GymID");
 
                     b.Property<string>("Datum")
-                        .HasColumnType("nvarchar(450)")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("Datum");
 
                     b.Property<bool>("Zavrsen")
                         .HasColumnType("bit")
                         .HasColumnName("Zavrsen");
 
-                    b.HasKey("UserID", "GymID", "Datum");
+                    b.HasKey("UserID", "GymID");
 
                     b.HasIndex("GymID");
 
@@ -192,21 +159,6 @@ namespace Backend.Migrations
                     b.ToTable("USER");
                 });
 
-            modelBuilder.Entity("Backend.Models.Picture", b =>
-                {
-                    b.HasOne("Backend.Models.Gym", "Gym")
-                        .WithMany("Pictures")
-                        .HasForeignKey("GymID");
-
-                    b.HasOne("Backend.Models.User", "user")
-                        .WithOne("ProfilnaSlika")
-                        .HasForeignKey("Backend.Models.Picture", "UserID");
-
-                    b.Navigation("Gym");
-
-                    b.Navigation("user");
-                });
-
             modelBuilder.Entity("Backend.Models.Termin", b =>
                 {
                     b.HasOne("Backend.Models.Gym", "Gym")
@@ -239,15 +191,11 @@ namespace Backend.Migrations
                 {
                     b.Navigation("Klijenti");
 
-                    b.Navigation("Pictures");
-
                     b.Navigation("ZakazaniTermini");
                 });
 
             modelBuilder.Entity("Backend.Models.User", b =>
                 {
-                    b.Navigation("ProfilnaSlika");
-
                     b.Navigation("ZakazaniTermini");
                 });
 #pragma warning restore 612, 618

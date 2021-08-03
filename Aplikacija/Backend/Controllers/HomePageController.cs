@@ -6,6 +6,7 @@ using Backend.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using Backend.Helpers;
 
 namespace Backend.Controllers
 {
@@ -14,12 +15,26 @@ namespace Backend.Controllers
     public class HomePageController : ControllerBase
     {
         //homepage and register page api are here
+
+        #region Properties
         public GymContext Context { get; set; }
         public IDataProvider Provider { get; set; }
+        public string Src {get; set; }
+
+        #endregion Properties
+
+        #region Constructor 
         public HomePageController(IDataProvider provider)
         {
+           
+          
             Provider = provider;
         }
+
+        #endregion Constructor
+
+        #region Get
+        
         [Route("GetAllGyms")]
         [HttpGet]
         public async Task<IActionResult> GetAllGyms()
@@ -29,7 +44,7 @@ namespace Backend.Controllers
                 var listaTeretana = await Provider.GetAllGyms();
                 if(!listaTeretana.Any())
                     return StatusCode(204,"Lista teretana je prazna");
-                var gymsDTO = DTOHelper.GymsToDTO(listaTeretana); //mislim da mi ne treba jer imam skroz takav obj na frontu
+                var gymsDTO = DTOHelper.GymsToDTO(listaTeretana,GetSrc()); //mislim da mi ne treba jer imam skroz takav obj na frontu
                 return Ok(gymsDTO);
                 
             }
@@ -39,23 +54,28 @@ namespace Backend.Controllers
             }
         }
 
-        [Route("GetPicturesForGym/{gymID}")]
+        [Route("GetGym/{gymID}")]
         [HttpGet]
-        public async Task<IActionResult> GetPicturesForGym([FromRoute] int gymID)
+        public async Task<IActionResult> GetGym([FromRoute] int gymID)
         {
             //id validation
             if(gymID < 1) return StatusCode(400,"GymID < 1");
-            var gym = await Provider.GetGym(gymID);
+            var gym = new List<Gym>();
+            gym.Add(await Provider.GetGym(gymID));
+            
             if(gym == null) return StatusCode(400,"Teretana sa ID-jem: " + gymID+ " ne postoji");
 
-            //getting the pictures
-            // var slike = await Provider.GetGymPictures(gymID);
-            return StatusCode(404, "Function not done!!!");
+            return Ok(DTOHelper.GymsToDTO(gym,GetSrc()));
+        
         }
 
+        #endregion Get
+
+        #region Post
+        
         [Route("Login")]
-        [HttpGet]
-        public async Task<IActionResult> Login(DTOUserFront loginUser)
+        [HttpPost]
+        public async Task<IActionResult> Login([FromBody] DTOLogin loginUser)
         {
             try
             {
@@ -78,13 +98,14 @@ namespace Backend.Controllers
             try
             {
                 //user validation 
-                var validateString = UserRegisterValidation(registerUser);
+                var validateString = ValidationClass.UserRegisterValidation(registerUser);
                 if(validateString != "OK") return StatusCode(400,validateString);
                 //transforming to model object
                 var userDB = DTOHelper.DTO_To_User(registerUser);
+                userDB.ID = 0;
                 //interacting with db - creating user
                 validateString = await Provider.Register(userDB);
-                if(validateString != "OK") return StatusCode(400,SpojiString("",validateString));
+                if(validateString != "OK") return StatusCode(400,ValidationClass.SpojiString("",validateString));
                 return StatusCode(204);
 
             }
@@ -93,58 +114,17 @@ namespace Backend.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
-        private string UserRegisterValidation(DTOUserFront user)
-        {
-            var validateString = StringValidation(user.Username,true);
-            if(validateString != "OK") return SpojiString("Username",validateString);
+        
+        #endregion Post
 
-            validateString = StringValidation(user.Password,true);
-            if(validateString != "OK") return SpojiString("Password",validateString);
-            
-            validateString = StringValidation(user.Ime,false);
-            if(validateString != "OK") return SpojiString("Ime",validateString);
-
-            validateString = StringValidation(user.Prezime,false);
-            if(validateString != "OK") return SpojiString("Prezime",validateString);
-            
-            validateString = Polvalidation(user.Pol);
-            if(validateString != "OK") return SpojiString("Pol",validateString);
-
-            validateString = NumberValidation(user.BrojKartice);
-            if(validateString != "OK") return SpojiString("Broj kartice",validateString);
-
-            validateString = NumberValidation(user.GymID);
-            if(validateString != "OK") return SpojiString("GymID",validateString);
-            return "OK";
-        }
-        private string StringValidation(string text,bool mixedChars)
+        #region Private
+        private string GetSrc()
         {
-            if(text == null) return   " is null.";
-            if(text == "") return  " is an empty string.";
-            if(mixedChars) return "OK";
-            text = text.ToLower();
-            if(text.All(slovo => slovo >= 'a'))
-                if(text.All(slovo => slovo <= 'z'))
-                    return "OK";
-            return  " does not contain only letters.";
+            Src = String.Format("{0}://{1}{2}/Images/",
+                Request.Scheme,Request.Host,Request.PathBase);
+            return Src;
         }
-        private string Polvalidation(string pol)
-        {
-            if(pol == "M") return "OK";
-            if(pol == "F") return "OK";
-            return  " has to be \"M\" or \"F\""; 
-        }
-        private string NumberValidation(int? number)
-        {
-            if(number == null) return " is null";
-            if(number < 1) return " is les than 1";
-            return "OK";
-        }
-        private string SpojiString(string thing, string reason)
-        {
-            string rec = "Validation failed: ";
-            return rec + thing + reason;
-
-        }
+        
+        #endregion Private
     }
 }
