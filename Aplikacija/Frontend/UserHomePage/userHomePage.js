@@ -1,6 +1,7 @@
 import { Headers } from  "../headers.js";
 import { UserHomePageForm } from "./userHomePageForm.js";
 import { Helpers } from "../HelperFunctions.js";
+import { ClientPageApi } from "../Api/ClientPageApi.js";
 
 //creating header
 let headers = new Headers();
@@ -14,8 +15,11 @@ let helper = new Helpers();
 helper.CreateMainWindow();
 
 // //creating forms inside main window
-let userForm = new UserHomePageForm();
-userForm.DrawForm();
+let id = ExtractIDFromCookie(document.cookie);
+let api = new ClientPageApi();
+let user = await api.GetUser(id);
+let userForm = new UserHomePageForm(user);
+await userForm.DrawForm();
 
 //adding links for profile page and logout
 let url = "../Profile/profilePage.html";
@@ -23,3 +27,9 @@ headers.addProfileIconUrl(url);
 url = "../HomePage/homePage.html";
 headers.addLogOutUrl(url);
 
+function ExtractIDFromCookie(cookie)
+{
+    let index = cookie.indexOf("=");
+    let value = cookie.substring(index + 1, cookie.lenght);
+    return value;
+}

@@ -51,6 +51,12 @@ namespace Backend
             {
                 options.UseSqlServer(Configuration.GetConnectionString("GymScheduleCS"));
             });
+
+            // services.AddAuthentication("CookieAuth").AddCookie("CookieAuth",config =>
+            // {
+            //     config.Cookie.Name = "default";
+            //     config.LoginPath = "/HomePage/Login";
+            // });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -75,8 +81,10 @@ namespace Backend
 
             app.UseCors("CORS");
 
-            app.UseAuthorization();
+            // app.UseAuthentication();
 
+            app.UseAuthorization();
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

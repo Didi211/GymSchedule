@@ -1,9 +1,8 @@
 export class Quote 
 {
-    constructor()
+    constructor(content, author)
     {
-        this.ID = 0;
-        this.Content = null;
-        this.Author = null;
+        this.content = content;
+        this.author = author;
     }
 }

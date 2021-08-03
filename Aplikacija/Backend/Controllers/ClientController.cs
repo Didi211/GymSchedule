@@ -6,6 +6,7 @@ using Backend.DB;
 using Backend.DTO;
 using Backend.Helpers;
 using Backend.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,6 +14,7 @@ namespace Backend.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    // [Authorize]
     public class ClientController : ControllerBase
     {
         //client page and client profile api are here
@@ -36,7 +38,7 @@ namespace Backend.Controllers
 
         #region  Get
 
-        [Route("RandomQuote")]
+        [Route("GetQuote")]
         [HttpGet]
         public async Task<IActionResult> GetRandomQuote() 
         {

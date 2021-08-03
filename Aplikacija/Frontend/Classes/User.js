@@ -2,23 +2,33 @@ import { Helpers } from "../HelperFunctions.js";
 
 export class User
 {
-    constructor()
+    constructor(id,ime,prezime,pol,teretana,username,password,cardNo)
     { 
         this.Helper = new Helpers();
-        this.ID = 0;
-        this.Ime = null;
-        this.Prezime = null;
-        this.Pol = null;
-        this.Teretana = null;
-        this.Username = null;
-        this.Password = null;
-        this.BrojKartice = null;
-        this.ImageName = null;
-        this.ImageSrc = null;
-        this.ImageFile = null;
+        this.ID = id;
+        this.ime = ime;
+        this.prezime = prezime;
+        this.pol = pol;
+        this.teretana = teretana;
+        this.username = username;
+        this.password = password;
+        this.brojKartice = cardNo;
+        this.imageName = null;
+        this.imageSrc = null;
+        this.imageFile = null;
         
     }
-    
+
+    setImageFromControls(imgFile)
+    {
+        this.imageFile = imgFile;
+    }
+
+    SetImageFromDB(imgName,imgSrc)
+    {
+        this.imageName = imgName;
+        this.imageSrc = imgSrc;
+    }
     Validate()
     {
         if(!this.ValidateString(this.Ime)) return false;

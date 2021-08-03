@@ -17,6 +17,8 @@ namespace Backend.DB
         //for clinet homepage controller
         Task<Quote> RandomQuote();
         Task<User> GetUser(int userID);
+        Task<User> GetUser(string username);
+
         Task<IList<Termin>> GetAllTermine(int userID);
         Task<string> DeleteTermin(int userID, string datumVreme);
         Task<IList<DateTime>> GetDanasnjeTermine(int gymID, DateTime today);

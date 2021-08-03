@@ -9,6 +9,7 @@ import {Helpers} from "../HelperFunctions.js";
 //creating header
 let headers = new Headers();
 headers.createHeader(); 
+
 //chaning title
 document.title = "HomePage";
 

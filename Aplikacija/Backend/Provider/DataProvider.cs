@@ -66,7 +66,7 @@ namespace Backend.DB
         {
             var brCitata = Context.Quotes.Count();
             Random rnd = new Random();
-            var randomId = rnd.Next(1,brCitata); //da bi se ukljucio i taj poslednji (ne ide brojanje od 0)
+            var randomId = rnd.Next(1,brCitata + 1); //da bi se ukljucio i taj poslednji (ne ide brojanje od 0)
             var quote = await Context.Quotes.FindAsync(randomId);
             return quote;
         }
@@ -74,7 +74,13 @@ namespace Backend.DB
         {
             var user = await Context.Users.Include(u => u.ProfilnaSlika)
                 .Where(u => u.ID == userID).FirstOrDefaultAsync();
-            // user.ProfilnaSlika.ImageSrc = "http://localhost:5000/HomePage/Images/" + user.ProfilnaSlika.ImageName;
+            return user;
+            
+        }
+        public async Task<User> GetUser(string username)
+        {
+            var user = await Context.Users.Include(u => u.ProfilnaSlika)
+                .Where(u => u.Username == username).FirstOrDefaultAsync();
             return user;
             
         }

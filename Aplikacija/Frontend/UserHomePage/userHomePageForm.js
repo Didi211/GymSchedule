@@ -1,7 +1,10 @@
+import { ClientPageApi } from "../Api/ClientPageApi.js";
+
 export class UserHomePageForm
 {
-    constructor()
+    constructor(user)
     {
+        this.user = user;
         this.kontejner = document.querySelector(".mainWindow");
         this.putanja = "../../Resource/"
         this.COLORS = 
@@ -14,14 +17,14 @@ export class UserHomePageForm
         }
     }
 
-    DrawForm()
+    async DrawForm()
     {
         let div = document.createElement("div");
         div.classList.add("gornjiDiv");
         this.kontejner.appendChild(div);
 
         //adding greeting and weekly quote
-        this.CreateGreeting(div);
+        await this.CreateGreeting(div);
         //adding list of scheduled trainings
         this.CreateListOfTrainings(div);
         //adding legend for grid of training terms 
@@ -39,7 +42,7 @@ export class UserHomePageForm
 
 
     }
-    CreateGreeting(kontejner)
+    async CreateGreeting(kontejner)
     {
         
         //div
@@ -49,12 +52,14 @@ export class UserHomePageForm
         //heading for greeting 
         let greetingHeader = document.createElement("h2");
         greetingHeader.classList.add("greetHeader");
-        greetingHeader.innerHTML = `Zdravo Dimitrije`;//${user.ime}`;
+        greetingHeader.innerText = `Zdravo ${this.user.ime}`;//${user.ime}`;
         
         //quote 
         let quoteParagraph = document.createElement("p");
         quoteParagraph.classList.add("quotePar");
-        quoteParagraph.innerHTML = "Float like a butterfly,\nSting like a bee.";//povlaciti od nekud citate koje cu ja da ubacim
+        let api = new ClientPageApi();
+        let citat = await api.GetQuote();
+        quoteParagraph.innerText = `${citat.content}\n-${citat.author}`;//povlaciti od nekud citate koje cu ja da ubacim
         
         //appending 
         kontejner.appendChild(div);

@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using Backend.Helpers;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
 
 namespace Backend.Controllers
 {
@@ -82,6 +84,7 @@ namespace Backend.Controllers
                 var korisink = await Provider.Login(loginUser.Username, loginUser.Password);
                 if(korisink == null)
                     return StatusCode(400, "Netacan username ili sifra");
+                Authenticate(korisink);
                 return Ok(korisink);
 
             }
@@ -106,7 +109,9 @@ namespace Backend.Controllers
                 //interacting with db - creating user
                 validateString = await Provider.Register(userDB);
                 if(validateString != "OK") return StatusCode(400,ValidationClass.SpojiString("",validateString));
-                return StatusCode(204);
+                var usrDB = await Provider.GetUser(registerUser.Username);
+                Authenticate(usrDB);
+                return Ok(usrDB);
 
             }
             catch(Exception ex)
@@ -118,6 +123,24 @@ namespace Backend.Controllers
         #endregion Post
 
         #region Private
+        private void Authenticate(User user)
+        {
+            var userClaims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name,user.Ime),
+                new Claim(ClaimTypes.Surname, user.Prezime),
+                new Claim("UserID",user.ID.ToString()),
+                new Claim("GymID",user.GymID.ToString()),
+                new Claim("CardNo",user.BrojKartice.ToString())
+            };
+            
+            var userIdentity = new ClaimsIdentity(userClaims, "Gym Identity");
+
+            var userPrincipal = new ClaimsPrincipal(new[] { userIdentity });
+
+            HttpContext.SignInAsync(userPrincipal); 
+
+        }
         private string GetSrc()
         {
             Src = String.Format("{0}://{1}{2}/Images/",

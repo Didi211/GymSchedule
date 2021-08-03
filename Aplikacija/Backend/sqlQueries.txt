@@ -8,6 +8,9 @@ insert into [USER] (ime,prezime,username,password,pol, brojKartice,gymID,usertyp
 
 --adding quotes
 insert into quote values ('It always seems impossible until it's done.','Nelson Mandela');
+insert into quote values ('Don''t stop when you are tired.Stop when you are done.','Wesley Snipes');
+insert into quote values ('Success is the sum of small efforts, repeatead','R Collier');
+insert into quote values ('Going to gym is great for your body, but it''s also great for your mind','Rory Mellroy');
 
 --adding images for gyms
 insert into PICTURE values ('gym-Kangoo-dole-slika2.jpg',null,1);
