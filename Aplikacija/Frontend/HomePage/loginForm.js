@@ -121,24 +121,34 @@ export class LoginForm
             }
 
             console.log(user);
-
             let api = new HomePageApi();
-            var returnedUser = await api.Login(user);
-            console.log("returned: ", returnedUser);
-            if(returnedUser.username === user.username
-                && returnedUser.password === user.password)
-                {
-                    //ubaci id u cookies 
-                    const d = new Date();
-                    d.setTime(d.getTime() + (5*24*60*60*1000));
-                    let expires = "expires="+ d.toUTCString();
-                    document.cookie = "id" + "=" + returnedUser.id + ";" + expires + ";path=/";
-    
-                    location = hyperlink.href;
+            var result = await api.Login(user);
+            if(result != null)
+            {
+            
+                //ubaci id u cookies 
+                const d = new Date();
+                d.setTime(d.getTime() + (5*24*60*60*1000));
+                let expires = "expires="+ d.toUTCString();
+                //cookie for userID
+                document.cookie = "id" + "=" + result.id + ";" + expires + ";path=/";
 
-                }
+                //cookie for gymID
+                document.cookie = "gymID" + "=" + result.gymid + ";" + expires + ";path=/";
+                
+                
+                location = hyperlink.href;
+            }
             else
-                alert("Wrong username or password");
+            {
+                //clear controlls
+                let inputEls = document.querySelectorAll("input");
+                for(let el of inputEls)
+                {
+                    el.value = "";
+                }
+            }
+            
             
         };
         

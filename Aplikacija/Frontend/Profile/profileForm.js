@@ -4,6 +4,7 @@ export class ProfileForm
 {
     constructor()
     {
+        this.helper = new Helpers();
         this.kontejner = document.querySelector(".mainWindow");
         this.putanja = "../../Resource/";
     }
@@ -106,32 +107,43 @@ export class ProfileForm
         div.appendChild(editIcon);
     }
 
+    CreateParentDiv(parent,childClassName)
+    {
+        let child = document.createElement("div");
+        child.classList.add(childClassName);
+        parent.appendChild(child);
+        return child;
+    }
+
     AddRestInformation()
     {
         let pozicija = document.querySelector(".row2 .col2");
 
-        Helpers.CreateInput("Ime", "text", pozicija);
-        Helpers.CreateInput("Prezime", "text", pozicija);
-        Helpers.CreateRadioButton(pozicija);
+        
+        this.helper.CreateInput("Ime", "text", this.CreateParentDiv(pozicija,"infoDiv"));
+
+
+        this.helper.CreateInput("Prezime", "text",this.CreateParentDiv(pozicija,"infoDiv"));
+
+        this.helper.CreateRadioButton(this.CreateParentDiv(pozicija,"infoDiv"));
 
         //for gym picker i need label 
         let label = document.createElement("label");
         label.classList.add("slova");
         label.innerHTML = "Teretana:";
 
-        let gymPickerDiv = document.createElement("div");
-        gymPickerDiv.classList.add("regDiv");
+        let gymPickerDiv = this.CreateParentDiv(pozicija,"infoDiv");
         gymPickerDiv.appendChild(label);
-        pozicija.appendChild(gymPickerDiv);
 
-        Helpers.CreateGymPicker(gymPickerDiv);
-        Helpers.CreateInput("Username", "text",pozicija);
-        Helpers.CreateInput("Broj kartice", "number",pozicija);
+        this.helper.CreateGymPicker(gymPickerDiv);
+
+        this.helper.CreateInput("Username", "text",this.CreateParentDiv(pozicija,"infoDiv"));
+        this.helper.CreateInput("Broj kartice", "number",this.CreateParentDiv(pozicija,"infoDiv"));
         
         //button goes in 3rd row
         pozicija = document.querySelector(".row3 .col2");
 
-        Helpers.CreateButton("Sacuvaj izmene",pozicija);
+        this.helper.CreateButton("Sacuvaj izmene",pozicija);
         
 
 

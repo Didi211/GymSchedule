@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Backend.Models;
 
@@ -5,6 +6,16 @@ namespace Backend.DTO
 {
     public class DTOHelper
     {
+        public static IList<string> TerminiDatesToDTO(IList<DateTime> terminiDatumi)
+        {
+            IList<string> nizTermina = new List<string>();
+            foreach(DateTime termin in terminiDatumi)
+            {
+                var datum = termin.ToString("yyyy-MM-dd HH:mm:ss");
+                nizTermina.Add(datum);
+            }
+            return nizTermina;
+        }
         public static IList<DTOGymFront> GymsToDTO(IList<Gym> teretane,string src)
         {
             IList<DTOGymFront> gymsDTO = new List<DTOGymFront>();

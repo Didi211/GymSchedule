@@ -25,6 +25,7 @@ export class Helpers
         let gymList = document.createElement("select")
         gymList.classList.add("gymListSelect");
         gymList.classList.add("slova");
+        gymList.classList.add("regEditInputs");
         
         //calling api for all gyms 
         let gyms = await this.HomePageApi.GetAllGyms();
@@ -47,15 +48,15 @@ export class Helpers
 
             
         }   
-        gymList.addEventListener('change',async () => {await evFunc();})
+        gymList.addEventListener('change',async () => {await evFunc();});
         kontejner.appendChild(gymList);
     }
     //input
     CreateInput(specificInput,type,kontejner)    
     {
         //div
-        let div = document.createElement("div");
-        div.classList.add("regDiv");
+        // let div = document.createElement("div");
+        // div.classList.add("regDiv");
         
         //label
         let label = document.createElement("label");
@@ -67,24 +68,17 @@ export class Helpers
         input.type = type;   
         
         input.classList.add("slova");
-        input.classList.add("regInputs");
+        input.classList.add("regEditInputs");
 
         //appending 
         
-        div.appendChild(label);
-        div.appendChild(input);
+        kontejner.appendChild(label);
+        kontejner.appendChild(input);
 
-        kontejner.appendChild(div);
-        // this.kontejner.appendChild(kontejner);   
     }
 
     CreateRadioButton(kontejner)
     {
-        
-        let div = document.createElement("div");
-        div.className = "regDiv";
-        kontejner.appendChild(div);
-
         // //label, M F POL
         let labelNames = ["Pol:", "M", "F"];
         for(let i = 0; i < 3; i++)
@@ -93,7 +87,7 @@ export class Helpers
             label.classList.add("slova");
             label.innerHTML = labelNames[i];
 
-            div.appendChild(label);
+            kontejner.appendChild(label);
             //radio buttons 
             if(i !== 0) // 0 for sex label, 1 and 2 for M and F
             {
@@ -101,25 +95,26 @@ export class Helpers
                 rbtn.type = "radio";
                 rbtn.name = "polRadio"
                 rbtn.classList.add("polRadioBtn");
-                div.appendChild(rbtn);
+                rbtn.classList.add("regEditInputs")
+                kontejner.appendChild(rbtn);
             }
         }
 
     }
 
-    CreateButton(innerWord, kontejner)
+    CreateButton(innerWord, kontejner,evFunc)
     {
-        //div
-        let div = document.createElement("div");
-        div.classList.add("regDiv");
+        
 
         // //button 
         let btn = document.createElement("button");
         btn.classList.add("regLogBtn");
         btn.classList.add("slova");
         btn.innerHTML = innerWord;
-        div.appendChild(btn);
-        kontejner.appendChild(div);
+        kontejner.appendChild(btn);
+
+        //adding event
+        btn.addEventListener('click',async () => { await evFunc();});
         
 
     }
@@ -132,4 +127,49 @@ export class Helpers
 
         return true;
     }
+
+    ExtractIDFromCookie(cname)
+    {
+        //gymID=1; id=13
+        let cookies = document.cookie.split(' ');
+        let cookiesNum = cookies.length;
+        let ind;
+        for(let i = 0; i< cookiesNum; i++)
+        {
+
+            if(cookies[i].search(cname) >= 0)
+            {
+                ind = i;
+                break;
+            }
+        }
+        let indexCA = cookies[ind].search(`=`);
+        let value;
+        if(cookies[ind].search(";") >= 0)
+        {
+            value = cookies[ind].slice(indexCA + 1,cookies[ind].length - 1 );
+
+        }
+        else 
+        {
+            value = cookies[ind].slice(indexCA + 1,cookies[ind].length );
+        }   
+        return value;
+    }
+    DateInString(datum)
+    {
+        let dan = datum.getDate();
+        if (dan < 10)
+        {
+            dan = "0" + dan;
+        }
+        let mesec = datum.getMonth() + 1;
+        if (mesec < 10)
+        {
+            mesec = "0" + mesec;
+        }
+        return `${datum.getFullYear()}-${mesec}-${dan}`;
+
+    }
+
 }

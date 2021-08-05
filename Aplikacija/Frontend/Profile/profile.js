@@ -10,7 +10,8 @@ headers.createProfileHeader();
 document.title = "Profile";
 
 //creating main window
-Helpers.CreateMainWindow();
+let helper = new Helpers();
+helper.CreateMainWindow();
 // Helpers.CreateGymPicker(document.body);
 
 let profile = new ProfileForm();

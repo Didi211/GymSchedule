@@ -2,14 +2,16 @@ import { Helpers } from "../HelperFunctions.js";
 
 export class User
 {
+    
+
     constructor(id,ime,prezime,pol,teretana,username,password,cardNo)
     { 
         this.Helper = new Helpers();
-        this.ID = id;
+        this.id = id;
         this.ime = ime;
         this.prezime = prezime;
         this.pol = pol;
-        this.teretana = teretana;
+        this.gymID = teretana;
         this.username = username;
         this.password = password;
         this.brojKartice = cardNo;
@@ -31,12 +33,13 @@ export class User
     }
     Validate()
     {
-        if(!this.ValidateString(this.Ime)) return false;
-        if(!this.ValidateString(this.Prezime)) return false;
+        
+        if(!this.ValidateString(this.ime)) return false;
+        if(!this.ValidateString(this.prezime)) return false;
         if(!this.ValidatePol()) return false;
-        if(!this.ValidateString(this.Teretana)) return false;
-        if(!this.ValidateString(this.Username)) return false;
-        if(!this.ValidateString(this.Password)) return false;
+        if(!this.ValidateString(this.gymID.toString())) return false;
+        if(!this.ValidateString(this.username)) return false;
+        if(!this.ValidateString(this.password)) return false;
         if(!this.ValidateBrKartice()) return false;
 
 
@@ -44,14 +47,14 @@ export class User
     }
     ValidateBrKartice() // string je u pitanju 
     {
-        if(!this.ValidateString(this.BrojKartice.toString())) return false;
-        if(this.BrojKartice < 0) return false;
+        if(!this.ValidateString(this.brojKartice.toString())) return false;
+        if(this.brojKartice < 0) return false;
         return true;
     }
     ValidatePol()
     {
-        if(this.Pol === "M") return true;
-        if(this.Pol === "F") return true;        
+        if(this.pol === "M") return true;
+        if(this.pol === "F") return true;        
         return false;
     }
     ValidateString(word)

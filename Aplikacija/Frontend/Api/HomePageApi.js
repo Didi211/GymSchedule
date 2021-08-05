@@ -46,6 +46,7 @@ export class HomePageApi
     {
         try
         {
+            
             let response = await fetch(`${this.baseURL}Login`,
             {
                 headers: {
@@ -55,20 +56,72 @@ export class HomePageApi
                 method: "POST",
                 body: JSON.stringify(user)
             });
-            let data = await response.json();
-            let returnedUser = new Object();
-            returnedUser.username = data.username;
-            returnedUser.password = data.password;
-            console.log(data);
-            debugger
-            returnedUser.id = data.id;
-            return returnedUser;
-           
-
+            
+            
+            if( response.status == 200)
+            {
+                let data = await response.json();
+                let returnedUser = new Object();
+                returnedUser.username = data.username;
+                returnedUser.password = data.password;
+                returnedUser.id = data.id;
+                returnedUser.gymid = data.gymID;
+                return returnedUser;
+            }
+            else if(response.status == 400)
+            {
+                alert(await response.json());
+                console.clear();
+                return null;
+            }
+            else 
+            {
+                alert (await response.json());
+                console.clear();
+                return null;
+            }
         }
         catch(error)
         {
             console.log(error)
         }
+    }
+    async Register(user)
+    {
+        let response = await fetch(`${this.baseURL}Register`,
+        {
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            method: "POST",
+            body: JSON.stringify(user)
+        });
+
+        if(response.status == 200)
+        {
+            let data = await response.json();
+            let returnedUser = new Object();
+            returnedUser.username = data.username;
+            returnedUser.password = data.password;
+            returnedUser.id = data.id;
+            returnedUser.gymid = data.gymID;
+
+            console.clear();
+            
+            return returnedUser;
+        }
+        else if(response.status == 400)
+            {
+                alert(await response.json());
+                console.clear();
+                return null;
+            }
+            else 
+            {
+                alert (await response.json());
+                console.clear();
+                return null;
+            }
     }
 }

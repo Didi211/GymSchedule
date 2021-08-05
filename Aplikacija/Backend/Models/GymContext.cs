@@ -23,10 +23,7 @@ namespace Backend.Models
             {
                 u.BrojKartice, u.GymID //jedisntven broj kartice na nivou teretane 
             }).IsUnique(true);
-            modelBuilder.Entity<User>().HasIndex(u => new 
-            {
-                u.GymID, u.UserType //da imam jednog admina za svaku teretanu 
-            }).IsUnique(true);
+            
 
             modelBuilder.Entity<Termin>().HasKey(ck => new 
             {

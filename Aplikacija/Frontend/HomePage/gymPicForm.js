@@ -76,7 +76,7 @@ export class GymForm
     }
 
     async ChangeGymForm()
-    {
+    {   
         let choosenGym = document.querySelector(".gymListSelect");
         //ako nista nisam selektovao po default-u je prvi el a on ima indeks 0
         let index = choosenGym.selectedIndex;
@@ -86,7 +86,6 @@ export class GymForm
             //api call for choosen gym 
             let api = new HomePageApi();
             let gym =  await api.GetGym(id);
-            console.log(gym);
             //adding radno vreme 
             let radnoVreme = document.querySelector(".workingHourPar");
             radnoVreme.style.display = "block";

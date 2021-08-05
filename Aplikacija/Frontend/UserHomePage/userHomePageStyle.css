@@ -32,6 +32,9 @@
 {
     display: flex;
     flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
 }
 .sviTerminiDiv
 {
@@ -46,10 +49,22 @@
 }
 .terminDiv
 {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
     flex-basis: 150px;
     flex-grow: 0.6;
     flex-shrink: 0;
+    align-content: center;
     margin: 2%;
-
+    
+}
+.zakaziBtn
+{
+    width: 50%;
+}
+.radnoVremeLbl
+{
+    text-align: center;
 }
 

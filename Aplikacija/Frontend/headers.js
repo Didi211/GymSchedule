@@ -108,8 +108,26 @@ export class Headers{
       logOutBtn.src = this.putanja + "logout.png";
       logOutBtn.classList.add("logOutBtn");
    
+      //deleting cookie onClick event 
+      function setCookie(cname)
+      {
+         const d = new Date();
+         document.cookie = cname + "=;" +  "expires=Thu, 01 Jan 1970 00:00:01 GMT; " + ";path=/";
+      }
+
+      logOutBtn.onclick = function()
+      {
+         setCookie("id","");
+         setCookie("gymID","");
+      };
+
+        
+         
+         
+      
       hyperlink.appendChild(logOutBtn);
       trecaCelija.appendChild(hyperlink);
+
    }
    
    createProfileButton()
@@ -140,6 +158,8 @@ export class Headers{
    {
       let logOut = document.querySelector(".logOutLink");
       logOut.href = url;
+      
+
    }
 
    addLogoUrl(url)

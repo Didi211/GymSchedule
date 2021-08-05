@@ -23,7 +23,6 @@ namespace Backend.Models
         public int ID { get; set; }
 
         [Column("ImageName")]
-        [Required()]
         public string ImageName { get; set; }    
 
         [NotMapped]

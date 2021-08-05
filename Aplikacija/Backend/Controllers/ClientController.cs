@@ -104,7 +104,7 @@ namespace Backend.Controllers
         }
 
         [Route("OsveziPrikazTermina/{gymID}")]
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> OsveziPrikazTermina([FromRoute] int gymID, [FromBody] string datum)
         {
             //datum je string oblika yyyy-MM-dd
@@ -126,7 +126,9 @@ namespace Backend.Controllers
 
                 //getting from db
                 var termini = await Provider.GetDanasnjeTermine(gymID,noviDatum);
-                return Ok(termini);
+                if(termini == null) return StatusCode(201);
+                
+                return Ok(DTOHelper.TerminiDatesToDTO(termini));
             }
             catch (Exception ex)
             {
@@ -164,7 +166,10 @@ namespace Backend.Controllers
             }
             catch (Exception ex)
             {
+                if(ex.InnerException != null)
+                    return StatusCode(500, ex.InnerException.Message);
                 return StatusCode(500, ex.Message);
+                
             }
         }
 

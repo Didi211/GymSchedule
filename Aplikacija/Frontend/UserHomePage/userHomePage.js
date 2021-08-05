@@ -15,7 +15,7 @@ let helper = new Helpers();
 helper.CreateMainWindow();
 
 // //creating forms inside main window
-let id = ExtractIDFromCookie(document.cookie);
+let id = helper.ExtractIDFromCookie("id");
 let api = new ClientPageApi();
 let user = await api.GetUser(id);
 let userForm = new UserHomePageForm(user);
@@ -27,9 +27,5 @@ headers.addProfileIconUrl(url);
 url = "../HomePage/homePage.html";
 headers.addLogOutUrl(url);
 
-function ExtractIDFromCookie(cookie)
-{
-    let index = cookie.indexOf("=");
-    let value = cookie.substring(index + 1, cookie.lenght);
-    return value;
-}
+
+

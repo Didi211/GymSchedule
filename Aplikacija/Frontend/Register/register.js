@@ -10,7 +10,8 @@ headers.createRegisterHeader();
 document.title = "Register";
 
 //creating main window
-Helpers.CreateMainWindow();
+let helper = new Helpers();
+helper.CreateMainWindow();
 
 //Creating register form
 let regForm = new RegisterForm();

@@ -5,6 +5,7 @@ insert into gym values ('Strongman',  '8-23',5,'https://www.facebook.com/Strongm
 
 --adding owners
 insert into [USER] (ime,prezime,username,password,pol, brojKartice,gymID,usertype) values ('Nina','Randjelovic','ninaKango','ninaAdmin','F',1,2,'A');
+--added dimitrije mitic user but will be added through app 
 
 --adding quotes
 insert into quote values ('It always seems impossible until it's done.','Nelson Mandela');
@@ -13,6 +14,7 @@ insert into quote values ('Success is the sum of small efforts, repeatead','R Co
 insert into quote values ('Going to gym is great for your body, but it''s also great for your mind','Rory Mellroy');
 
 --adding images for gyms
+insert into PICTURE values ('gym-Kangoo-dole-slika1.jpg',null,1);
 insert into PICTURE values ('gym-Kangoo-dole-slika2.jpg',null,1);
 insert into PICTURE values ('gym-Kangoo-gore-slika1.jpg',null,1);
 insert into PICTURE values ('gym-Kangoo-sank-slika1.jpg',null,1);

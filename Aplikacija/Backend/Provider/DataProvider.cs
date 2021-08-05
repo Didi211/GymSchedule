@@ -57,6 +57,7 @@ namespace Backend.DB
             var gym = await Context.Teretane.FindAsync(user.GymID);
             if(gym == null) return "Gym with GymID: " + user.GymID + " doesn't exist in database.";
             user.UserType = "K";
+            user.Gym = gym;
             Context.Users.Add(user);
             await Context.SaveChangesAsync();
             return "OK";
@@ -111,7 +112,7 @@ namespace Backend.DB
             
             // vrednosti koje vracam su slobodni termini
             if(today.Date < DateTime.Now.Date)
-                return null; 
+                return null; //termin iz proslosti 
             
             //treba da proverim za svaki radni sat tog dana da li ima ili nema mesta 
             var gym = await Context.Teretane.FindAsync(gymID);
@@ -119,7 +120,16 @@ namespace Backend.DB
             int pocetak,kraj;
             pocetak = int.Parse(radnoVreme[0]);
             kraj = int.Parse(radnoVreme[1]);
-            var trSati = DateTime.Now.Hour;
+
+            var trSati = 0;
+            if(DateTime.Now.Date == today.Date)
+            {
+                //danasnji termin
+                trSati = DateTime.Now.Hour;
+            } //else datum iz buducnosti, pocinjemo od pocetka dana 
+            
+            
+
             if(trSati > pocetak)
                 pocetak = ++trSati; 
                 /*da ne pregledava od jutros ako je 6 poslepodne
@@ -138,9 +148,10 @@ namespace Backend.DB
                     today.Day,
                     i, 0, 0); //i je za sate 
                 
+                var tmp = svakiSat.ToString("yyyy-MM-dd HH:mm:ss");
                 var brojZakazanih = await Context.Termini
                     .Where(t => t.GymID == gymID 
-                        && t.Datum == svakiSat.Date.ToString("yyyy-MM-dd HH:mm:ss")).CountAsync();
+                        && t.Datum == svakiSat.ToString("yyyy-MM-dd HH:mm:ss")).CountAsync();
                 if(brojZakazanih < gym.KapacitetPoSatu)
                     slobodniTermini.Add(svakiSat);
                 
