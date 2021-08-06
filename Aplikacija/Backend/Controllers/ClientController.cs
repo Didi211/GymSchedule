@@ -252,6 +252,19 @@ namespace Backend.Controllers
             }
         }
 
+        [Route("ObrisiSveTermine/{userID}")]
+        [HttpDelete]
+        public async Task<IActionResult> ObrisiSveTermine([FromRoute] int userID)
+        {
+            string validateString = ValidationClass.NumberValidation(userID);
+            if(validateString != "OK")
+                return StatusCode(400, ValidationClass.SpojiString("UserID",validateString));
+            validateString = await Provider.ObrisiSveTermine(userID);
+            if(validateString != "OK") 
+                return StatusCode(400,validateString);
+            return StatusCode(204);
+        }
+
         [Route("DeleteUser/{userID}")]
         [HttpDelete]
         public  async Task<IActionResult> DeleteUser([FromRoute] int userID)

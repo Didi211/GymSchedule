@@ -80,6 +80,11 @@ export class UserHomePageForm {
     tableDiv.classList.add("tableDiv");
     div.appendChild(tableDiv);
 
+    //button for deleting all terms at once 
+    let btnObrisiSve = document.createElement("button");
+    btnObrisiSve.classList.add("obrisiSveBtn");
+    btnObrisiSve.innerText = "Obrisi sve";
+
     //table for list with delete button
     let tabela = document.createElement("table");
     tabela.classList.add("trainingTable");
@@ -88,31 +93,48 @@ export class UserHomePageForm {
     tabela.appendChild(tableBody);
     let tHeader = tabela.createTHead();
     let headRow = tHeader.insertRow(0);
-
+    
     let kolone = ["Datum", "Vreme"];
     for (
       let i = 0;
       i < 3;
       i++ //tri kolone, datum, vreme, dugme za brisanje
-    ) {
-      if (i != 2) {
-        let cell = headRow.insertCell(i);
-        cell.innerHTML = kolone[i];
+      ) {
+        if (i != 2) {
+          let cell = headRow.insertCell(i);
+          cell.innerHTML = kolone[i];
+        }
+        if (i == 2) {
+          let cell = headRow.insertCell(i);
+        }
       }
-      if (i == 2) {
-        let cell = headRow.insertCell(i);
-      }
+      
+      //appending
+      tableDiv.appendChild(tabela);
+      tableDiv.appendChild(btnObrisiSve);
+      div.appendChild(recenica);
+      div.appendChild(tableDiv);
+      kontejner.appendChild(div);
+
+      
+      btnObrisiSve.addEventListener('click', async () => {
+        let api = new ClientPageApi();
+        let helper = new Helpers();
+        if(await api.ObrisiSveTermine(helper.ExtractIDFromCookie("id"))) {
+          //clear list 
+          let tabela = document.querySelector(".tBodyTraining");
+          let redovi = tabela.querySelectorAll("tr");
+          for (let red of redovi) {
+            red.remove();
+          }
+          btnObrisiSve.style.display = "none";
+        }
+          
+      })    
     }
-
-    //appending
-    tableDiv.appendChild(tabela);
-    div.appendChild(recenica);
-    div.appendChild(tableDiv);
-    kontejner.appendChild(div);
-  }
-
+    
   async InsertDataFromDB() {
-    //termini iz baze za popunjavanje tabele zakazanih treninga
+      //termini iz baze za popunjavanje tabele zakazanih treninga
     let tabela = document.querySelector(".tBodyTraining");
     let redovi = tabela.querySelectorAll("tr");
     for (let red of redovi) {
@@ -120,10 +142,13 @@ export class UserHomePageForm {
     }
     let api = new ClientPageApi();
     let termini = await api.GetSveTermine(this.user.id);
+    //adding event for obrisiSveBtn
     if (termini == null) {
+      document.querySelector(".obrisiSveBtn").style.display = "none";
       return;
     }
     if (termini.length == 0) {
+      document.querySelector(".obrisiSveBtn").style.display = "none";
       return;
     }
     for (let i = 0; i < termini.length; i++) {
@@ -170,7 +195,10 @@ export class UserHomePageForm {
           cell.appendChild(deleteBtn);
         }
       }
+
     }
+    //showing delete button wher there are rows
+     document.querySelector(".obrisiSveBtn").style.display = "block";
   }
 
   CreateLegendu(kontejner) {
@@ -385,6 +413,8 @@ export class UserHomePageForm {
       else {
         for (let termin of sviTermini) {
           termini.style.backgroundColor = COLORS.Zuta;
+          let btn = (termin.querySelector(".zakaziBtn").style.display = "none");
+
           pocetak++;
         }
       }
@@ -427,6 +457,8 @@ export class UserHomePageForm {
         zakaziDugme.style.display = "block";
       } else {
         terminDiv.style.backgroundColor = COLORS.Zuta;
+        let btn = (termin.querySelector(".zakaziBtn").style.display = "none");
+
       }
     }
     function danasnjiTermini(termini, isPresent, gym) {
@@ -464,6 +496,8 @@ export class UserHomePageForm {
               "none");
           } else {
             termin.style.backgroundColor = COLORS.Zuta;
+            let btn = (termin.querySelector(".zakaziBtn").style.display = "none");
+
           }
           pocetak++;
         }
@@ -530,11 +564,7 @@ export class UserHomePageForm {
       zakaziBtn.innerText = "Zakazi trening";
       zakaziBtn.classList.add("zakaziBtn");
       zakaziBtn.classList.add("slova");
-      if (i < 10) {
-        zakaziBtn.id = `0${i}`;
-      } else {
-        zakaziBtn.id = i;
-      }
+      zakaziBtn.id = i;
       zakaziBtn.style.display = "none";
       //adding event za zakazivanje termina
       zakaziBtn.addEventListener("click", async () => {
@@ -548,17 +578,55 @@ export class UserHomePageForm {
           let dtpEl = document.querySelector(".datumPicker");
           datum = dtpEl.value;
           //prikupljanje value iz labele odakle je kliknuto dugme
-          datum += ` ${zakaziBtn.id}:00:00`;
+          if(zakaziBtn.id < 10) {
+            datum+= ` 0${zakaziBtn.id}:00:00`;
+          } else {
+            datum += ` ${zakaziBtn.id}:00:00`;
+          }
           userid = helper.ExtractIDFromCookie("id");
           gymid = helper.ExtractIDFromCookie("gymID");
           let termin = new Termin(datum, userid, gymid);
           let response = await api.ZakaziTermin(termin);
           if (response) {
             alert("Trening uspesno zakazan.");
+            this.InsertDataFromDB();
+            let divParent = zakaziBtn.parentElement;
+            divParent.style.backgroundColor = COLORS.Zelena;
+            
+            //promena boja susednim terminima jer nije moguce dva termina za redom 
+            //pribavljanje radnoVremena iz baze
+            let btn = divParent.querySelector(".zakaziBtn").style.display = "none";
+
+            api = new HomePageApi();
+            let gym = await api.GetGym(gymid);
+            let niz = gym.radnoVreme.split('-');
+            let pocetak = +niz[0];
+            let kraj = +niz[1];
+            
+            let divInd = +zakaziBtn.id;
+            if(pocetak == divInd) {
+              //prvi termin za taj dan nema prethodni, radimo samo next termin
+              zabraniTermin(++divInd)
+            } else if(--kraj == divInd) {
+              //zadnji termin za taj dan nema sledeci, radimo samo prev termin
+              zabraniTermin(--divInd);
+            }
+            else {
+              divInd = +zakaziBtn.id;
+              zabraniTermin(++divInd);
+              divInd = +zakaziBtn.id;
+              zabraniTermin(--divInd);
+            }
+
+            function zabraniTermin(indeks) {
+              let restrictDiv = document.getElementById(`${indeks}`).parentElement;
+              restrictDiv.style.backgroundColor = COLORS.Crvena;
+              restrictDiv.querySelector(".zakaziBtn").style.display = "none";
+            }
           }
           //oboji termine
-          //call
-          this.InsertDataFromDB();
+
+          //call refresh listu zakazanih termina 
         }
       });
       oneTerminDiv.appendChild(zakaziBtn);

@@ -21,6 +21,7 @@ namespace Backend.DB
 
         Task<IList<Termin>> GetAllTermine(int userID);
         Task<string> DeleteTermin(Termin termin);
+        Task<string> ObrisiSveTermine(int userID);
         Task<IList<DateTime>> GetDanasnjeTermine(int gymID, DateTime today);
         Task<bool> ZakaziTermin(Termin termin);
         Task<string> PromeniSifru(int userID,string staraSifra, string novSifra);

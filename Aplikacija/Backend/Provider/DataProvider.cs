@@ -108,6 +108,19 @@ namespace Backend.DB
             return "OK";
         }
 
+        public async Task<string> ObrisiSveTermine(int userID)
+        {
+            var user = await Context.Users.FirstAsync();
+
+            if(user == null) return "Ne postoji korisnik sa tim ID-jem.";
+
+            Context.Termini.RemoveRange(await Context.Termini.Where(t => t.UserID == userID).ToListAsync());
+            await Context.SaveChangesAsync();
+            return "OK";
+            
+
+        }
+
         public async Task<IList<DateTime>> GetDanasnjeTermine(int gymID, DateTime today)
         {
             

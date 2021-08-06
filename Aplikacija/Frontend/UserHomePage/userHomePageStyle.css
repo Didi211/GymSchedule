@@ -55,6 +55,12 @@
     margin: 2%;
     
 }
+.obrisiSveBtn
+{
+    width: 33.33%;
+    height: 20%;
+    justify-self: end;
+}
 .zakaziBtn
 {
     width: 50%;
@@ -82,4 +88,9 @@
 {
     display: table;
     width: 100%;
+}
+.tableDiv {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
 }

@@ -136,4 +136,26 @@ export class ClientPageApi {
       return false;
     }
   }
+
+  async ObrisiSveTermine(userID) {
+    let response = await fetch(`${this.baseUrl}ObrisiSveTermine/${userID}`,{
+      headers : {
+        Accept: "application/json",
+        "Content-Type" : "application/json",
+      },
+      method : "DELETE",
+    });
+    if(response.status == 204) { 
+      return true;
+    } else if(response.status == 400) { 
+      let data = await response.json();
+      alert ("Doslo je do problema na klijent strani.Check console for more info.");
+      console.log(data);
+      return false;
+    } else {
+      alert("Doslo je do greske sa serverom.");
+      return false;
+    }
+
+  }
 }
