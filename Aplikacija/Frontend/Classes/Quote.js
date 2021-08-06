@@ -1,8 +1,6 @@
-export class Quote 
-{
-    constructor(content, author)
-    {
-        this.content = content;
-        this.author = author;
-    }
+export class Quote {
+  constructor(content, author) {
+    this.content = content;
+    this.author = author;
+  }
 }

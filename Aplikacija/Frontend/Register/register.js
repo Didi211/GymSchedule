@@ -1,4 +1,4 @@
-import {Headers} from  "../headers.js";
+import { Headers } from "../headers.js";
 import { Helpers } from "../HelperFunctions.js";
 import { RegisterForm } from "./registerForm.js";
 
@@ -6,7 +6,7 @@ import { RegisterForm } from "./registerForm.js";
 let headers = new Headers();
 headers.createRegisterHeader();
 
-//chaning title 
+//chaning title
 document.title = "Register";
 
 //creating main window
@@ -15,10 +15,9 @@ helper.CreateMainWindow();
 
 //Creating register form
 let regForm = new RegisterForm();
-regForm.DrawForm(); 
+regForm.DrawForm();
 
 //adding link for going back and logo
 let url = "../HomePage/homePage.html";
 headers.addGoBackUrl(url);
 headers.addLogoUrl(url);
-

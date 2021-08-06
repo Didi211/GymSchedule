@@ -1,4 +1,4 @@
-import { Headers } from  "../headers.js";
+import { Headers } from "../headers.js";
 import { UserHomePageForm } from "./userHomePageForm.js";
 import { Helpers } from "../HelperFunctions.js";
 import { ClientPageApi } from "../Api/ClientPageApi.js";
@@ -7,11 +7,11 @@ import { ClientPageApi } from "../Api/ClientPageApi.js";
 let headers = new Headers();
 headers.createClientHeader();
 
-//changing title 
+//changing title
 document.title = "Client HomePage";
 
 //creating main window
-let helper = new Helpers(); 
+let helper = new Helpers();
 helper.CreateMainWindow();
 
 // //creating forms inside main window
@@ -26,6 +26,3 @@ let url = "../Profile/profilePage.html";
 headers.addProfileIconUrl(url);
 url = "../HomePage/homePage.html";
 headers.addLogOutUrl(url);
-
-
-

@@ -93,14 +93,15 @@ namespace Backend.DB
             return termini;
         }
 
-        public async Task<string> DeleteTermin(int userID, string datumVreme)
+        public async Task<string> DeleteTermin(Termin termin)
         {
-            var user = await  Context.Users.FindAsync(userID);
+            var user = await  Context.Users.FindAsync(termin.UserID);
+            
             if(user == null) return "Ne postoji korisnik sa tim ID-jem.";
-            var termin = await Context.Termini
-                .Where(t => t.UserID == userID && t.Datum == datumVreme)
-                .FirstOrDefaultAsync();
-            if(termin == null ) return "Ne postoji zakazani trening u tom terminu.";
+            var result = await Context.Termini.ContainsAsync(termin);
+                // .Where(t => t.UserID == termin.UserID && t.Datum == termin.Datum && t.GymID == termin.GymID)
+                // .FirstOrDefaultAsync();
+            if(!result) return "Ne postoji zakazani trening u tom terminu.";
 
             Context.Termini.Remove(termin);
             await Context.SaveChangesAsync();

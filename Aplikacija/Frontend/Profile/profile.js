@@ -1,4 +1,4 @@
-import {Headers} from  "../headers.js";
+import { Headers } from "../headers.js";
 import { Helpers } from "../HelperFunctions.js";
 import { ProfileForm } from "./profileForm.js";
 
@@ -6,7 +6,7 @@ import { ProfileForm } from "./profileForm.js";
 let headers = new Headers();
 headers.createProfileHeader();
 
-//chaning title 
+//chaning title
 document.title = "Profile";
 
 //creating main window
@@ -17,7 +17,7 @@ helper.CreateMainWindow();
 let profile = new ProfileForm();
 profile.DrawForm();
 
-//adding links for going back and loggin out 
+//adding links for going back and loggin out
 let urlHome = "../UserHomePage/userHomePage.html";
 headers.addGoBackUrl(urlHome);
 headers.addLogoUrl(urlHome);

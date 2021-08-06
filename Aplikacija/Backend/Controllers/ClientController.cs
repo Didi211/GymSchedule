@@ -57,9 +57,6 @@ namespace Backend.Controllers
             }
         }
 
-    
-
-
         [Route("GetUser/{userID}")]
         [HttpGet]
         public async Task<IActionResult> GetUser([FromRoute] int userID)
@@ -228,9 +225,9 @@ namespace Backend.Controllers
 
         #region Delete
         
-        [Route("ObrisiTermin/{userID}")]
+        [Route("ObrisiTermin")]
         [HttpDelete]
-        public async Task<IActionResult> ObrisiTermin([FromRoute] int userID, [FromBody] string datum)
+        public async Task<IActionResult> ObrisiTermin([FromBody] DTOTerminFront termin)
         {
             //treba mi datum termina i id klijenta 
             //gym mi ne treba mogu da izvucem iz klijenta 
@@ -239,11 +236,12 @@ namespace Backend.Controllers
                 //datum vreme u formatu yyyy-MM-dd HH:mm:ss
                 
                 //userid validation
-                string validateString = ValidationClass.NumberValidation(userID);
+                string validateString = ValidationClass.NumberValidation(termin.UserID);
                 if(validateString != "OK") 
                     return StatusCode(400,ValidationClass.SpojiString("UserID",validateString));
 
-                validateString = await Provider.DeleteTermin(userID,datum);
+                var terminDB = DTOHelper.DTO_To_Termin(termin);
+                validateString = await Provider.DeleteTermin(terminDB);
                 if(validateString != "OK") 
                     return StatusCode(400,validateString);
                 return StatusCode(204);
