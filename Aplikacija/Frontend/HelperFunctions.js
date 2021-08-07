@@ -1,5 +1,6 @@
 import { HomePageApi } from "./Api/HomePageApi.js";
 import { ClientPageApi } from "./Api/ClientPageApi.js";
+import { COLORS } from "./boje.js";
 
 export class Helpers {
   constructor() {
@@ -133,6 +134,7 @@ export class Helpers {
     }
     return value;
   }
+
   DateInString(datum) {
     let dan = datum.getDate();
     if (dan < 10) {
@@ -143,5 +145,43 @@ export class Helpers {
       mesec = "0" + mesec;
     }
     return `${datum.getFullYear()}-${mesec}-${dan}`;
+  }
+
+  ShowHideButton(btn,show) {
+    if(show) {
+      btn.style.display = "block";
+    }
+    else { 
+      btn.style.display = "none";
+    }
+  }
+
+  ZabraniTermin(indeks) {
+    let restrictDiv = document.getElementById(`${indeks}`).parentElement;
+    if(restrictDiv.style.backgroundColor != COLORS.Siva 
+        && restrictDiv.style.backgroundColor != COLORS.Zuta) {
+      restrictDiv.style.backgroundColor = COLORS.Crvena;
+      let zakaziBtn = restrictDiv.querySelector(".zakaziBtn");
+      this.ShowHideButton(zakaziBtn,false);
+    }
+  }
+  ZabraniSusedneTermine(zakaziBtn,gym) {
+    let niz = gym.radnoVreme.split('-');
+    let pocetak = +niz[0];
+    let kraj = +niz[1];
+    let divInd = +zakaziBtn.id;
+    if(pocetak == divInd) {
+      //prvi termin za taj dan nema prethodni, radimo samo next termin
+      this.ZabraniTermin(++divInd)
+    } else if(--kraj == divInd) {
+      //zadnji termin za taj dan nema sledeci, radimo samo prev termin
+      this.ZabraniTermin(--divInd);
+    }
+    else {
+      divInd = +zakaziBtn.id;
+      this.ZabraniTermin(++divInd);
+      divInd = +zakaziBtn.id;
+      this.ZabraniTermin(--divInd);
+    }
   }
 }

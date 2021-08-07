@@ -1,7 +1,7 @@
 export const COLORS = {
-  Siva: "#7B7B7B",
-  Zuta: "#DAE90B",
-  Teget: "#365C95",
-  Crvena: "#E90B0B",
-  Zelena: "#12E90B",
+  Siva: "rgb(123, 123, 123)",
+  Zuta: "rgb(218, 233, 11)",
+  Teget: "rgb(54, 92, 149)", 
+  Crvena: "rgb(233, 11, 11)",
+  Zelena: "rgb(18, 233, 11)",
 };
