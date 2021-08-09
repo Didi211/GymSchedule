@@ -20,5 +20,9 @@
     border-radius: 50%;
 }
 
+.editPicIcon:hover ,.icon:hover {
+    cursor: pointer;
+}
+
 
 

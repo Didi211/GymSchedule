@@ -4,14 +4,16 @@ using Backend.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Backend.Migrations
 {
     [DbContext(typeof(GymContext))]
-    partial class GymContextModelSnapshot : ModelSnapshot
+    [Migration("20210809154409_removedUserPictures")]
+    partial class removedUserPictures
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -65,9 +67,15 @@ namespace Backend.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("ImageName");
 
+                    b.Property<int?>("UserID")
+                        .HasColumnType("int")
+                        .HasColumnName("UserID");
+
                     b.HasKey("ID");
 
                     b.HasIndex("GymID");
+
+                    b.HasIndex("UserID");
 
                     b.ToTable("PICTURE");
                 });
@@ -187,7 +195,13 @@ namespace Backend.Migrations
                         .WithMany("Pictures")
                         .HasForeignKey("GymID");
 
+                    b.HasOne("Backend.Models.User", "user")
+                        .WithMany()
+                        .HasForeignKey("UserID");
+
                     b.Navigation("Gym");
+
+                    b.Navigation("user");
                 });
 
             modelBuilder.Entity("Backend.Models.Termin", b =>

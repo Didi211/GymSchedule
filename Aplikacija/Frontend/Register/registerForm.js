@@ -19,12 +19,12 @@ export class RegisterForm {
     this.CreateRadioButton();
     //adding gym picker
     this.CreateGymPicker();
+    //adding cardNo input
+    this.CreateInput("Broj kartice", "number");
     //adding username input
     this.CreateInput("Username", "text");
     //adding password input
     this.CreateInput("Password", "password");
-    //adding cardNo input
-    this.CreateInput("Broj kartice", "number");
     //adding Register button
     this.CreateRegisterButton();
   }
@@ -81,24 +81,9 @@ export class RegisterForm {
 
   async RegisterFunc() {
     //collecting data from controlls
-    let inputs = document.querySelectorAll(".regEditInputs");
-    let ime, prezime, pol, teretana, username, password, brKartice;
-    let niz = [ime, prezime, pol, teretana, username, password, brKartice];
-    for (let i = 0; i < inputs.length; i++) {
-      if (inputs[i].type == "radio") {
-        if (inputs[i].checked != "") {
-          //nije M
-          pol = "M";
-        } else {
-          pol = "F"; //nego je F
-        }
-        i++;
-      } else {
-        niz[i] = inputs[i].value;
-      }
-    }
-    let usr = new User(0, niz[0], niz[1], pol, niz[4], niz[5], niz[6], niz[7]);
-    if (!usr.Validate()) {
+    let helper = new Helpers();
+    let usr = helper.UserFromControls();
+    if (!usr.Validate(true)) {
       alert("Validation failed.");
     } else {
       //calling api

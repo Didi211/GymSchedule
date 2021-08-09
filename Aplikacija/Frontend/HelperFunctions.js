@@ -1,6 +1,7 @@
 import { HomePageApi } from "./Api/HomePageApi.js";
 import { ClientPageApi } from "./Api/ClientPageApi.js";
 import { COLORS } from "./boje.js";
+import { User } from "./Classes/User.js";
 
 export class Helpers {
   constructor() {
@@ -60,7 +61,7 @@ export class Helpers {
     //input
     let input = document.createElement("input");
     input.type = type;
-
+    input.min = 1;
     input.classList.add("slova");
     input.classList.add("regEditInputs");
 
@@ -69,7 +70,14 @@ export class Helpers {
     kontejner.appendChild(label);
     kontejner.appendChild(input);
   }
+  CreateLabel(value, className, kontejner) { 
+    let label = document.createElement("label");
+    label.classList.add("slova");
+    label.classList.add(className);
 
+    label.innerHTML = value;
+    kontejner.appendChild(label);
+  }
   CreateRadioButton(kontejner) {
     // //label, M F POL
     let labelNames = ["Pol:", "M", "F"];
@@ -104,6 +112,7 @@ export class Helpers {
     btn.addEventListener("click", async () => {
       await evFunc();
     });
+    return btn;
   }
 
   ValidateString(word) {
@@ -156,32 +165,27 @@ export class Helpers {
     }
   }
 
-  ZabraniTermin(indeks) {
-    let restrictDiv = document.getElementById(`${indeks}`).parentElement;
-    if(restrictDiv.style.backgroundColor != COLORS.Siva 
-        && restrictDiv.style.backgroundColor != COLORS.Zuta) {
-      restrictDiv.style.backgroundColor = COLORS.Crvena;
-      let zakaziBtn = restrictDiv.querySelector(".zakaziBtn");
-      this.ShowHideButton(zakaziBtn,false);
+  UserFromControls(register) { 
+    let inputs = document.querySelectorAll(".regEditInputs");
+    let ime, prezime, pol, teretana, username, password, brKartice;
+
+    ime = inputs[0].value;
+    prezime = inputs[1].value;
+    if(inputs[2].checked) { 
+      pol = "M";
+    } else { 
+      pol = "F";
     }
+    teretana = inputs[4].value;
+    brKartice = inputs[5].value;
+    if(register) {  
+      //calling function from register page
+      username = inputs[6].value;
+      passowrd = inputs[7].value;
+    } 
+
+    return new User(0,ime,prezime,pol,teretana,username,password,brKartice);
   }
-  ZabraniSusedneTermine(zakaziBtn,gym) {
-    let niz = gym.radnoVreme.split('-');
-    let pocetak = +niz[0];
-    let kraj = +niz[1];
-    let divInd = +zakaziBtn.id;
-    if(pocetak == divInd) {
-      //prvi termin za taj dan nema prethodni, radimo samo next termin
-      this.ZabraniTermin(++divInd)
-    } else if(--kraj == divInd) {
-      //zadnji termin za taj dan nema sledeci, radimo samo prev termin
-      this.ZabraniTermin(--divInd);
-    }
-    else {
-      divInd = +zakaziBtn.id;
-      this.ZabraniTermin(++divInd);
-      divInd = +zakaziBtn.id;
-      this.ZabraniTermin(--divInd);
-    }
-  }
+
+
 }

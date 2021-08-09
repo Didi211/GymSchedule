@@ -3,6 +3,7 @@ import { HomePageApi } from "../Api/HomePageApi.js";
 import { COLORS } from "../boje.js";
 import { Termin } from "../Classes/Termin.js";
 import { Helpers } from "../HelperFunctions.js";
+import { UserHelper } from "./UserHelper.js";
 
 export class UserHomePageForm {
   constructor(user) {
@@ -13,9 +14,11 @@ export class UserHomePageForm {
 
   async DrawForm() {
     //drawing form
+    //#region gornjiDiv  
     let div = document.createElement("div");
     div.classList.add("gornjiDiv");
     this.kontejner.appendChild(div);
+    //#endregion gornjiDiv
 
     //adding greeting and weekly quote
     await this.CreateGreeting(div);
@@ -24,18 +27,23 @@ export class UserHomePageForm {
     //adding legend for grid of training terms
     this.CreateLegendu(div);
 
+    //#region donjiDiv
     div = document.createElement("div");
     div.classList.add("donjiDiv");
     this.kontejner.appendChild(div);
+    //#endregion donjiDiv
 
     //adding grid of training terms
     await this.CreateZakaziTermine(div);
 
     //
   }
+
+  //#region drawFormFunctions
   async CreateGreeting(kontejner) {
     //zdravo + motivational quote
-    //div
+
+    //#region greeting
     let div = document.createElement("div");
     div.classList.add("greetingQuoteDiv");
 
@@ -43,20 +51,21 @@ export class UserHomePageForm {
     let greetingHeader = document.createElement("h2");
     greetingHeader.classList.add("greetHeader");
     greetingHeader.innerText = `Zdravo ${this.user.ime}`; //${user.ime}`;
+    //#endregion greeting
 
-    //quote
+    //#region quote
     let quoteParagraph = document.createElement("p");
     quoteParagraph.classList.add("quotePar");
     let api = new ClientPageApi();
     let citat = await api.GetQuote();
     quoteParagraph.innerText = `${citat.content}\n-${citat.author}`; //povlaciti od nekud citate koje cu ja da ubacim
+    //#endregion quote
 
     //appending
     kontejner.appendChild(div);
     div.appendChild(greetingHeader);
     div.appendChild(quoteParagraph);
   }
-
   async CreateListOfTrainings(kontejner) {
     //list of pre-scehuduled trainings
     //creating table first
@@ -64,156 +73,15 @@ export class UserHomePageForm {
     //then inserting data from db
     await this.InsertDataFromDB();
   }
-
-  AddTableOfTrainings(kontejner) {
-    //div
-    let div = document.createElement("div");
-    div.classList.add("trainingDiv");
-
-    //paragraph
-    let recenica = document.createElement("p");
-    recenica.classList.add("trainingPar");
-    recenica.innerHTML = "Lista zakazanih treninga";
-
-    //div for table
-    let tableDiv = document.createElement("div");
-    tableDiv.classList.add("tableDiv");
-    div.appendChild(tableDiv);
-
-    //button for deleting all terms at once 
-    let btnObrisiSve = document.createElement("button");
-    btnObrisiSve.classList.add("obrisiSveBtn");
-    btnObrisiSve.innerText = "Obrisi sve";
-
-    //table for list with delete button
-    let tabela = document.createElement("table");
-    tabela.classList.add("trainingTable");
-    let tableBody = document.createElement("tbody");
-    tableBody.className = "tBodyTraining";
-    tabela.appendChild(tableBody);
-    let tHeader = tabela.createTHead();
-    let headRow = tHeader.insertRow(0);
-    
-    let kolone = ["Datum", "Vreme"];
-    for (
-      let i = 0;
-      i < 3;
-      i++ //tri kolone, datum, vreme, dugme za brisanje
-      ) {
-        if (i != 2) {
-          let cell = headRow.insertCell(i);
-          cell.innerHTML = kolone[i];
-        }
-        if (i == 2) {
-          let cell = headRow.insertCell(i);
-        }
-      }
-      
-      //appending
-      tableDiv.appendChild(tabela);
-      tableDiv.appendChild(btnObrisiSve);
-      div.appendChild(recenica);
-      div.appendChild(tableDiv);
-      kontejner.appendChild(div);
-
-      
-      btnObrisiSve.addEventListener('click', async () => {
-        let result = confirm("Da li ste sigurni da zelite da otkazete sve zakazane treninge?");
-        if(!result) { return; }
-        let api = new ClientPageApi();
-        let helper = new Helpers();
-        if(await api.ObrisiSveTermine(helper.ExtractIDFromCookie("id"))) {
-          //clear list 
-          let tabela = document.querySelector(".tBodyTraining");
-          let redovi = tabela.querySelectorAll("tr");
-          for (let red of redovi) {
-            red.remove();
-          }
-          helper.ShowHideButton(btnObrisiSve,false);
-        }
-        location.reload();
-        return false;
-      })    
-    }
-    
-  async InsertDataFromDB() {
-    let helper = new Helpers();
-      //termini iz baze za popunjavanje tabele zakazanih treninga
-    let tabela = document.querySelector(".tBodyTraining");
-    let redovi = tabela.querySelectorAll("tr");
-    for (let red of redovi) {
-      red.remove();
-    }
-    let api = new ClientPageApi();
-    let termini = await api.GetSveTermine(this.user.id);
-    //adding event for obrisiSveBtn
-    if (termini == null) {
-      helper.ShowHideButton(document.querySelector(".obrisiSveBtn"),false);
-      return;
-    }
-    if (termini.length == 0) {
-      helper.ShowHideButton(document.querySelector(".obrisiSveBtn"),false);
-      return;
-    }
-    for (let i = 0; i < termini.length; i++) {
-      //iteriram kroz termine
-      let red = tabela.insertRow(i);
-      let datumVreme = termini[i].datum.split(" ");
-      let indColl = datumVreme[1].indexOf(":", 0); //to je vreme
-      indColl = datumVreme[1].indexOf(":", indColl + 1); // posto je vreme 20:00:00 a meni treba 20:00
-
-      datumVreme[1] = datumVreme[1].slice(0, indColl);
-      for (let j = 0; j < 3; j++) {
-        if (j != 2) {
-          let cell = red.insertCell(j);
-          cell.innerHTML = datumVreme[j];
-          cell.classList.add(`cell-${j}`)
-        } else {
-          let cell = red.insertCell(j);
-          let deleteBtn = document.createElement("button");
-          deleteBtn.className = "deleteTrainingBtn";
-          
-          //adding event for btn 
-          deleteBtn.addEventListener('click',async () => {
-            let result = confirm("Da li ste sigurni da zelite da otkazete trening?");
-            if(!result) return;
-            let api = new ClientPageApi();
-            let parentEl = deleteBtn.parentElement.parentElement;
-            let childs =  parentEl.querySelectorAll("td[class*='cell-']");
-            let datumString;
-            datumString = childs[0].innerText;
-            datumString+= ` ${childs[1].innerText}:00`;
-            let id = helper.ExtractIDFromCookie("id");
-            let gymid = helper.ExtractIDFromCookie("gymID");
-            result = await api.DeleteTermin(new Termin(datumString,id,gymid));
-            if(result) {
-              alert("Trening uspesno otkazan.");
-              this.InsertDataFromDB();
-            }
-            location.reload();
-            return false;
-          })
-          let slika = document.createElement("img");
-          slika.className = "deleteSlika";
-          slika.src = `${this.putanja}deleteIcon.png`; 
-          deleteBtn.appendChild(slika);
-          cell.appendChild(deleteBtn);
-        }
-      }
-
-    }
-    //showing delete button wher there are rows
-    helper.ShowHideButton(document.querySelector(".obrisiSveBtn"),true);
-  }
-
   CreateLegendu(kontejner) {
     //upustvo za citanje tabele termina
-    //div
+    //#region legendaDiv
     let div = document.createElement("div");
     div.classList.add("legendaDiv");
     kontejner.appendChild(div);
+    //#endregion legendaDiv
 
-    //heading
+    //#region legendaHeader
     let divHeader = document.createElement("div");
     divHeader.className = "divRow";
     div.appendChild(divHeader);
@@ -222,8 +90,10 @@ export class UserHomePageForm {
     legendHeader.classList.add("legendHeader");
     legendHeader.innerHTML = "Legenda (Upustvo za citanje termina)";
     divHeader.appendChild(legendHeader);
-    //divs for every rule
-    let colors = ["#7B7B7B", "#DAE90B", "#365C95", "#E90B0B", "#12E90B"];
+
+    //#endregion legendaHeader
+    
+    //#region upustva nad boje
     let upustva = [
       "Termin je prosao",
       "Nema mesta u terminu",
@@ -231,13 +101,24 @@ export class UserHomePageForm {
       "Nije moguce rezervisati pre i posle zakaznog termina",
       "Termin uspesno zakazan",
     ];
-
+    let boje = [
+      "rgb(123, 123, 123)",
+      "rgb(218, 233, 11)",
+      "rgb(54, 92, 149)", 
+      "rgb(233, 11, 11)",
+       "rgb(18, 233, 11)",
+    ]
+    //#endregion upustva and boje 
+    
+    //#region oneRule
     for (let i = 0; i < 5; i++) {
       let divRow = document.createElement("div");
       divRow.className = "divRow";
       let divCircle = document.createElement("div");
       divCircle.classList.add("divCircle");
-      this.ObojiDiv(divCircle,colors[i]);
+      let userHelper = new UserHelper();
+      
+      userHelper.ObojiDiv(divCircle,boje[i]);
 
       let upustvoPar = document.createElement("p");
       upustvoPar.classList.add("upustvoPar");
@@ -247,17 +128,19 @@ export class UserHomePageForm {
       divRow.appendChild(upustvoPar);
       div.appendChild(divRow);
     }
+    //#endregion oneRule
   }
-
   async CreateZakaziTermine(kontejner) {
     //header for zakazivanje treninga (dtp i dugmici )
-    //heading
+    
+    //#region zakaziHeader
     let zakaziHeading = document.createElement("h2");
     zakaziHeading.classList.add("zakaziH1");
     zakaziHeading.innerHTML = "Zakazi trening";
     kontejner.appendChild(zakaziHeading);
+    //#endregion zakaziHeader
 
-    //datum plus dugmici za saltanje
+    //#region datumPicker&buttons
     let divDatum = document.createElement("div");
     divDatum.classList.add("divDatum");
     kontejner.appendChild(divDatum);
@@ -273,27 +156,28 @@ export class UserHomePageForm {
     let datumPicker = document.createElement("input");
     datumPicker.type = "date";
     datumPicker.className = "datumPicker";
+    //#endregion datumPicker&buttons
 
     let helper = new Helpers();
     let todayDate = new Date();
     datumPicker.defaultValue = helper.DateInString(todayDate);
     datumPicker.value = datumPicker.defaultValue;
     
-    //events for dtp and buttons
+    //#region datumPicker&buttons Events
     dugmePrevious.addEventListener("click", async () => {
-      await change(false,null,"<",this.OsveziPrikazTermina,this.ObojiDiv);
+      await change(false,null,"<",this.OsveziPrikazTermina);
       
     });
     
     dugmeNext.addEventListener("click", async () => {
-      await change(false,null,">",this.OsveziPrikazTermina,this.ObojiDiv);
+      await change(false,null,">",this.OsveziPrikazTermina);
     });
     
     datumPicker.addEventListener('change', async () => {
-      await change(true,datumPicker,"",this.OsveziPrikazTermina,this.ObojiDiv)
+      await change(true,datumPicker,"",this.OsveziPrikazTermina)
     })
-
-    async function change(isDtp,dtpEl,prevNextSign,func,obojiDivFunc) {
+    //#region changePrikazTermina
+    async function change(isDtp,dtpEl,prevNextSign,func) {
       
       let api = new HomePageApi();
       let helper = new Helpers();
@@ -318,7 +202,7 @@ export class UserHomePageForm {
 
       let gym = await api.GetGym(+helper.ExtractIDFromCookie("gymID"));
       //regularni prikaz termina za taj dan
-      await func(gym, dtpEl.value,obojiDivFunc);
+      await func(gym, dtpEl.value);
       //prikaz zakazanih termina tog usera za taj datum (ako nije iz proslosti) ako postoji + susedi u crveno 
       if(document.querySelector(".tBodyTraining").hasChildNodes) {
         
@@ -332,10 +216,11 @@ export class UserHomePageForm {
             let btnID = vremeCell.innerText
               .substring(0,vremeCell.innerText.indexOf(":"));
             let btnZakazi = document.getElementById(+btnID);
-            obojiDivFunc(btnZakazi.parentElement,COLORS.Zelena);
+            let userHelper = new UserHelper();
+            userHelper.ObojiDiv(btnZakazi.parentElement,COLORS.Zelena);
             helper.ShowHideButton(btnZakazi,false);
             //zabrani okolne termine
-            helper.ZabraniSusedneTermine(btnZakazi,gym); 
+            userHelper.ZabraniSusedneTermine(btnZakazi,gym); 
 
 
           }
@@ -345,25 +230,199 @@ export class UserHomePageForm {
       
       
     }
+    //#endregion changePrikazTermina
+
+    //#endregion datumPicker&buttons Events
     
+    //appending
     divDatum.appendChild(dugmePrevious);
     divDatum.appendChild(datumPicker);
     divDatum.appendChild(dugmeNext);
 
     //adding terms
-    await this.AddTermine(kontejner,this.ObojiDiv);
+    await this.AddTermine(kontejner);
+
+    //calling change function for loading this page 
+    change(true,datumPicker,"",this.OsveziPrikazTermina);
+  }
+  //#endregion drawFormFunctions
+
+  //#region AdditionalFunctions
+  AddTableOfTrainings(kontejner) {
+
+    //#region trainingDiv
+    let div = document.createElement("div");
+    div.classList.add("trainingDiv");
+    //#endregion trainingDiv
+
+    //#region trainingParagraph
+    let recenica = document.createElement("p");
+    recenica.classList.add("trainingPar");
+    recenica.innerHTML = "Lista zakazanih treninga";
+    //#endregion trainingParagraph
+
+    //#region tableDiv
+    let tableDiv = document.createElement("div");
+    tableDiv.classList.add("tableDiv");
+    div.appendChild(tableDiv);
+    //#endregion tableDiv
+
+    //#region deleteAllButton
+    let btnObrisiSve = document.createElement("button");
+    btnObrisiSve.classList.add("obrisiSveBtn");
+    btnObrisiSve.innerText = "Obrisi sve";
+    //#endregion deleteAllButton
+
+    //#region trainingTable 
+    let tabela = document.createElement("table");
+    tabela.classList.add("trainingTable");
+    let tableBody = document.createElement("tbody");
+    tableBody.className = "tBodyTraining";
+    tabela.appendChild(tableBody);
+    let tHeader = tabela.createTHead();
+    let headRow = tHeader.insertRow(0);
+    
+    let kolone = ["Datum", "Vreme"];
+    for (let i = 0; i < 3; i++ ) { 
+      //tri kolone, datum, vreme, dugme za brisanje
+        if (i != 2) {
+          let cell = headRow.insertCell(i);
+          cell.innerHTML = kolone[i];
+        }
+        if (i == 2) {
+          let cell = headRow.insertCell(i);
+        }
+      }
+      //#endregion trainingTable
+
+    //#region appending
+      tableDiv.appendChild(tabela);
+      tableDiv.appendChild(btnObrisiSve);
+      div.appendChild(recenica);
+      div.appendChild(tableDiv);
+      kontejner.appendChild(div);
+      //#endregion appending
+
+    //#region btnDeleteAllEvent
+    btnObrisiSve.addEventListener('click', async () => {
+      let result = confirm("Da li ste sigurni da zelite da otkazete sve zakazane treninge?");
+      if(!result) { return; }
+      let api = new ClientPageApi();
+      let helper = new Helpers();
+      if(await api.ObrisiSveTermine(helper.ExtractIDFromCookie("id"))) {
+        //clear list 
+        let tabela = document.querySelector(".tBodyTraining");
+        let redovi = tabela.querySelectorAll("tr");
+        for (let red of redovi) {
+          red.remove();
+        }
+        helper.ShowHideButton(btnObrisiSve,false);
+      }
+      location.reload();
+      return false;
+    });
+    //#endregion btnDeleteAllEvent
+    
+  }
+    
+  async InsertDataFromDB() {
+    //termini iz baze za popunjavanje tabele zakazanih treninga
+    let helper = new Helpers();
+    let api = new ClientPageApi();
+    //#region clearListuTreninga
+    let tabela = document.querySelector(".tBodyTraining");
+    let redovi = tabela.querySelectorAll("tr");
+    for (let red of redovi) {
+      red.remove();
+    }
+    //#endregion clearListuTreninga
+
+    //#region TerminiObrada
+    let termini = await api.GetSveTermine(this.user.id);
+    if (termini == null) {
+      helper.ShowHideButton(document.querySelector(".obrisiSveBtn"),false);
+      return;
+    }
+    if (termini.length == 0) {
+      helper.ShowHideButton(document.querySelector(".obrisiSveBtn"),false);
+      return;
+    }
+    //#region terminiIteration
+
+    for (let i = 0; i < termini.length; i++) {
+      let red = tabela.insertRow(i);
+      let datumVreme = termini[i].datum.split(" ");
+      let indColl = datumVreme[1].indexOf(":", 0); //to je vreme
+      indColl = datumVreme[1].indexOf(":", indColl + 1); // posto je vreme 20:00:00 a meni treba 20:00
+
+      datumVreme[1] = datumVreme[1].slice(0, indColl);
+      //#region rowPopulating
+      for (let j = 0; j < 3; j++) {
+        if (j != 2) {
+          let cell = red.insertCell(j);
+          cell.innerHTML = datumVreme[j];
+          cell.classList.add(`cell-${j}`)
+        } else {
+          let cell = red.insertCell(j);
+          let deleteBtn = document.createElement("button");
+          deleteBtn.className = "deleteTrainingBtn";
+          
+          //#region deleteBtnEvent
+          //adding event for btn 
+          deleteBtn.addEventListener('click',async () => {
+            let result = confirm("Da li ste sigurni da zelite da otkazete trening?");
+            if(!result) return;
+            let api = new ClientPageApi();
+            let parentEl = deleteBtn.parentElement.parentElement;
+            let childs =  parentEl.querySelectorAll("td[class*='cell-']");
+            let datumString;
+            datumString = childs[0].innerText;
+            datumString+= ` ${childs[1].innerText}:00`;
+            let id = helper.ExtractIDFromCookie("id");
+            let gymid = helper.ExtractIDFromCookie("gymID");
+            result = await api.DeleteTermin(new Termin(datumString,id,gymid));
+            if(result) {
+              alert("Trening uspesno otkazan.");
+              this.InsertDataFromDB();
+            }
+            location.reload();
+            return false;
+          })
+          //#endregion delteBtnEvent
+          
+          //#region deleteImage
+          let slika = document.createElement("img");
+          slika.className = "deleteSlika";
+          slika.src = `${this.putanja}deleteIcon.png`; 
+          deleteBtn.appendChild(slika);
+          //#endregion deleteImage
+
+          cell.appendChild(deleteBtn);
+        }
+        //#endregion rowPopulating
+      }
+
+    }
+    //#endregion terminiIteration
+    
+    //#endregion TerminiObrada
+
+    //showing delete button when there are rows
+    helper.ShowHideButton(document.querySelector(".obrisiSveBtn"),true);
   }
 
-  async OsveziPrikazTermina(gym, datum,obojiDivFunc) {
+  async OsveziPrikazTermina(gym, datum) {
     //refreshovanje tabele sa svim terminima
     //datum format yyyy-MM-dd
     //ovde se postavlja boja terminima i prikazuje dugme gde je moguce zakazti
+
     let api = new ClientPageApi();
     let helper = new Helpers();
     let todayDate = new Date();
     let today = helper.DateInString(todayDate);
 
     //sredjivanje promenljivih za datume
+    //#region dateVariables
     let dateParam, dateToday;
     dateParam = new Object();
     dateParam.string = datum;
@@ -379,6 +438,9 @@ export class UserHomePageForm {
     dateParam.godina = +niz[0];
     dateParam.mesec = +niz[1];
     dateParam.dan = +niz[2];
+    //#endregion dateVariables
+
+    //#region getSlobodneTermine
     let slobodniTermini;
     try {
       slobodniTermini = await api.GetSlobodneTermine(gym.gymID, datum);
@@ -386,33 +448,39 @@ export class UserHomePageForm {
       alert(error);
       return;
     }
+    //#endregion getSlobodneTermine
+    
+    //#region obradaTermina
 
+    //#region pastDate
     if (slobodniTermini == null) {
       //datum iz proslosti
-      allInPast(obojiDivFunc);
+      allInPast();
       return;
     }
+    //#endregion pastDate
 
+    //#region postojeSlobodniTermini
     if (slobodniTermini.length == 0) {
       //ili je sve zauzeto danas ili u buducnosti  ili je datum iz proslosti
       //checking if datum iz proslosti
       if (dateParam.godina <= dateToday.godina) {
         if (dateParam.mesec <= dateToday.mesec) {
           if (dateParam.dan < dateToday.dan) {
-            allInPast(obojiDivFunc); //datum iz proslosti, boji sve u sivo
+            allInPast(); //datum iz proslosti, boji sve u sivo
           } else if (dateParam.dan == dateToday.dan) {
             //danasni je dan
             // //sve je zauzeto, jer je slobodniTermini.length == 0
-            danasnjiTermini([], true, gym,obojiDivFunc);
+            danasnjiTermini([], true, gym);
           } else {
             //sve zauzeto za datum iz buducnosti
-            allInFuture([], gym,obojiDivFunc);
+            allInFuture([], gym);
           }
         } else {
-          allInPast(obojiDivFunc);
+          allInPast();
         }
       } else {
-        allInPast(obojiDivFunc);
+        allInPast();
       }
     } else {
       //ima nekih termina danas ili u buducnosti
@@ -420,18 +488,24 @@ export class UserHomePageForm {
       if (dateParam.godina <= dateToday.godina) {
         if (dateParam.mesec <= dateToday.mesec) {
           if (dateParam.dan == dateToday.dan) {
-            danasnjiTermini(slobodniTermini, true, gym, obojiDivFunc);
+            danasnjiTermini(slobodniTermini, true, gym);
           } else {
-            allInFuture(slobodniTermini, gym,obojiDivFunc);
+            allInFuture(slobodniTermini, gym);
           }
         } else {
-          allInFuture(slobodniTermini, gym,obojiDivFunc);
+          allInFuture(slobodniTermini, gym);
         }
       } else {
-        allInFuture(slobodniTermini, gym, obojiDivFunc);
+        allInFuture(slobodniTermini, gym);
       }
     }
-    function allInFuture(termini, gym, obojiDivFunc) {
+    //#endregion postojeSlobodniTermini
+    
+    //#endregion ObradaTermina
+    
+    //#region pomocneFunkcije
+    
+    function allInFuture(termini, gym) {
       //koristi se da oboji sve termine u buducnosti kao zauzete ili slobodne
       let sviTermini = document.getElementsByClassName("terminDiv");
       let radnoVreme = gym.radnoVreme.split("-");
@@ -440,13 +514,14 @@ export class UserHomePageForm {
         //postoje slobodni termini
         for (let terminDiv of sviTermini) {
           //iteriram kroz sve divove
-          freeOrNot(terminDiv, termini, obojiDivFunc);
+          freeOrNot(terminDiv, termini);
           pocetak++;
         }
       } //svi termini  su zauzeti
       else {
         for (let termin of sviTermini) {
-          obojiDivFunc(terminDiv,COLORS.Zuta);
+          let userHelper = new UserHelper();
+          userHelper.ObojiDiv(terminDiv,COLORS.Zuta);
           let helper = new Helpers();
           helper.ShowHideButton(terminterminDiv.querySelector(".zakaziBtn"),false);
 
@@ -455,21 +530,23 @@ export class UserHomePageForm {
       }
     }
 
-    function allInPast(obojiDivFunc) {
+    function allInPast() {
       //koristi se da oznaci sve termine iz proslosti u sivo
       let sviTermini = document.getElementsByClassName("terminDiv");
       for (let termin of sviTermini) {
-        obojiDivFunc(termin,COLORS.Siva);
+        let userHelper = new UserHelper();
+        userHelper.ObojiDiv(termin,COLORS.Siva);
         let helper = new Helpers();
         helper.ShowHideButton(termin.querySelector(".zakaziBtn"),false);
       }
     }
-    function freeOrNot(terminDiv, termini,obojiDivFunc) {
+    function freeOrNot(terminDiv, termini) {
       //provera da li se termin koji sada sledi kroz iteraciju
       //nalazi u ovim slobodnim terminima
 
       //izvlacim sati iz labele
 
+      let userHelper = new UserHelper();
       let helper = new Helpers();
 
       let satiIzLabele = terminDiv
@@ -491,17 +568,20 @@ export class UserHomePageForm {
       }
 
       if (nadjeno) {
-        obojiDivFunc(terminDiv,COLORS.Teget);
+
+        userHelper.ObojiDiv(terminDiv,COLORS.Teget);
         let zakaziDugme = terminDiv.querySelector(".zakaziBtn");
         helper.ShowHideButton(zakaziDugme,true);
       } else {
-        obojiDivFunc(terminDiv,COLORS.Zuta);
+        userHelper.ObojiDiv(terminDiv,COLORS.Zuta);
         helper.ShowHideButton(terminDiv.querySelector(".zakaziBtn"),false);
 
       }
     }
-    function danasnjiTermini(termini, isPresent, gym,obojiDivFunc) {
+    function danasnjiTermini(termini, isPresent, gym) {
       //koristi se da oboji termine za danas
+      let userHelper = new UserHelper();
+
       let sviTermini = document.getElementsByClassName("terminDiv");
       let trSati = new Date().getHours();
       let radnoVreme = gym.radnoVreme.split("-");
@@ -514,14 +594,13 @@ export class UserHomePageForm {
           if (isPresent) {
             if (pocetak <= trSati) {
               //termini u proslosti za taj dan
-              obojiDivFunc(terminDiv,COLORS.Siva);
-              let btn = (terminDiv.querySelector(".zakaziBtn").style.display =
-                "none");
+              userHelper.ObojiDiv(terminDiv,COLORS.Siva);
+              let btn = terminDiv.querySelector(".zakaziBtn").style.display = "none";
             } else {
-              freeOrNot(terminDiv, termini,obojiDivFunc);
+              freeOrNot(terminDiv, termini);
             }
           } else {
-            freeOrNot(terminDiv, termini, obojiDivFunc);
+            freeOrNot(terminDiv, termini);
           }
           pocetak++;
         }
@@ -530,11 +609,11 @@ export class UserHomePageForm {
         for (let termin of sviTermini) {
           if (pocetak <= trSati) {
             //termini u proslosti za taj dan
-            obojiDivFunc(termin,COLORS.Siva);
+            userHelper.ObojiDiv(termin,COLORS.Siva);
             let btn = (termin.querySelector(".zakaziBtn").style.display =
               "none");
           } else {
-            termin.style.backgroundColor = COLORS.Zuta;
+            userHelper.ObojiDiv(termin,COLORS.Zuta);
             let helper = new Helpers();
             helper.ShowHideButton(termin.querySelector(".zakaziBtn"),false)
 
@@ -551,7 +630,9 @@ export class UserHomePageForm {
       satiString = satiString.slice(0, indexCollon + 3);
       return satiString;
     }
+    //#endregion pomocneFunkcije
   }
+  
   async AddTermine(kontejner) {
     /*ovde se prave termini za izabranu teretanu iz cookie-ja (termini su isti
             samo mora da se izmeni da li moze da se zakaze termin i da se menja boja itd*/
@@ -563,7 +644,7 @@ export class UserHomePageForm {
     //teretana
     let gym = await api.GetGym(gymid);
 
-    //div
+    //#region creating SveTermine
     let terminiDiv = document.createElement("div");
     terminiDiv.className = "sviTerminiDiv";
     kontejner.appendChild(terminiDiv);
@@ -571,14 +652,13 @@ export class UserHomePageForm {
     let rv = gym.radnoVreme.split("-");
     let pocetak = rv[0];
     let kraj = rv[1];
-    for (
-      let i = +pocetak;
-      i < +kraj;
-      i++ //creating termin div
-    ) {
+    //#region createTermin In ForLoop
+    for (let i = +pocetak; i < +kraj; i++ ) {
+      //creating termin div
       let oneTerminDiv = document.createElement("div");
       oneTerminDiv.classList.add("terminDiv");
 
+      //#region prikazTermina
       let tmp = i;
       let terminString;
       if (tmp + 1 < 10) {
@@ -591,28 +671,32 @@ export class UserHomePageForm {
       } else {
         terminString = `${i}:00-${++tmp}:00`;
       }
+      //#endregion prikazTermina
 
-      //label for radnoVreme
+      //#region radnoVremeLabel
       let radnoVremeLabela = document.createElement("label");
       radnoVremeLabela.classList.add("slova");
       radnoVremeLabela.classList.add("radnoVremeLbl");
       radnoVremeLabela.innerText = terminString;
       oneTerminDiv.appendChild(radnoVremeLabela);
+      //#endregion radnoVremeLabel
 
-      //zakaziDugme
+      //#region zakaziDugme
       let zakaziBtn = document.createElement("button");
       zakaziBtn.innerText = "Zakazi trening";
       zakaziBtn.classList.add("zakaziBtn");
       zakaziBtn.classList.add("slova");
       zakaziBtn.id = i;
       helper.ShowHideButton(zakaziBtn,false);
-      //adding event za zakazivanje termina
+
+      //#region zakaziDugmeEvent
       zakaziBtn.addEventListener("click", async () => {
         let result = confirm(
           "Da li ste sigurni da zelite da zakazete trening?"
         );
         if (result) {
           let helper = new Helpers();
+          let userHelper = new UserHelper();
           let api = new ClientPageApi();
           let datum, userid, gymid;
           let dtpEl = document.querySelector(".datumPicker");
@@ -632,49 +716,37 @@ export class UserHomePageForm {
             this.InsertDataFromDB();
             let divParent = zakaziBtn.parentElement;
 
+            //change color of that div
+            userHelper.ObojiDiv(divParent,COLORS.Zelena);
             
-
-            divParent.style.backgroundColor = COLORS.Zelena;
-            
-            //promena boja susednim terminima jer nije moguce dva termina za redom 
             //pribavljanje radnoVremena iz baze
             helper.ShowHideButton(divParent.querySelector(".zakaziBtn"),false);
-
+            
             api = new HomePageApi();
             let gym = await api.GetGym(gymid);
-            helper.ZabraniSusedneTermine(zakaziBtn,gym);
             
-
+            //promena boja susednim terminima jer nije moguce dva termina za redom 
+            userHelper.ZabraniSusedneTermine(zakaziBtn,gym);
             
           }
-          //oboji termine
 
-          //call refresh listu zakazanih termina 
         }
       });
+      //#endregion zakaziDugmeEvent
+      
+      //#endregion zakaziDugme
+     
       oneTerminDiv.appendChild(zakaziBtn);
       terminiDiv.appendChild(oneTerminDiv);
     }
+    //#endregion creatingTermin In ForLoop
 
+    //#endregion creating SveTermine
+    
+    //refreshing prikaz svih termina 
     let todayDate = new Date();
     let danas = helper.DateInString(todayDate);
-    await this.OsveziPrikazTermina(gym, danas,this.ObojiDiv);
+    await this.OsveziPrikazTermina(gym, danas);
   }
-
-  ZabraniTermin(indeks) {
-    let restrictDiv = document.getElementById(`${indeks}`).parentElement;
-    if(restrictDiv.style.backgroundColor != COLORS.Siva 
-        && restrictDiv.style.backgroundColor != COLORS.Zuta) {
-      this.ObojiDiv(restrictDiv,COLORS.Crvena);
-      let zakaziBtn = restrictDiv.querySelector(".zakaziBtn");
-      let helper = new Helpers();
-      helper.ShowHideButton(zakaziBtn,false);
-    }
-  }
-
-  
-
-  ObojiDiv(div,boja) {
-    div.style.backgroundColor = boja;
-  }
+  //#endregion AdditionalFunctions
 }

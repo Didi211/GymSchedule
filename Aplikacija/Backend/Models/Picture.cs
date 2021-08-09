@@ -31,11 +31,11 @@ namespace Backend.Models
         [NotMapped]
         public IFormFile ImageFile { get; set; }
 
-        [Column("UserID")]
-        public int? UserID { get; set; }
+        // [Column("UserID")]
+        // public int? UserID { get; set; }
 
-        [JsonIgnore]
-        public virtual User user { get; set; }
+        // [JsonIgnore]
+        // public virtual User user { get; set; }
 
         [Column("GymID")]
         public int? GymID { get; set; }

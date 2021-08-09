@@ -40,7 +40,7 @@ namespace Backend.Models
         [MaxLength(10)]
         public int BrojKartice { get; set; }
 
-        public virtual Picture ProfilnaSlika { get; set; }
+        // public virtual Picture ProfilnaSlika { get; set; }
         
         [Column("GymID")]
         public int? GymID { get; set; }

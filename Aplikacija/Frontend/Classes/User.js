@@ -11,27 +11,31 @@ export class User {
     this.username = username;
     this.password = password;
     this.brojKartice = cardNo;
-    this.imageName = null;
-    this.imageSrc = null;
-    this.imageFile = null;
+    // this.imageName = null;
+    // this.imageSrc = null;
+    // this.imageFile = null;
   }
 
-  setImageFromControls(imgFile) {
-    this.imageFile = imgFile;
-  }
+  // setImageFromControls(imgFile) {
+  //   this.imageFile = imgFile;
+  // }
 
-  SetImageFromDB(imgName, imgSrc) {
-    this.imageName = imgName;
-    this.imageSrc = imgSrc;
-  }
-  Validate() {
+  // SetImageFromDB(imgName, imgSrc) {
+  //   this.imageName = imgName;
+  //   this.imageSrc = imgSrc;
+  // }
+  Validate(regFlag) {
+    debugger
+    
     if (!this.ValidateString(this.ime)) return false;
     if (!this.ValidateString(this.prezime)) return false;
     if (!this.ValidatePol()) return false;
     if (!this.ValidateString(this.gymID.toString())) return false;
-    if (!this.ValidateString(this.username)) return false;
-    if (!this.ValidateString(this.password)) return false;
     if (!this.ValidateBrKartice()) return false;
+    if(regFlag) { 
+      if (!this.ValidateString(this.username)) return false;
+      if (!this.ValidateString(this.password)) return false;
+    }
 
     return true;
   }

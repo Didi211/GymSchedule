@@ -49,6 +49,7 @@ namespace Backend.DTO
         public static User DTO_To_User(DTOUserFront dtoUser)
         {
             var user = new User();
+            user.ID = dtoUser.ID;
             user.Ime = dtoUser.Ime;
             user.Prezime = dtoUser.Prezime;
             user.Username = dtoUser.Username;
@@ -56,7 +57,7 @@ namespace Backend.DTO
             user.BrojKartice = (int)dtoUser.BrojKartice;
             user.GymID = dtoUser.GymID;
             user.Pol = dtoUser.Pol;
-            user.ProfilnaSlika = new Picture(dtoUser.Slika);
+            // user.ProfilnaSlika = new Picture(dtoUser.Slika);
             return user;
         }
         public static Termin DTO_To_Termin(DTOTerminFront dtoTermin)

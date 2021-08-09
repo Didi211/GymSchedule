@@ -15,19 +15,29 @@ export class ClientPageApi {
       data.id,
       data.ime,
       data.prezime,
+      data.pol,
       data.gymID,
       data.username,
       data.password,
       data.brojKartice
     );
+    // user.SetImageFromDB(data.profilnaSlika.imageName,data.profilnaSlika.imageSrc);
     return user;
   }
 
   async GetQuote() {
-    let response = await fetch(`${this.baseUrl}GetQuote`);
-    let data = await response.json();
-    let quote = new Quote(data.content, data.author);
+
+    var quote = await fetch(`${this.baseUrl}GetQuote`).then( async response =>  {
+      var data = await response.json();
+      let quote = new Quote(data.content, data.author);
+      return quote;
+       
+    }).catch(err => console.log(err));
     return quote;
+    // let response = await fetch(`${this.baseUrl}GetQuote`);
+    // let data = await response.json();
+    // let quote = new Quote(data.content, data.author);
+    // return quote;
   }
 
   async GetSveTermine(userID) {
@@ -84,32 +94,40 @@ export class ClientPageApi {
   }
 
   async ZakaziTermin(termin) {
-    try {
-      //sredi fetcheve da mozes da obradis i primis izuzetke sa bekenda
-
-      let response = await fetch(`${this.baseUrl}ZakaziTermin`, {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        method: "POST",
-        body: JSON.stringify(termin),
-      });
-      if (response.status == 204) {
-        return true;
-      } else if (response.status == 400) {
-        let data = await response.json();
-        alert(
-          "Doslo je do problema na klijent strani. Check console for more info."
-        );
-        console.log(data);
-      } else {
-        alert("Doslo je do greske sa serverom");
-        return false;
-      }
-    } catch (ex) {
-      console.error(ex);
-    }
+      var ok;
+      var result = await fetch(`${this.baseUrl}ZakaziTermin`, {
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+            method: "POST",
+            body: JSON.stringify(termin),
+          }).then(response => {
+            switch(response.status) {
+              case 204: {
+                ok = true;
+                break;
+              }
+              case 400 : { 
+                alert("Klijent greska");
+                ok = false;
+                break;
+              }
+              case 403 : {
+                alert("Ne moze vise od dva treninga dnevno.");
+                ok = false;
+                break;
+              }
+              default : { 
+                alert("Greska na serveru");
+                ok = false;
+                break;
+              }
+            }
+            return ok;
+          }).catch(err => console.error(err));
+          console.log(result);
+    return result;
   }
 
   async DeleteTermin(termin) {
@@ -158,4 +176,67 @@ export class ClientPageApi {
     }
 
   }
+
+  async DeleteUser(userID) {
+    let result = await fetch(`${this.baseUrl}DeleteUser/${userID}`, {
+      headers : {
+        Accept : "application/json",
+        "Content-Type" : "application/json"
+      },
+      method : "DELETE"
+    }).then(response => { 
+      let ok;
+      switch(response.status) {
+        case 204 : {
+          ok = true;
+          break;
+        }
+        case 400 : {
+          ok = false;
+          alert("Klijent greska");
+          break;
+        }
+        default : {
+            alert("Server greska");
+            ok = false;
+            break;
+        }
+      }
+      return ok;
+    }).catch(err => console.log(err));
+    return result;
+  }
+
+  async EditProfile(user) { 
+    let result = await fetch(`${this.baseUrl}EditProfil`, {
+      headers : {
+        Accept : "application/json",
+        "Content-Type" : "application/json"
+      },
+      method : "PUT",
+      body : JSON.stringify(user)
+    }
+    ).then(response => {
+      let ok; 
+      switch(response.status) {
+        case 204 : {
+          ok = true;
+          break;
+        }
+        case 400 : {
+          ok = false;
+          alert("Klijent greska");
+          break;
+        }
+        default : {
+            alert("Server greska");
+            ok = false;
+            break;
+        }
+      }
+      return ok;
+    }).catch(err => console.log(err));
+    return result;
+  }
+  
 }

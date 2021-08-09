@@ -67,7 +67,7 @@ namespace Backend.Controllers
                 if(validateString != "OK") 
                     return StatusCode(400, ValidationClass.SpojiString("UserID",validateString));
                 var user = await Provider.GetUser(userID);
-                user.ProfilnaSlika.ImageSrc = GetSrc() + user.ProfilnaSlika.ImageName;
+                // user.ProfilnaSlika.ImageSrc = GetSrc() + user.ProfilnaSlika.ImageName;
                 if(user == null) return StatusCode(400, "Wrong ID");
                 return Ok(user);
             }
@@ -144,6 +144,9 @@ namespace Backend.Controllers
             //yyyy-MM-dd HH:mm:ss
             try
             {
+                
+
+
                 //validation 
                 string validateString = ValidationClass.NumberValidation(noviTermin.UserID);
                 if(validateString != "OK")
@@ -155,6 +158,12 @@ namespace Backend.Controllers
                 //     return StatusCode(400,"Termin nije validan, u proslosti je.");
                 //transforming to entity object
                 var noviTerminEntity = DTOHelper.DTO_To_Termin(noviTermin); 
+                /*prvo da ide provera da li ima prava na rezervaciju*/
+                var result = await Provider.MozeDaZakaze(noviTerminEntity);
+                if(!result) 
+                {
+                    return StatusCode(403,"Nije moguce zakazati vise od dva termina u jednom danu");
+                }
                 //interacting with db 
                 if(!await Provider.ZakaziTermin(noviTerminEntity))
                     return StatusCode(400,"Nema mesta u tom terminu.");
@@ -269,13 +278,23 @@ namespace Backend.Controllers
         [HttpDelete]
         public  async Task<IActionResult> DeleteUser([FromRoute] int userID)
         {
-            string validateString = ValidationClass.NumberValidation(userID);
+            try
+            {
+                string validateString = ValidationClass.NumberValidation(userID);
                 if(validateString != "OK")
                     return StatusCode(400, ValidationClass.SpojiString("UserID",validateString));
 
-            if(!await Provider.DeleteUser(userID))
-                return StatusCode(400,"Wrong userID");
-            return StatusCode(204);
+                if(!await Provider.DeleteUser(userID))
+                    return StatusCode(400,"Wrong userID");
+                return StatusCode(204);
+            }
+            catch (Exception ex )
+            {
+                if(ex.InnerException != null)
+                    return StatusCode(500,ex.InnerException.Message);
+                return StatusCode(500,ex.Message);
+            }
+           
         }
 
         #endregion Delete

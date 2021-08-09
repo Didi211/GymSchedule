@@ -31,6 +31,7 @@ export class Headers {
     //link for logo
     let hyperlink = document.createElement("a");
     hyperlink.classList.add("logoLink");
+    // hyperlink.style.display = "none"; 
 
     //logo
     let logo = document.createElement("img");

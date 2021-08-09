@@ -73,15 +73,13 @@ namespace Backend.DB
         }
         public async Task<User> GetUser(int userID)
         {
-            var user = await Context.Users.Include(u => u.ProfilnaSlika)
-                .Where(u => u.ID == userID).FirstOrDefaultAsync();
+            var user = await Context.Users.Where(u => u.ID == userID).FirstOrDefaultAsync();
             return user;
             
         }
         public async Task<User> GetUser(string username)
         {
-            var user = await Context.Users.Include(u => u.ProfilnaSlika)
-                .Where(u => u.Username == username).FirstOrDefaultAsync();
+            var user = await Context.Users.Where(u => u.Username == username).FirstOrDefaultAsync();
             return user;
             
         }
@@ -174,6 +172,25 @@ namespace Backend.DB
             return slobodniTermini; 
 
         }
+
+        public async Task<bool> MozeDaZakaze(Termin termin)
+        {
+            int userid = termin.UserID;
+            int gymid = termin.GymID;
+            var termini = await Context.Termini.Where(t => t.UserID == userid && t.GymID == gymid).ToListAsync();
+            var datumTermina = termin.Datum.Split(' ');
+            var count = 0;
+            foreach(Termin t in termini)
+            {
+                var datum = t.Datum.Split(' ');
+                if(datum[0] == datumTermina[0])
+                    count++ ;
+                
+            }
+            if(count >= 2) return false;
+            return true;
+
+        }
         public async Task<bool> ZakaziTermin(Termin noviTermin)
         {
             
@@ -208,11 +225,11 @@ namespace Backend.DB
                 return false;
             
             //ubacivanje ili menjanje profilne slike 
-            if(user.ProfilnaSlika.ImageFile != null)
-            {
-                DelteImage(user.ProfilnaSlika.ImageName); //brise sliku iz fajl sistema
-                user.ProfilnaSlika.ImageName = await SaveImage(user.ProfilnaSlika.ImageFile); //u useru i dalje imam novu sliku 
-            }
+            // if(user.ProfilnaSlika.ImageFile != null)
+            // {
+            //     DeleteImage(user.ProfilnaSlika.ImageName); //brise sliku iz fajl sistema
+            //     user.ProfilnaSlika.ImageName = await SaveImage(user.ProfilnaSlika.ImageFile); //u useru i dalje imam novu sliku 
+            // }
 
             userDB.Ime = user.Ime;
             userDB.Prezime = user.Prezime;
@@ -221,7 +238,7 @@ namespace Backend.DB
             userDB.GymID = user.GymID;
 
             Context.Users.Update(userDB);
-            Context.Pictures.Update(userDB.ProfilnaSlika);
+            // Context.Pictures.Update(userDB.ProfilnaSlika);
 
             await Context.SaveChangesAsync();
 
@@ -230,10 +247,13 @@ namespace Backend.DB
 
         public async Task<bool> DeleteUser(int userID)
         {
-            var user = await Context.Users.FindAsync(userID);
+            
+            
+            var user = await Context.Users.Where(u => u.ID == userID).FirstOrDefaultAsync();
             if(user == null) 
                 return false;
-            DelteImage(user.ProfilnaSlika.ImageName);
+            // if(user.ProfilnaSlika.ImageName != null )   
+            //     DeleteImage(user.ProfilnaSlika.ImageName);
 
             // Context.Pictures.Remove(user.ProfilnaSlika);
             Context.Users.Remove(user); //trigeruje ova linija da se i slika obrise 
@@ -242,27 +262,29 @@ namespace Backend.DB
 
             return true;
 
+            
+            
         }
 
-        public async Task<string> SaveImage(IFormFile imageFile)
-        {
-            string imageName = new String(Path.GetFileNameWithoutExtension(imageFile.FileName).Take(10).ToArray()).Replace(' ', '-');
-            imageName = imageName + DateTime.Now.ToString("yymmssfff") + Path.GetExtension(imageFile.FileName);
-            var imagePath = Path.Combine(HostEnvironment.ContentRootPath, "Images", imageName);
-            using (var fileStream = new FileStream(imagePath, FileMode.Create))
-            {
-                await imageFile.CopyToAsync(fileStream);
-            }
-            return imageName;
+        // public async Task<string> SaveImage(IFormFile imageFile)
+        // {
+        //     string imageName = new String(Path.GetFileNameWithoutExtension(imageFile.FileName).Take(10).ToArray()).Replace(' ', '-');
+        //     imageName = imageName + DateTime.Now.ToString("yymmssfff") + Path.GetExtension(imageFile.FileName);
+        //     var imagePath = Path.Combine(HostEnvironment.ContentRootPath, "Images", imageName);
+        //     using (var fileStream = new FileStream(imagePath, FileMode.Create))
+        //     {
+        //         await imageFile.CopyToAsync(fileStream);
+        //     }
+        //     return imageName;
 
-        }
+        // }
        
-       public void DelteImage(string imageName)
-        {
-            var imagePath = Path.Combine(HostEnvironment.ContentRootPath, "Images", imageName);
-            if (System.IO.File.Exists(imagePath))
-                System.IO.File.Delete(imagePath);
-        }
+//    public void DeleteImage(string imageName)
+//     {
+//         var imagePath = Path.Combine(HostEnvironment.ContentRootPath, "Images", imageName);
+//         if (System.IO.File.Exists(imagePath))
+//             System.IO.File.Delete(imagePath);
+//     }
     }
 
 }

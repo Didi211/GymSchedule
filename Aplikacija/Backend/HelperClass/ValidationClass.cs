@@ -7,10 +7,8 @@ namespace Backend.Helpers
     {
         public static string UserEditProfileValidation(DTOUserFront user)
         {
-            var validateString = StringValidation(user.Username,true);
-            if(validateString != "OK") return SpojiString("Username",validateString);
             
-            validateString = StringValidation(user.Ime,false);
+            var validateString = StringValidation(user.Ime,false);
             if(validateString != "OK") return SpojiString("Ime",validateString);
 
             validateString = StringValidation(user.Prezime,false);
