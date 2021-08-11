@@ -25,7 +25,6 @@ export class User {
   //   this.imageSrc = imgSrc;
   // }
   Validate(regFlag) {
-    debugger
     
     if (!this.ValidateString(this.ime)) return false;
     if (!this.ValidateString(this.prezime)) return false;

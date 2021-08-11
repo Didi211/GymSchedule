@@ -71,17 +71,14 @@ export class Headers {
 
     let prvaCelija = document.querySelector(".prvaCelija");
 
-    //hyperlink
-    let hyperlink = document.createElement("a");
-    hyperlink.classList.add("backArrowLink");
+    
 
     //kreira se dugme za nazad
     let backArrowBtn = document.createElement("img");
     backArrowBtn.src = this.putanja + "backarrowbutton.png";
     backArrowBtn.classList.add("backArrowBtn");
 
-    prvaCelija.appendChild(hyperlink);
-    hyperlink.appendChild(backArrowBtn);
+    prvaCelija.appendChild(backArrowBtn);
   }
 
   createLogOutButton() {
@@ -89,9 +86,7 @@ export class Headers {
 
     let trecaCelija = document.querySelector(".trecaCelija");
 
-    //hyperlink
-    let hyperlink = document.createElement("a");
-    hyperlink.classList.add("logOutLink");
+    
 
     //kreira se logout dugme
     let logOutBtn = document.createElement("img");
@@ -110,8 +105,7 @@ export class Headers {
       setCookie("gymID", "");
     };
 
-    hyperlink.appendChild(logOutBtn);
-    trecaCelija.appendChild(hyperlink);
+    trecaCelija.appendChild(logOutBtn);
   }
 
   createProfileButton() {
@@ -119,26 +113,26 @@ export class Headers {
 
     let prvaCelija = document.querySelector(".prvaCelija");
 
-    //hyperlink
-    let hyperlink = document.createElement("a");
-    hyperlink.classList.add("profileIconLink");
-
+    
     let profileBtn = document.createElement("img");
     profileBtn.src = this.putanja + "profile.jpg";
     profileBtn.classList.add("profileBtn");
 
-    hyperlink.appendChild(profileBtn);
-    prvaCelija.appendChild(hyperlink);
+    prvaCelija.appendChild(profileBtn);
   }
 
   addGoBackUrl(url) {
-    let backArrow = document.querySelector(".backArrowLink");
-    backArrow.href = url;
+    let backArrow = document.querySelector(".backArrowBtn");
+    backArrow.addEventListener('click',function() {
+      location = url;
+    })
   }
 
   addLogOutUrl(url) {
-    let logOut = document.querySelector(".logOutLink");
-    logOut.href = url;
+    let logOut = document.querySelector(".logOutBtn");
+    logOut.addEventListener('click', function() {
+      location = url;
+    })
   }
 
   addLogoUrl(url) {
@@ -149,7 +143,10 @@ export class Headers {
   }
 
   addProfileIconUrl(url) {
-    let profileIcon = document.querySelector(".profileIconLink");
-    profileIcon.href = url;
+    let profileIcon = document.querySelector(".profileBtn");
+    profileIcon.addEventListener('click',function() 
+    {
+      location = url;
+    })
   }
 }

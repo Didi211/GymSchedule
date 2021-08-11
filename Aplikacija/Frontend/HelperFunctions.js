@@ -23,6 +23,7 @@ export class Helpers {
     gymList.classList.add("gymListSelect");
     gymList.classList.add("slova-smaller");
     gymList.classList.add("regEditInputs");
+    gymList.classList.add("regInput");
 
     //calling api for all gyms
     let gyms = await this.HomePageApi.GetAllGyms();
@@ -31,7 +32,6 @@ export class Helpers {
     let option = document.createElement("option");
     option.value = "";
     option.innerText = "Izaberi teretanu..";
-    option.classList.add("slova-smaller");
     gymList.appendChild(option);
 
     //actual gym options
@@ -39,7 +39,6 @@ export class Helpers {
       let option = document.createElement("option");
       option.value = gyms[i].gymID;
       option.innerText = gyms[i].naziv;
-      option.classList.add("slova-smaller");
       gymList.appendChild(option);
     }
     gymList.addEventListener("change", async () => {
@@ -55,15 +54,17 @@ export class Helpers {
 
     //label
     let label = document.createElement("label");
-    label.classList.add("slova");
+    label.classList.add("slova-smaller");
     label.innerHTML = specificInput + ":";
 
     //input
     let input = document.createElement("input");
     input.type = type;
     input.min = 1;
-    input.classList.add("slova");
+    input.classList.add("slova-smaller");
     input.classList.add("regEditInputs");
+    input.classList.add("regInput");
+
 
     //appending
 
@@ -72,31 +73,42 @@ export class Helpers {
   }
   CreateLabel(value, className, kontejner) { 
     let label = document.createElement("label");
-    label.classList.add("slova");
+    label.classList.add("slova-smaller");
     label.classList.add(className);
 
     label.innerHTML = value;
     kontejner.appendChild(label);
   }
   CreateRadioButton(kontejner) {
+    // let radioDiv = document.createElement("div");
+    // radioDiv.classList.add("radioDiv");
+
+    let label = document.createElement("label");
+    label.innerHTML = "Pol:";
+    label.classList.add("polLabel");
+    label.classList.add("slova-smaller")
+    kontejner.appendChild(label);
+    // kontejner.appendChild(radioDiv);
     // //label, M F POL
-    let labelNames = ["Pol:", "M", "F"];
-    for (let i = 0; i < 3; i++) {
-      let label = document.createElement("label");
-      label.classList.add("slova");
+    let labelNames = ["M", "F"];
+    for (let i = 0; i < 2; i++) {
+      let div = document.createElement("div");
+      div.classList.add("oneRadioBtn");
+      //radioDiv
+      kontejner.appendChild(div);
+      label = document.createElement("label");
+      label.classList.add("slova-smaller");
+      label.classList.add("polLabelValue")
       label.innerHTML = labelNames[i];
 
-      kontejner.appendChild(label);
+      div.appendChild(label);
       //radio buttons
-      if (i !== 0) {
-        // 0 for sex label, 1 and 2 for M and F
-        let rbtn = document.createElement("input");
-        rbtn.type = "radio";
-        rbtn.name = "polRadio";
-        rbtn.classList.add("polRadioBtn");
-        rbtn.classList.add("regEditInputs");
-        kontejner.appendChild(rbtn);
-      }
+      let rbtn = document.createElement("input");
+      rbtn.type = "radio";
+      rbtn.name = "polRadio";
+      rbtn.classList.add("polRadioBtn");
+      rbtn.classList.add("regEditInputs");
+      div.appendChild(rbtn);
     }
   }
 
@@ -104,7 +116,7 @@ export class Helpers {
     // //button
     let btn = document.createElement("button");
     btn.classList.add("regLogBtn");
-    btn.classList.add("slova");
+    btn.classList.add("slova-smaller");
     btn.innerHTML = innerWord;
     kontejner.appendChild(btn);
 

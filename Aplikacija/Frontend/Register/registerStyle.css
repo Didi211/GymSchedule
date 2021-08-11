@@ -1,0 +1,178 @@
+
+/*placeholder for username and password*/
+::placeholder 
+{
+    color: rgb(54, 92, 149);
+    background-color: rgb(255, 255, 255);
+}
+/* #region MainWindow*/ 
+.slova-bigger
+{
+    font-size: 2em;
+    font-family: Raleway;
+}
+/*smaller letters*/
+.slova-smaller
+{
+    font-size: 1.5em;
+    font-family: Raleway;
+
+}
+/*haveBorder*/
+.haveBorder 
+{
+    border: 2px solid rgb(54, 92, 149);
+    border-radius: 3vw;
+    margin: 2px;
+}
+/*mainWindow*/
+.mainWindow
+{
+    display: flex;
+    justify-content: center;
+}
+.container
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 0.5vh;
+    margin-left: 10%;
+    margin-right: 10%;
+    padding-left: 10%;
+    padding-right: 10%;
+    
+}
+/*regDivs*/
+.regDiv
+{
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    /* margin-top: 0.5vh; */
+    margin-bottom: 0.5vh;
+    align-items: center;
+
+}
+/*radioValues div inside regDivs for radiobtns*/
+.radioDiv
+{
+    display: flex;
+    justify-content: space-between;
+}
+/*regEditInputs*/
+.regInput
+{
+    width: 50%;
+    border-width: thin;
+    padding: 5px;
+    border-radius: 3vw;
+    outline: none;
+    border-color: black;
+    height: 2vw;
+    /* width: 15vw; */
+    font-size: 1.8vw;
+    font-family: Raleway;
+}
+/*gym select general*/
+.gymListSelect
+{
+    transition: 0.2s;
+    border-radius: 3vw;
+    outline: none;      
+    height: auto;
+    width: 50%;
+    /* align-self: flex-end; */
+    /* padding: 5px; */
+    color: white;
+    background-color: rgb(54, 92, 149);
+    font-size: 1.5vw;
+    text-overflow: ellipsis;
+}
+/*hovering*/
+.gymListSelect:hover, .regLogBtn:hover
+{
+    cursor: pointer;
+    background-color: rgb(3, 37, 83);
+}
+/*regLogBtn*/
+.regLogBtn 
+{
+    display: flex;
+    flex-wrap: nowrap;
+    /* font-size: 1.5em; */
+    transition: 0.2s;
+    padding: 1vw;
+    height: 4vw;
+    width: 15vw;
+    border-radius: 3vw;
+    border: none;
+    color: white;
+    margin-bottom: 0.5vh;
+    margin-top: 3vh;
+    background-color: rgb(54, 92, 149);
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+}
+.regBtnDiv
+{
+    display: flex;
+    justify-content: center;
+}
+.oneRadioBtn
+{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 0.5vh;
+
+}
+
+/*media query*/
+@media  screen and (max-width: 615px)  {
+    html
+    {
+        min-width: 280px;
+    }
+    .slova-smaller
+    {
+        font-size: 0.8rem;
+    }
+    .slova-bigger
+    {
+        font-size: 1em;
+    }
+    .regLogBtn
+    {
+        transition: 0.2s;
+        padding: 1vw;
+        height: 5vh;
+        width: 20vw;
+        margin-bottom: 0.5vh;
+        margin-top: 3vh;
+    }
+    .regInput
+    {
+        height: 1vh;
+    }
+    .gymListSelect
+    {
+        width: 55%;
+        height: 100%;
+        font-size: 0.5em;
+    }
+    .polRadioBtn
+    {
+        width: 0.5rem;
+        height: 0.5rem;
+    }
+}
+@media screen and (max-width: 800px) {
+    .regLogBtn
+    {
+        font-size: 1em;
+    }
+    
+}
+

@@ -5,7 +5,9 @@ import { HomePageApi } from "../Api/HomePageApi.js";
 export class RegisterForm {
   constructor() {
     this.kontejner = document.createElement("div");
+    this.kontejner.classList.add("container");
     let mainWindow = document.querySelector(".mainWindow");
+    mainWindow.classList.add("haveBorder");
     mainWindow.appendChild(this.kontejner);
     this.helper = new Helpers();
   }
@@ -45,7 +47,7 @@ export class RegisterForm {
 
     //label
     let label = document.createElement("label");
-    label.classList.add("slova");
+    label.classList.add("slova-smaller");
     label.innerHTML = "Teretana:";
     div.appendChild(label);
 
@@ -70,9 +72,9 @@ export class RegisterForm {
   CreateRegisterButton() {
     //div
     let div = document.createElement("div");
-    div.classList.add("regDiv");
+    div.classList.add("regBtnDiv");
 
-    this.helper.CreateButton("Registruj se", div, this.RegisterFunc);
+    this.helper.CreateButton("Register", div, this.RegisterFunc);
 
     //appending
     // div.appendChild(regBtn);
@@ -85,6 +87,8 @@ export class RegisterForm {
     let usr = helper.UserFromControls();
     if (!usr.Validate(true)) {
       alert("Validation failed.");
+      location.reload();
+      return false;
     } else {
       //calling api
       let api = new HomePageApi();

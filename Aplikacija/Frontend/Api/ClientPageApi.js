@@ -115,7 +115,6 @@ export class ClientPageApi {
               }
               case 403 : {
                 // alert("Ne moze vise od dva treninga dnevno.");
-                debugger
                 alert (await response.text());
                 ok = false;
                 break;

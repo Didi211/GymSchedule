@@ -18,7 +18,7 @@ header
 {
     background-color: #365C95;
     /* max-height: 12vh; */
-    height: 12vh;
+    height: 18vh;
     /* min-height: 12vh; */
     width: 100%;
     margin-right: 0%;
@@ -71,20 +71,21 @@ td
 {
     /* max-height: 11vh; */
     /* min-height: 11vh; */
-    height: 11vh;
+    height: 15vh;
 
     margin: 0%;
 
 }
-.logo:hover { 
+.logo:hover, .backArrowBtn:hover { 
     cursor: pointer;
 }
  
 /*dugmici podesavanja*/
 .backArrowBtn, .logOutBtn, .profileBtn
 {
-    max-height: 50px;
-    min-height: 50px;
+    
+    height: 8vh;
+    
     margin-left: 5%;
     margin-right: 5%;
 }
@@ -92,7 +93,22 @@ td
 
 /*media query */
 @media only screen and (max-width: 600px) {
-
+    .blueDiv
+    {
+        height: 12vh;
+    }
+    .logo
+    {
+        height: 11vh;
+    }
+    .backArrowBtn, .logOutBtn, .profileBtn
+{
+    
+    height: 5vh;
+    
+    margin-left: 5%;
+    margin-right: 5%;
+}
 }
 
 

@@ -176,7 +176,6 @@ export class ProfileForm {
     //       profilnaSlika.alt = fileList[0].name;
     //       console.log(thisObj);
     //       thisObj.user.imageFile = fileList[0];
-    //       debugger
     //     }
     //     reader.readAsDataURL(fileList[0]);
     //   }
@@ -231,7 +230,6 @@ export class ProfileForm {
       } else { 
         this.updated = false;
       }
-      debugger
       
     });
     btn.style.display = "none";
@@ -270,7 +268,6 @@ export class ProfileForm {
       }
        
       // let formData = new FormData();
-      // debugger
       // formData.append('profilePicture',this.user.imageFile);
       // this.user.imageFile = formData;
       return usr;
