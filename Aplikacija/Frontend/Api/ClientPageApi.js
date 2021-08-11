@@ -102,7 +102,7 @@ export class ClientPageApi {
             },
             method: "POST",
             body: JSON.stringify(termin),
-          }).then(response => {
+          }).then(async response => {
             switch(response.status) {
               case 204: {
                 ok = true;
@@ -114,7 +114,9 @@ export class ClientPageApi {
                 break;
               }
               case 403 : {
-                alert("Ne moze vise od dva treninga dnevno.");
+                // alert("Ne moze vise od dva treninga dnevno.");
+                debugger
+                alert (await response.text());
                 ok = false;
                 break;
               }

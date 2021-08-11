@@ -5,6 +5,7 @@ export class LoginForm {
   constructor() {
     this.kontejner = document.createElement("div");
     this.kontejner.classList.add("loginDiv");
+    this.kontejner.classList.add("haveBorder");
 
     let mainWindow = document.querySelector(".mainWindow");
     mainWindow.appendChild(this.kontejner);
@@ -28,7 +29,7 @@ export class LoginForm {
 
     //paragraph
     let loginHeader = document.createElement("p");
-    loginHeader.classList.add("slova");
+    loginHeader.classList.add("slova-bigger");
     loginHeader.classList.add("loginHeading");
     loginHeader.innerText = "Login";
 
@@ -86,6 +87,7 @@ export class LoginForm {
     //button
     let loginBtn = document.createElement("button");
     loginBtn.classList.add("loginBtn");
+    loginBtn.classList.add("slova-smaller");
     loginBtn.innerHTML = "Login";
 
     //hyperlink --ovo prvo treba da se proveri jel su tacni podaci pa tek onda da se zove
@@ -149,6 +151,8 @@ export class LoginForm {
     //paragraph
     let registrationParagraph = document.createElement("p");
     registrationParagraph.classList.add("regParag");
+    registrationParagraph.classList.add("slova-smaller");
+
     registrationParagraph.innerHTML = "Nemate nalog?\nNapravite ga ";
 
     //link to reg page

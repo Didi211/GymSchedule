@@ -29,20 +29,22 @@ export class Headers {
     blueDiv.appendChild(tabela);
 
     //link for logo
-    let hyperlink = document.createElement("a");
-    hyperlink.classList.add("logoLink");
+    // let hyperlink = document.createElement("a");
+    // hyperlink.classList.add("logoLink");
     // hyperlink.style.display = "none"; 
 
     //logo
     let logo = document.createElement("img");
     logo.classList.add("logo");
     logo.src = this.putanja + "logoWithName.png";
+    
 
     //appending to DOM
 
     // red.headers[1].appendChild(logo);
-    hyperlink.appendChild(logo);
-    red.cells[1].appendChild(hyperlink);
+    // hyperlink.appendChild(logo);
+    red.cells[1].appendChild(logo);
+    // red.cells[1].appendChild(hyperlink);
     header.appendChild(blueDiv);
     body.appendChild(header);
   }
@@ -140,8 +142,10 @@ export class Headers {
   }
 
   addLogoUrl(url) {
-    let logo = document.querySelector(".logoLink");
-    logo.href = url;
+    let logo = document.querySelector(".logo");
+    logo.addEventListener('click', function() { 
+      location = url;
+    });
   }
 
   addProfileIconUrl(url) {

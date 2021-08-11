@@ -21,7 +21,7 @@ export class Helpers {
     //creating drop-down list
     let gymList = document.createElement("select");
     gymList.classList.add("gymListSelect");
-    gymList.classList.add("slova");
+    gymList.classList.add("slova-smaller");
     gymList.classList.add("regEditInputs");
 
     //calling api for all gyms
@@ -31,7 +31,7 @@ export class Helpers {
     let option = document.createElement("option");
     option.value = "";
     option.innerText = "Izaberi teretanu..";
-    option.classList.add("slova");
+    option.classList.add("slova-smaller");
     gymList.appendChild(option);
 
     //actual gym options
@@ -39,7 +39,7 @@ export class Helpers {
       let option = document.createElement("option");
       option.value = gyms[i].gymID;
       option.innerText = gyms[i].naziv;
-      option.classList.add("slova");
+      option.classList.add("slova-smaller");
       gymList.appendChild(option);
     }
     gymList.addEventListener("change", async () => {

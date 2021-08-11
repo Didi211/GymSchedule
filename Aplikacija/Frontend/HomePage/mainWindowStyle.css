@@ -1,36 +1,98 @@
-/*#region MainWindow*/
-.slova
+
+/*placeholder for username and password*/
+::placeholder 
 {
-    font-family: Poor Richard;
+    color: rgb(54, 92, 149);
+    background-color: rgb(255, 255, 255);
 }
+/*inputs for username and password*/
+input
+{
+    border-width: thin;
+    padding: 5px;
+    border-radius: 3vw;
+    outline: none;
+    border-color: black;
+    height: 2vw;
+    width: 15vw;
+    font-size: 1.8vw;
+    font-family: Raleway
+    
+}
+
+/*hr*/
+hr
+{
+    color:rgb(54, 92, 149);
+    width: 95%;
+    border-radius: 2px;
+}
+
+/* #region MainWindow*/ 
+.slova-bigger
+{
+    font-size: 3vw;
+    font-family: Raleway;
+}
+/*smaller letters*/
+.slova-smaller
+{
+    font-size: 2vw;
+    font-family: Raleway;
+
+}
+/*border around divs*/
+.haveBorder 
+{
+    border: 2px solid rgb(54, 92, 149);
+    border-radius: 3vw;
+    margin: 2px;
+}
+
+/*mainWindow*/
 .mainWindow
 {
     display: flex;
     flex-direction: row;
-    border: 1px solid black;
+    /* width: 100%; */
+    position: relative;
 }
+/*welcome paragraphs*/
+.shiftLeft
+{
+    padding-left: 15px;
+    padding-top: 3p;
+}
+
+/*general settings for leftDiv and loginDiv*/
 .leftDiv, .loginDiv
 {
     display: flex;
-    border: 1px solid black;
-
-}
-
-.loginDiv
-{
     flex-direction: column;
+    width: 100%;
+}
+/*loginDiv child positioning */
+.loginDiv 
+{
+    margin-left: 0%;
+    align-items: center;
+    
+}
+.loginDiv > * , .formLogin > *
+{
+    margin-bottom: 1vw;   
 }
 
+/*general for these divs*/
 .headingDiv, .chooseGymDiv, .gymPicDiv
 {
     display: flex;
-    border: 1px solid black;
-}
-.gymPicDiv
-{
-    
     flex-direction: column;
+    margin-bottom: 10px;
+
 }
+
+/*centering elements*/
 .picturesDiv, .webSajtDiv
 {
     display: flex;
@@ -42,11 +104,7 @@
     display: flex;
     flex-direction: row;
 }
-.leftDiv    
-{
-    flex-direction: column;
-    width: 60%;
-}
+
 
 .headingDiv
 {
@@ -54,40 +112,82 @@
     flex-direction: column;
 }
 
-h2, .gymParagraph
+p, .gymParagraph
 {
     margin: 0%;
     padding-top: 1%;
     width: 100%;
     font-weight: normal;
-    font-size: 2rem;
 }
 
 .gymParagraph
 {
     /*reduce the width of a paragraph*/
     width: 45%;
-    font-size: x-large;
     
 }
-
+/*gym select general*/
 .gymListSelect
 {
-    /*resize element, enlarge it*/
-    font: inherit;
-    margin-left: 2%;
-    margin-right: 2%;
-    font-size: larger;
+    transition: 0.2s;
+    border-radius: 15px;
+    outline: none;      
+    margin-left: 3vw;
+    height: 100%;
+    align-self: flex-end;
+    padding: 0.2em;
+    color: white;
+    background-color: rgb(54, 92, 149);
+    /* font-size: 100%; */
+    font-size: 1.5vw;
 }
 
-option
+/*paragraphs inside headingDiv*/
+.headingDiv p, .workingHourPar
 {
-    font-size: larger;
+    width: 90%;
 }
+
 .gymPic
 {
-    width: 70%;
-    height: auto;
+    width: 100%;
+    height:fit-content;
+    border-style : double;
+    border-width: 0.5vw;
+    border-color:  rgb(54, 92, 149);
+    border-radius: 3vw;
+}
+/*buttons for changing picture*/
+.btnDiv
+{
+    display: flex;
+    align-self: center;
+    margin-left: 2vw;
+    margin-right: 2vw;
+    align-items: center;
+}
+.btnForPic
+{
+    transition: 0.2s;
+    display: flex;
+    border-radius: 50%;
+    color: white;
+    background-color: rgb(54, 92, 149);
+    border: none;
+    font-size: 2vw;
+    padding: 2vw;
+    height: 2vw;
+    width: 2vw;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    align-content: center;
+    flex-direction: row;
+}
+.btnForPic:hover, .loginBtn:hover, .gymListSelect:hover
+{
+    cursor: pointer;
+    background-color: rgb(3, 37, 83);
 }
 .imageDiv
 {
@@ -99,4 +199,68 @@ option
     flex-grow: 1;
 }
 
-/*#endregion MainWindow*/
+/*loginBtn*/
+.loginBtn 
+{
+    transition: 0.2s;
+    height: 3vw;
+    width: 10vw;
+    border-radius: 3vw;
+    border: none;
+    color: white;
+    background-color: rgb(54, 92, 149);
+}
+
+
+/*media screen less than 600 px*/
+@media only screen and (max-width: 600px) {
+    .mainWindow 
+    {
+        display: flex;
+        flex-direction: column;
+        /* width: 100%; */
+        position: relative;
+    }
+        .slova-bigger
+    {
+        font-size: 5vw;
+        font-family: Raleway;
+    }
+    /*smaller letters*/ 
+    .slova-smaller
+    {
+        font-size: 4vw;
+        font-family: Raleway;
+
+    }
+    .leftDiv, .loginDiv {
+        width: 99%;
+        margin: 2px auto;
+    }
+    input 
+    {
+        width: 20vw;
+        height: 3vw;
+        font-size: 3vw;
+    }
+    .loginDiv > *
+    {
+        margin-bottom: 3vw;   
+    }
+    .gymPic
+    {
+        width: 80%;
+    }
+    .btnForPic
+    {
+        padding: 4vw;
+        font-size: 4vw;
+    }
+    .loginBtn
+    {
+        width: 15vh;
+        height: 5vh;
+        font-size: 3vh;
+        align-items: center;
+    }
+}

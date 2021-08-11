@@ -1,9 +1,12 @@
 import { Helpers } from "../HelperFunctions.js";
 import { HomePageApi } from "../Api/HomePageApi.js";
+import { COLORS } from "../boje.js";
 export class GymForm {
   constructor() {
     this.kontejner = document.createElement("div");
     this.kontejner.classList.add("leftDiv");
+    this.kontejner.classList.add("haveBorder");
+
 
     let mainWindow = document.querySelector(".mainWindow");
     mainWindow.appendChild(this.kontejner);
@@ -27,27 +30,33 @@ export class GymForm {
 
     let headingDiv = document.querySelector(".headingDiv");
 
-    let partOfHeading = document.createElement("h2");
-    partOfHeading.classList.add("slova");
+    let partOfHeading = document.createElement("p");
+    partOfHeading.classList.add("slova-bigger");
+    partOfHeading.classList.add("shiftLeft")
     partOfHeading.innerText = prvaRecenica;
     headingDiv.appendChild(partOfHeading);
 
-    partOfHeading = document.createElement("h2");
-    partOfHeading.classList.add("slova");
+    partOfHeading = document.createElement("p");
+    partOfHeading.classList.add("slova-bigger");
+    partOfHeading.classList.add("shiftLeft")
     partOfHeading.innerText = drugaRecenica;
     headingDiv.appendChild(partOfHeading);
 
-    partOfHeading = document.createElement("h2");
-    partOfHeading.classList.add("slova");
+    partOfHeading = document.createElement("p");
+    partOfHeading.classList.add("slova-bigger");
+    partOfHeading.classList.add("shiftLeft")
     partOfHeading.innerText = trecaRecenica;
     headingDiv.appendChild(partOfHeading);
+
+    this.CreateHr(headingDiv);
   }
 
   CreateGymText(kontejner) {
     //first creating text
     let paragraph = document.createElement("p");
     paragraph.classList.add("gymParagraph");
-    paragraph.classList.add("slova");
+    paragraph.classList.add("slova-smaller");
+    paragraph.classList.add("shiftLeft");
     paragraph.textContent = "Teretane u kojima mozete da trenirate: ";
 
     let chooseGymDiv = document.querySelector(".chooseGymDiv");
@@ -103,7 +112,7 @@ export class GymForm {
         } else {
           button.addEventListener("click", getNextPic);
         }
-        button.style.display = "inline-block";
+        button.style.display = "flex";
       });
 
       //adding link
@@ -121,6 +130,8 @@ export class GymForm {
     divNext = document.createElement("div");
     divImg = document.createElement("div");
 
+    divPrev.classList.add("btnDiv");
+    divNext.classList.add("btnDiv");
     divImg.classList.add("imageDiv");
 
     //creting buttons and image elements
@@ -164,7 +175,8 @@ export class GymForm {
     //adding label with working hours
     let workingHoursPar = document.createElement("p");
     workingHoursPar.classList.add("workingHourPar");
-    workingHoursPar.classList.add("slova");
+    workingHoursPar.classList.add("slova-smaller");
+    workingHoursPar.classList.add("shiftLeft");
     workingHoursPar.innerHTML = `Radno vreme teretane: 6-22h`; //ovde ide chosenGym.RadnoVreme
 
     //hiding control at the beginning
@@ -179,7 +191,8 @@ export class GymForm {
 
     let label = document.createElement("label");
     label.classList.add("webSajtLabel");
-    label.innerText = "Za vise informacija o teretani -> ";
+    label.classList.add("slova-smaller");
+    label.innerText = "Za vise informacija o teretani: ";
 
     let webLink = document.createElement("a");
     webLink.href = link;
@@ -204,11 +217,17 @@ export class GymForm {
     this.CreateGymText(div);
     //adding gym picker
     this.CreateGymPicker(div);
+    //adding working hours
+    this.CreateWorkingHours();
+    //adding hr between chooseGymDiv2 and gymPicDiv
+    this.CreateHr(chooseGym)
     //adding gym gallery
     this.CreateGymGallery();
     //adding webLink
     this.CreateWebLink();
-    //adding working hours
-    this.CreateWorkingHours();
+  }
+  CreateHr(parentDiv) {
+    let hr = document.createElement("hr");
+    parentDiv.appendChild(hr);
   }
 }
