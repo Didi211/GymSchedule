@@ -114,7 +114,7 @@ export class LoginForm {
       if (result != null) {
         //ubaci id u cookies
         const d = new Date();
-        d.setTime(d.getTime() + 5 * 24 * 60 * 60 * 1000);
+        d.setTime(d.getTime() + 60 * 60 * 1000);
         let expires = "expires=" + d.toUTCString();
         //cookie for userID
         document.cookie = "id" + "=" + result.id + ";" + expires + ";path=/";

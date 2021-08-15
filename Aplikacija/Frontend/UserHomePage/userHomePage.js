@@ -3,6 +3,12 @@ import { UserHomePageForm } from "./userHomePageForm.js";
 import { Helpers } from "../HelperFunctions.js";
 import { ClientPageApi } from "../Api/ClientPageApi.js";
 
+//redirecting unsigned user to login page
+
+let hasCookies = document.cookie;
+if(!hasCookies) { 
+    location = "../HomePage/homePage.html";
+}
 //creating header
 let headers = new Headers();
 headers.createClientHeader();

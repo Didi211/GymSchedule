@@ -1,36 +1,223 @@
-.tableDiv, thead, tr, td, tbody, .terminDiv, .sviTerminiDiv
+*
 {
-    border: 1px solid black;
+    font-family: Raleway;
 }
-.tableDiv, .trainingPar, .trainingDiv
+/*slova-bigger*/
+.slova-bigger
 {
-    width: 50%;
+    font-size: 3vw;
+    font-family: Raleway;
 }
+/*smaller letters*/
+.slova-smaller
+{
+    font-size: 2vw;
+    font-family: Raleway;
+
+}
+/*border around divs*/
+.haveBorder 
+{
+    border: 2px solid hsl(216, 47%, 40%);
+    border-radius: 3vw;
+    margin: 2px;
+}
+/*mainWindow*/
+.mainWindow
+{
+    display: flex;
+    flex-direction: column;
+    
+}
+/*gornjaPolovina - quote, tabela sa zakazanim treninzima i legenda*/
 .gornjiDiv
 {
     display: flex;
-    flex-direction: row;
+    flex-direction: row; 
+    /* flex-wrap: wrap;    */
 }
+.greetingQuoteDiv
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 33.33%;
+}
+/*figure for quote*/
+figure
+{
+    background-color: #8c9ad640;
+    padding: 4%;
+    border-radius: 3vw;
+    width: 70%;
+
+}
+blockquote
+{
+    margin: 0;
+    font-style: italic;
+}
+figcaption
+{
+    margin: 0;
+    margin-top: 3vh;
+    margin-left: 5vh;
+}
+.trainingDiv
+{
+    width: 33.33%;
+}
+
+/*div za tabelu treninga i delete All button*/
+.tableDiv
+{
+    display: flex;
+    flex-direction: column;
+    padding: 0 2%;
+}
+.trainingDiv
+{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    font-size: 12px;
+}
+/*paragraf heading*/
+.trainingPar, .greetHeader, .legendHeader
+{
+    padding-left: 1vw;
+    padding-right: 1vw; 
+    margin-top: 3vh;
+    margin-bottom: 1.2vh;
+    font-weight: bold;
+    text-align: center;
+}
+.greetHeader
+{
+    font-weight: normal;
+    
+}
+/*tabelaa sa zakazanim treninzima*/
+.trainingTable
+{
+    border: 1px solid black;
+    border-radius: 1vw;
+
+}
+.trainingTHead > tr > td
+{
+    border-bottom: 1px solid black;
+    font-size: 1.5vw;
+    /* padding-left: 2%; */
+}
+td[class*="cell-"]
+{
+   border-right: 1px solid black; 
+   padding: 0;
+   font-size: 1.5vw;
+
+}
+/*delete buttons inside tabele*/
+.obrisiSveBtn, .deleteTrainingBtn
+{
+    /* display: block; */ 
+    display: block;
+    /* font-size: 1.5em; */
+    transition: 0.2s;
+    padding: 0.5vw;
+    height: 100%;
+    width: 15vw;
+    border-radius: 3vw;
+    border: none;
+    color: white;
+    margin-bottom: 0.5vh;
+    margin-top: 3vh;
+    background-color: hsl(216, 47%, 40%);
+    align-self: center;
+    
+}
+.deleteTrainingBtn
+{
+    height: auto;
+    width: 100%;
+    margin: 0;
+}
+.obrisiSveBtn:hover, .deleteTrainingBtn:hover, .datumBtn:hover, .datumPicker:hover
+{
+    background-color: hsl(214, 93%, 17%);
+    cursor: pointer;
+
+}
+.deleteSlika
+{
+    width: 30%;
+    height: auto;
+}
+/*div za upustvo */
+.legendaDiv
+{
+    width: 33.33%;
+    display: flex;
+    flex-direction: column;
+    align-content: flex-start;
+    align-items: flex-start;
+    
+}
+/*jedan red u upustvu */
 .divRow
 {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: center;
+    margin-bottom: 2vh;
+    margin-left: 1vw; display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
 }
-.divCircle
-{
-    width: 50px;
-    height: 50px;
+/*krug div */
+.divCircle {
+    max-width: 2.5vw;
+    max-height: 2.5vw;
+    min-height: 2.5vw;
+    min-width: 2.5vw;
     border-radius: 50%;
 }
-
-.legendaDiv
+.upustvoPar
+{
+    margin: 0;
+    align-self: center;
+    margin-left: 1em;
+}
+/*donja polovina - dtp + buttons and zakazivanje treninga*/
+.divDatum
 {
     display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    align-items: flex-start;
+    align-items: center;
+}
+.datumPicker 
+{
+    height: 2vw;
+    font-size: 1.5vw;
+    border: none;
+    border-radius: 2.5vw;
+    background-color: hsl(216, 47%, 40%);
+    color: white;
+    margin-left: 3%;
+    margin-right: 3%;
+    /* padding-left: 4%; */
+    /* padding-right: 4%; */
+    padding: 3%;
+
+}
+::-webkit-calendar-picker-indicator
+{
+    filter: invert(1);
+}
+::-webkit-calendar-picker-indicator
+{
+    cursor: pointer;
 }
 .donjiDiv
 {
@@ -40,6 +227,20 @@
     justify-content: center;
     align-items: center;
 }
+.datumBtn
+{
+    font-weight: bolder;
+    transition: 0.2s;
+    height: 3.5vw;
+    width: 3.5vw;
+    border-radius: 2vw;
+    border: none;
+    color: white;
+    background-color: hsl(216, 47%, 40%);
+    font-size: 2vw;
+    text-align: -webkit-center;
+}
+/*tabela sa danasnjim terminima*/
 .sviTerminiDiv
 {
     display: flex;
@@ -54,52 +255,142 @@
 .terminDiv
 {
     display: flex;
-    flex-wrap: wrap;
+    margin: 0.3%;
+    padding: 1em;
+    width: 14%;
+    height: 100%;
+    align-items: center;
     flex-direction: column;
-    flex-basis: 150px;
-    flex-grow: 0.6;
-    flex-shrink: 0;
+    border-radius: 3vw;
+    flex-wrap: wrap;
     align-content: center;
-    margin: 2%;
-    
-}
-.obrisiSveBtn
-{
-    width: 33.33%;
-    height: 20%;
-    justify-self: end;
-}
-.zakaziBtn
-{
-    width: 50%;
+    align-self: center;
 }
 .radnoVremeLbl
 {
-    text-align: center;
+    color: white;
+    font-size:1.5vw;
 }
-.deleteSlika
+/*btn zakazi*/
+.zakaziBtn
 {
-    width: 100%;
-    height: auto;
+    border-radius: inherit;
+    font-size: 1.8vw;
+    border: none;
+    margin-top: 2vh;
+    padding: 1.5vh 1.5vw;
+    color: rgb(54, 92, 149);
+    background-color: white;
 }
- .deleteTrainingBtn
+.zakaziBtn:hover
 {
-    display: flex;
-    width: 100%;
-    height: 100%;
-    margin: 0%;
-    padding: 0;
-    flex-wrap: wrap;
-   
+    cursor: pointer;
+    background-color: hsla(0, 0%, 100%, 0.801);
 }
-.trainingTable
+
+/*media query*/
+@media screen and (max-width: 800px) {
+    .divCircle {
+        max-width: 2vw;
+        max-height: 2vw;
+        min-height: 2vw;
+        min-width: 2vw;
+        border-radius: 50%;
+    }
+}
+@media screen and (max-width: 600px)
 {
-    display: table;
-    width: 100%;
-}
-.tableDiv {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    width: 90%;
+    .slova-smaller
+    {
+        font-size: 4vw;
+    }
+    .slova-bigger
+    {
+        font-size: 5vw;
+
+    }
+    .gornjiDiv
+    {
+        flex-direction: column;
+    }
+    .greetingQuoteDiv, .trainingDiv, .legendaDiv
+    {
+        width: 98%;
+    }
+    /*cells in table*/
+    .trainingTHead > tr >td, td[class*="cell-"] 
+    {
+        font-size: 3.5vw;
+    }
+    /*buttons in listi treninga*/
+    .obrisiSveBtn
+    {
+        width: 20vw;
+        margin-bottom: 2vh;
+    }
+    .deleteTrainingBtn
+    {
+        width: 100%;
+        
+    }
+    .deleteSlika
+    {
+        width: 14%;
+    }
+    /*legenddiv and its setting*/
+    .legendaDiv
+    {
+        align-items: center;
+    }
+    .divCircle
+    {
+        max-width: 5vw;
+        max-height: 5vw;
+        min-height: 5vw;
+        min-width: 5vw;
+        border-radius: 50%;
+    }
+    .divUpustva
+    {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    /*donjiDiv*/
+    .datumBtn
+    {
+        font-size: 4vw;
+        width: 7vh;
+        height: 7vh;
+        border-radius: 50%;
+        text-align: -webkit-center;
+    }
+    .datumPicker
+    {
+        width: 30vh;
+        height: 5vh;
+        font-size: 1em;
+    }
+    .divDatum
+    {
+        margin-bottom: 4vh;
+    }
+    .terminDiv
+    {
+        width: 35%;
+    }
+    .zakaziBtn
+    {
+        width: 70%;
+        font-size: 3vh;
+    }
+    figure
+    {
+        margin-top: 2vh;
+        margin-bottom: 6vh;
+        margin-left: 1vh;
+        margin-right: 1vh;
+
+
+    }
 }

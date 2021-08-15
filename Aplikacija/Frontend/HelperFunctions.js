@@ -27,6 +27,7 @@ export class Helpers {
 
     //calling api for all gyms
     let gyms = await this.HomePageApi.GetAllGyms();
+    if(gyms == null) return;
 
     //creating default option
     let option = document.createElement("option");
@@ -70,6 +71,7 @@ export class Helpers {
 
     kontejner.appendChild(label);
     kontejner.appendChild(input);
+    return input;
   }
   CreateLabel(value, className, kontejner) { 
     let label = document.createElement("label");
@@ -193,7 +195,7 @@ export class Helpers {
     if(register) {  
       //calling function from register page
       username = inputs[6].value;
-      passowrd = inputs[7].value;
+      password = inputs[7].value;
     } 
 
     return new User(0,ime,prezime,pol,teretana,username,password,brKartice);

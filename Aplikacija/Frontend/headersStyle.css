@@ -76,7 +76,7 @@ td
     margin: 0%;
 
 }
-.logo:hover, .backArrowBtn:hover { 
+.logo:hover, .backArrowBtn:hover, .logOutBtn:hover, .profileBtn:hover { 
     cursor: pointer;
 }
  
@@ -92,7 +92,7 @@ td
 /*#endregion Header*/
 
 /*media query */
-@media only screen and (max-width: 600px) {
+@media  screen and (max-width: 600px) {
     .blueDiv
     {
         height: 12vh;
@@ -102,13 +102,13 @@ td
         height: 11vh;
     }
     .backArrowBtn, .logOutBtn, .profileBtn
-{
-    
-    height: 5vh;
-    
-    margin-left: 5%;
-    margin-right: 5%;
-}
+    {
+        
+        height: 6vh;
+        
+        margin-left: 5%;
+        margin-right: 5%;
+    }
 }
 
 

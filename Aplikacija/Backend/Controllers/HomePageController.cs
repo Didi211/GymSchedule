@@ -52,6 +52,8 @@ namespace Backend.Controllers
             }
             catch(Exception ex)
             {
+                if(ex.InnerException != null)
+                    return StatusCode(500,ex.InnerException.Message);
                 return StatusCode(500,ex.Message);
             }
         }
@@ -60,14 +62,24 @@ namespace Backend.Controllers
         [HttpGet]
         public async Task<IActionResult> GetGym([FromRoute] int gymID)
         {
-            //id validation
-            if(gymID < 1) return StatusCode(400,"GymID < 1");
-            var gym = new List<Gym>();
-            gym.Add(await Provider.GetGym(gymID));
-            
-            if(gym == null) return StatusCode(400,"Teretana sa ID-jem: " + gymID+ " ne postoji");
+            try
+            {
+                //id validation
+                if(gymID < 1) return StatusCode(400,"GymID < 1");
+                var gym = new List<Gym>();
+                gym.Add(await Provider.GetGym(gymID));
+                
+                if(gym == null) return StatusCode(400,"Teretana sa ID-jem: " + gymID+ " ne postoji");
 
-            return Ok(DTOHelper.GymsToDTO(gym,GetSrc()));
+                return Ok(DTOHelper.GymsToDTO(gym,GetSrc()));
+
+            }
+            catch(Exception ex)
+            {
+                if(ex.InnerException != null)
+                    return StatusCode(500,ex.InnerException.Message);
+                return StatusCode(500,ex.Message);
+            }
         
         }
 
@@ -90,7 +102,9 @@ namespace Backend.Controllers
             }
             catch(Exception ex)
             {
-                return StatusCode(500,ex.Message);
+                if(ex.InnerException != null)
+                    return StatusCode(500,ex.InnerException.Message);
+                return StatusCode(500,ex.Message);      
             }
         }
 
@@ -116,7 +130,9 @@ namespace Backend.Controllers
             }
             catch(Exception ex)
             {
-                return StatusCode(500, ex.Message);
+                if(ex.InnerException != null)
+                    return StatusCode(500,ex.InnerException.Message);
+                return StatusCode(500,ex.Message);
             }
         }
         

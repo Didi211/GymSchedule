@@ -4,6 +4,13 @@ import { Headers } from "../headers.js";
 import { Helpers } from "../HelperFunctions.js";
 import { ProfileForm } from "./profileForm.js";
 
+//redirecting unsigned user to login page
+let hasCookies = document.cookie;
+
+if(!hasCookies) { 
+    location = "../HomePage/homePage.html";
+}
+
 //creating header
 let headers = new Headers();
 headers.createProfileHeader();

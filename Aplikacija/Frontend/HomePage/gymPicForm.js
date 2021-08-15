@@ -78,6 +78,7 @@ export class GymForm {
       //api call for choosen gym
       let api = new HomePageApi();
       let gym = await api.GetGym(id);
+      if(gym == null) return;
       //adding radno vreme
       let radnoVreme = document.querySelector(".workingHourPar");
       radnoVreme.style.display = "block";

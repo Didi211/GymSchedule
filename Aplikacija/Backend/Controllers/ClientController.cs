@@ -73,6 +73,8 @@ namespace Backend.Controllers
             }
             catch (Exception ex)
             {
+                if(ex.InnerException != null)
+                    return StatusCode(500,ex.InnerException.Message);
                 return StatusCode(500,ex.Message);
             }
         }
@@ -96,7 +98,9 @@ namespace Backend.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500,ex.Message);
+                if(ex.InnerException != null)
+                    return StatusCode(500,ex.InnerException.Message);
+                return StatusCode(500,ex.Message);      
             }
         }
 
@@ -129,6 +133,8 @@ namespace Backend.Controllers
             }
             catch (Exception ex)
             {
+                if(ex.InnerException != null)
+                    return StatusCode(500,ex.InnerException.Message);
                 return StatusCode(500,ex.Message);
             }
         }
@@ -143,10 +149,7 @@ namespace Backend.Controllers
         {
             //yyyy-MM-dd HH:mm:ss
             try
-            {
-                
-
-
+            { 
                 //validation 
                 string validateString = ValidationClass.NumberValidation(noviTermin.UserID);
                 if(validateString != "OK")
@@ -161,9 +164,8 @@ namespace Backend.Controllers
                 /*prvo da ide provera da li ima prava na rezervaciju*/
                 var result = await Provider.MozeDaZakaze(noviTerminEntity);
                 if(!result) 
-                {
-                    return StatusCode(403,"Nije moguce zakazati vise od dva termina u jednom danu");
-                }
+                    return StatusCode(400,"Nije moguce zakazati vise od dva termina u jednom danu");
+
                 //interacting with db 
                 if(!await Provider.ZakaziTermin(noviTerminEntity))
                     return StatusCode(400,"Nema mesta u tom terminu.");
@@ -257,7 +259,10 @@ namespace Backend.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500,ex.InnerException.Message);
+                if(ex.InnerException != null)
+                    return StatusCode(500,ex.InnerException.Message);
+                return StatusCode(500,ex.Message);
+                
             }
         }
 
@@ -265,13 +270,22 @@ namespace Backend.Controllers
         [HttpDelete]
         public async Task<IActionResult> ObrisiSveTermine([FromRoute] int userID)
         {
-            string validateString = ValidationClass.NumberValidation(userID);
-            if(validateString != "OK")
-                return StatusCode(400, ValidationClass.SpojiString("UserID",validateString));
-            validateString = await Provider.ObrisiSveTermine(userID);
-            if(validateString != "OK") 
-                return StatusCode(400,validateString);
-            return StatusCode(204);
+            try 
+            {
+                string validateString = ValidationClass.NumberValidation(userID);
+                if(validateString != "OK")
+                    return StatusCode(400, ValidationClass.SpojiString("UserID",validateString));
+                validateString = await Provider.ObrisiSveTermine(userID);
+                if(validateString != "OK") 
+                    return StatusCode(400,validateString);
+                return StatusCode(204);
+            }
+            catch(Exception ex) 
+            {
+                if(ex.InnerException != null)
+                    return StatusCode(500,ex.InnerException.Message);
+                return StatusCode(500,ex.Message);
+            }
         }
 
         [Route("DeleteUser/{userID}")]

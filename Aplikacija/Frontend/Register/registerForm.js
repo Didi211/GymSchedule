@@ -84,7 +84,7 @@ export class RegisterForm {
   async RegisterFunc() {
     //collecting data from controlls
     let helper = new Helpers();
-    let usr = helper.UserFromControls();
+    let usr = helper.UserFromControls(true);
     if (!usr.Validate(true)) {
       alert("Validation failed.");
       location.reload();
@@ -96,7 +96,7 @@ export class RegisterForm {
 
       //ubaci id u cookies
       const d = new Date();
-      d.setTime(d.getTime() + 5 * 24 * 60 * 60 * 1000);
+      d.setTime(d.getTime() + 60 * 60 * 1000);
       let expires = "expires=" + d.toUTCString();
       //cookie for userID
       document.cookie = "id" + "=" + usr.id + ";" + expires + ";path=/";

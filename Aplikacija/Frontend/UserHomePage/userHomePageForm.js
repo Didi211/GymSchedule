@@ -30,6 +30,7 @@ export class UserHomePageForm {
     //#region donjiDiv
     div = document.createElement("div");
     div.classList.add("donjiDiv");
+    div.classList.add("haveBorder");
     this.kontejner.appendChild(div);
     //#endregion donjiDiv
 
@@ -46,25 +47,36 @@ export class UserHomePageForm {
     //#region greeting
     let div = document.createElement("div");
     div.classList.add("greetingQuoteDiv");
+    div.classList.add("haveBorder");
 
     //heading for greeting
     let greetingHeader = document.createElement("h2");
     greetingHeader.classList.add("greetHeader");
+    greetingHeader.classList.add("slova-smaller");
     greetingHeader.innerText = `Zdravo ${this.user.ime}`; //${user.ime}`;
     //#endregion greeting
 
     //#region quote
-    let quoteParagraph = document.createElement("p");
+    let parFigure = document.createElement("figure");
+    let quoteParagraph = document.createElement("blockquote");
     quoteParagraph.classList.add("quotePar");
+    quoteParagraph.classList.add("slova-smaller");
     let api = new ClientPageApi();
     let citat = await api.GetQuote();
-    quoteParagraph.innerText = `${citat.content}\n-${citat.author}`; //povlaciti od nekud citate koje cu ja da ubacim
+    if(citat == null) return;
+    quoteParagraph.innerText = `${citat.content}`; 
+    let quoteAuthor = document.createElement("figcaption");
+    quoteAuthor.classList.add("slova-smaller");
+    
+    quoteAuthor.innerText = `-${citat.author}`;
     //#endregion quote
 
     //appending
     kontejner.appendChild(div);
     div.appendChild(greetingHeader);
-    div.appendChild(quoteParagraph);
+    parFigure.appendChild(quoteParagraph);
+    parFigure.appendChild(quoteAuthor);
+    div.appendChild(parFigure);
   }
   async CreateListOfTrainings(kontejner) {
     //list of pre-scehuduled trainings
@@ -78,6 +90,7 @@ export class UserHomePageForm {
     //#region legendaDiv
     let div = document.createElement("div");
     div.classList.add("legendaDiv");
+    div.classList.add("haveBorder");
     kontejner.appendChild(div);
     //#endregion legendaDiv
 
@@ -86,7 +99,7 @@ export class UserHomePageForm {
     divHeader.className = "divRow";
     div.appendChild(divHeader);
     let legendHeader = document.createElement("h2");
-    legendHeader.classList.add("slova");
+    legendHeader.classList.add("slova-smaller");
     legendHeader.classList.add("legendHeader");
     legendHeader.innerHTML = "Legenda (Upustvo za citanje termina)";
     divHeader.appendChild(legendHeader);
@@ -109,7 +122,9 @@ export class UserHomePageForm {
        "rgb(18, 233, 11)",
     ]
     //#endregion upustva and boje 
-    
+    let divUpustva = document.createElement("div");
+    divUpustva.classList.add("divUpustva");
+    div.appendChild(divUpustva);
     //#region oneRule
     for (let i = 0; i < 5; i++) {
       let divRow = document.createElement("div");
@@ -122,11 +137,12 @@ export class UserHomePageForm {
 
       let upustvoPar = document.createElement("p");
       upustvoPar.classList.add("upustvoPar");
+      upustvoPar.classList.add("slova-smaller");
       upustvoPar.innerHTML = upustva[i];
 
       divRow.appendChild(divCircle);
       divRow.appendChild(upustvoPar);
-      div.appendChild(divRow);
+      divUpustva.appendChild(divRow);
     }
     //#endregion oneRule
   }
@@ -136,6 +152,7 @@ export class UserHomePageForm {
     //#region zakaziHeader
     let zakaziHeading = document.createElement("h2");
     zakaziHeading.classList.add("zakaziH1");
+    zakaziHeading.classList.add("slova-smaller");
     zakaziHeading.innerHTML = "Zakazi trening";
     kontejner.appendChild(zakaziHeading);
     //#endregion zakaziHeader
@@ -201,6 +218,7 @@ export class UserHomePageForm {
       }
 
       let gym = await api.GetGym(+helper.ExtractIDFromCookie("gymID"));
+      if(gym == null) return;
       //regularni prikaz termina za taj dan
       await func(gym, dtpEl.value);
       //prikaz zakazanih termina tog usera za taj datum (ako nije iz proslosti) ako postoji + susedi u crveno 
@@ -253,11 +271,13 @@ export class UserHomePageForm {
     //#region trainingDiv
     let div = document.createElement("div");
     div.classList.add("trainingDiv");
+    div.classList.add("haveBorder");
     //#endregion trainingDiv
 
     //#region trainingParagraph
     let recenica = document.createElement("p");
     recenica.classList.add("trainingPar");
+    recenica.classList.add("slova-smaller");
     recenica.innerHTML = "Lista zakazanih treninga";
     //#endregion trainingParagraph
 
@@ -270,6 +290,8 @@ export class UserHomePageForm {
     //#region deleteAllButton
     let btnObrisiSve = document.createElement("button");
     btnObrisiSve.classList.add("obrisiSveBtn");
+    btnObrisiSve.classList.add("slova-smaller");
+
     btnObrisiSve.innerText = "Obrisi sve";
     //#endregion deleteAllButton
 
@@ -280,6 +302,7 @@ export class UserHomePageForm {
     tableBody.className = "tBodyTraining";
     tabela.appendChild(tableBody);
     let tHeader = tabela.createTHead();
+    tHeader.classList.add("trainingTHead");
     let headRow = tHeader.insertRow(0);
     
     let kolone = ["Datum", "Vreme"];
@@ -643,6 +666,7 @@ export class UserHomePageForm {
     let gymid = helper.ExtractIDFromCookie("gymID");
     //teretana
     let gym = await api.GetGym(gymid);
+    if(gym == null) return;
 
     //#region creating SveTermine
     let terminiDiv = document.createElement("div");
@@ -675,7 +699,7 @@ export class UserHomePageForm {
 
       //#region radnoVremeLabel
       let radnoVremeLabela = document.createElement("label");
-      radnoVremeLabela.classList.add("slova");
+      radnoVremeLabela.classList.add("slova-smaller");
       radnoVremeLabela.classList.add("radnoVremeLbl");
       radnoVremeLabela.innerText = terminString;
       oneTerminDiv.appendChild(radnoVremeLabela);
@@ -683,9 +707,8 @@ export class UserHomePageForm {
 
       //#region zakaziDugme
       let zakaziBtn = document.createElement("button");
-      zakaziBtn.innerText = "Zakazi trening";
+      zakaziBtn.innerText = "Zakazi";
       zakaziBtn.classList.add("zakaziBtn");
-      zakaziBtn.classList.add("slova");
       zakaziBtn.id = i;
       helper.ShowHideButton(zakaziBtn,false);
 
@@ -724,6 +747,7 @@ export class UserHomePageForm {
             
             api = new HomePageApi();
             let gym = await api.GetGym(gymid);
+            if(gym == null) return;
             
             //promena boja susednim terminima jer nije moguce dva termina za redom 
             userHelper.ZabraniSusedneTermine(zakaziBtn,gym);
