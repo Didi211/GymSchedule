@@ -141,7 +141,14 @@ p, .gymParagraph
     /* font-size: 100%; */
     font-size: 1.5vw;
 }
-
+/*websajt label*/
+.webSajtLabel
+{
+    display: flex;
+    align-self: center;
+    flex-direction: column;
+    margin-top: 2vh;
+}
 /*paragraphs inside headingDiv*/
 .headingDiv p, .workingHourPar
 {

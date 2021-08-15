@@ -163,6 +163,13 @@ td[class*="cell-"]
     align-items: flex-start;
     
 }
+/*divUpustva*/
+.divUpustva
+{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
 /*jedan red u upustvu */
 .divRow
 {

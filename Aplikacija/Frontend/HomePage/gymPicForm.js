@@ -121,7 +121,7 @@ export class GymForm {
       let link = webLink.querySelector("a");
       link.href = gym.webSajt;
       link.innerHTML = gym.webSajt;
-      webLink.style.display = "block";
+      webLink.style.display = "flex";
     }
   }
   CreateGymGallery() {
