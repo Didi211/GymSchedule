@@ -78,7 +78,7 @@ export class ProfileForm {
 
   AddIcons() {
     //edit and delete icon for acc
-    let ikone = ["editIcon", "deleteIcon"];
+    let ikone = ["editIcon", "trash"];
     let positions = ["col1", "col3"];
     for (let i = 0; i < 2; i++) {
       let icoDiv = document.createElement("div");

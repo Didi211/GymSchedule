@@ -75,7 +75,7 @@
     height: 100%;
 
 }
-.deleteIconDiv
+.trashDiv
 {
     display: flex;
     flex-direction: row-reverse;
